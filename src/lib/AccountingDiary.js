@@ -6,7 +6,7 @@ import * as htmlToImage from 'html-to-image';
 import {Download} from "react-feather";
 import Footer from "./Footer";
 import Header from "./Header";
-import {GlobalContext, GlobalProvider} from "../context";
+import {GlobalContext, GlobalProvider} from "./context";
 import {saveAs} from '@progress/kendo-file-saver';
 import Content from "./Content";
 

@@ -39,11 +39,11 @@ In the project directory, you can run:
 
 ## Install
 ```shell
-npm i --save accounting-diary
+npm i --save react-accounting-diary
 ```
 or
 ```bash
-yarn add accounting-diary
+yarn add react-accounting-diary
 ```
 ## Usage
  ```jsx
@@ -57,11 +57,23 @@ function App() {
     </div>);
 }
 export default App;
+
+
  ```
+### Step 1
+After installing firstly the version of the dependency, install a compatible version of node-sass, especially  version 4.14+
+
+### Step 2
+From next step, your will have to install a compatible version of sass in global mode in your computer
+
 Just by the insertion of the component your will be able to work and create your model of accounting diary.
 But if you want to personalise it your can go with the following example code:
 
-###Example:
+
+Just by the insertion of the component your will be able to work and create your model of accounting diary.
+But if you want to personalise it your can go with the following example code:
+
+### Example:
 
  ```jsx
 import React from "react";

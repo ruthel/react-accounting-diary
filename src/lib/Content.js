@@ -1,5 +1,5 @@
 import React from "react";
-import Func from "../func";
+import Func from "./func";
 
 export default class Content extends React.Component {
   render() {

@@ -1,6 +1,6 @@
-import Header from './components/Header';
-import Footer from './components/Footer';
-import DialogOperation from './components/DialogOperation';
-import AccountingDiary from './components/AccountingDiary';
+import Header from './Header';
+import Footer from './Footer';
+import DialogOperation from './DialogOperation';
+import AccountingDiary from './AccountingDiary';
 
 export {Header, Footer, DialogOperation, AccountingDiary};

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './styles/DialogOperation.scss';
 import './styles/styles.scss';
-import {GlobalContext} from "../context";
+import {GlobalContext} from "./context";
 import {FilePlus} from "react-feather";
 
 export default class DialogOperation extends React.Component {

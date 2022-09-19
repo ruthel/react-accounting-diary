@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
@@ -32,18 +32,18 @@
     "type": "git",
     "url": "https://github.com/ruthel/accounting-diary/issues"
   },
-  "homepage": "https://github.com/ruthel/accounting-diary#readme",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@progress/kendo-file-saver": "^1.1.1",
     "html-to-image": "^1.9.0",
     "lodash": "^4.17.21",
     "react-feather": "^2.0.9",
+    "sass": "^1.54.9",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "babel src/lib --out-dir dist --copy-files"
+    "build": "babel src/lib --out-dir lib --copy-files"
   },
   "eslintConfig": {
     "extends": [

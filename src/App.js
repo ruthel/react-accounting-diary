@@ -1,5 +1,5 @@
 import './App.css';
-import AccountingDiary from "./lib/components/AccountingDiary";
+import AccountingDiary from "./lib/AccountingDiary";
 
 function App() {
   return (
