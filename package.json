@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
@@ -26,11 +26,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ruthel/accounting-diary.git"
+    "url": "https://github.com/ruthel/react-accounting-diary.git"
   },
   "bugs": {
     "type": "git",
-    "url": "https://github.com/ruthel/accounting-diary/issues"
+    "url": "https://github.com/ruthel/react-accounting-diary/issues"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",

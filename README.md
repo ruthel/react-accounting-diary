@@ -48,7 +48,7 @@ yarn add react-accounting-diary
 ## Usage
  ```jsx
 import React from "react";
-import AccountingDiary from 'react-accounting-diary/dist/components/AccountingDiary'
+import AccountingDiary from 'react-accounting-diary/lib/AccountingDiary'
 
 function App() {
   return (
@@ -77,7 +77,7 @@ But if you want to personalise it your can go with the following example code:
 
  ```jsx
 import React from "react";
-import AccountingDiary from 'react-accounting-diary/dist/components/AccountingDiary'
+import AccountingDiary from 'react-accounting-diary/lib/AccountingDiary'
 
 function App() {
   return (
