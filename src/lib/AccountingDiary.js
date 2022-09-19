@@ -34,7 +34,10 @@ class AccountingDiary extends React.Component {
           {context => (
             <div style={{
               border: '1px solid whitesmoke',
-              minHeight: '100%',
+              minHeight: '100px',
+              height: this.props.height,
+              width: this.props.width,
+              position: 'relative',
               padding: 24,
               borderRadius: 4,
               boxSizing: 'border-box'
@@ -49,10 +52,10 @@ class AccountingDiary extends React.Component {
                 <div style={{textAlign: 'center', marginBottom: 8, fontWeight: 600, fontSize: 18}}>
                   Accounting diary for {this.props.title}
                 </div>
-                {this.getArray(context.state.data).map((elt, i) => (
+                {this.getArray(context.state.data || this.props.data).map((elt, i) => (
                   <>
                     <Header date={elt.date} index={i} account={this.props.account} amount={this.props.amount}/>
-                    {_.orderBy(elt.content, 'isDebit', "desc").map(row => (
+                    {_.orderBy(elt.content, 'isDebit', "asc").map(row => (
                       <Content value={row} account={this.props.account} amount={this.props.amount}/>
                     ))}
                     <Footer account={this.props.account} amount={this.props.amount}/>
@@ -106,6 +109,7 @@ AccountingDiary.defaultProps = {
   saveColor: "#ffffff",
   saveIcon: <Download size={16}/>,
   title: "Test Model",
+  height: 300,
   account: {
     width: 128,
     color: '#646464',

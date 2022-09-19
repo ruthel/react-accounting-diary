@@ -28,7 +28,7 @@ export default class DialogOperation extends React.Component {
           const handleSave = () => {
             let validators = [this.state.amount, this.state.account, this.state.isDebit, this.state.text, this.state.date]
             if (!validators.includes("") && !validators.includes(null) && !validators.includes(undefined)) {
-              let value = [...context.state.data]
+              let value = [...context.state.data || []]
               value.push({
                 amount: this.state.amount,
                 account: this.state.account,
@@ -36,6 +36,7 @@ export default class DialogOperation extends React.Component {
                 text: this.state.text,
                 date: this.state.date
               })
+              console.log(value)
               context.setState({data: value})
               this.handleClose()
             } else {
@@ -72,8 +73,7 @@ export default class DialogOperation extends React.Component {
                         <input
                           autoFocus
                           id="account"
-                          placeholder="Account number"
-                          type="number"
+                          placeholder="Account Num/Name"
                           value={this.state.account || ""}
                           onChange={e => this.setState({account: e.target.value})}
                         />
@@ -102,6 +102,7 @@ export default class DialogOperation extends React.Component {
                         <label>Is this operation a debit ?</label>
                         <input
                           type='checkbox'
+                          defaultChecked={false}
                           checked={this.state.isDebit || false}
                           style={{marginLeft: 2, marginRight: 2}}
                           onChange={e => this.setState({isDebit: e.target.checked})}

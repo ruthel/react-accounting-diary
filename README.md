@@ -19,6 +19,7 @@
 [//]: # (</p>)
 
 [//]: # ()
+
 [//]: # (<p align="center">)
 
 [//]: # (<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?style=flat-square" /></a>)
@@ -29,23 +30,36 @@
 
 [//]: # (</p>)
 
-
 # Accounting Diary Generator
 
 This project was created and is compatible with React library.
 
 ## Available Scripts
+
 In the project directory, you can run:
 
 ## Install
+
 ```shell
 npm i --save react-accounting-diary
 ```
+
 or
+
 ```bash
 yarn add react-accounting-diary
 ```
+
+## What's new in version
+
+#### v0.0.11
+
+* We now have the ability to customize the currency format and the number format of each transaction. see example
+* Now the code comme with a default font family arial that you can override directly in your css
+* You can now change the height and the width of your diary container
+
 ## Usage
+
  ```jsx
 import React from "react";
 import AccountingDiary from 'react-accounting-diary/lib/AccountingDiary'
@@ -56,19 +70,23 @@ function App() {
       <AccountingDiary/>
     </div>);
 }
+
 export default App;
 
 
  ```
+
 ### Step 1
-After installing firstly the version of the dependency, install a compatible version of node-sass, especially  version 4.14+
+
+After installing firstly the version of the dependency, install a compatible version of node-sass, especially version
+4.14+
 
 ### Step 2
+
 From next step, your will have to install a compatible version of sass in global mode in your computer
 
 Just by the insertion of the component your will be able to work and create your model of accounting diary.
 But if you want to personalise it your can go with the following example code:
-
 
 Just by the insertion of the component your will be able to work and create your model of accounting diary.
 But if you want to personalise it your can go with the following example code:
@@ -80,19 +98,58 @@ import React from "react";
 import AccountingDiary from 'react-accounting-diary/lib/AccountingDiary'
 
 function App() {
+  const data = [
+    {
+      date: '2021-01-01',
+      text: "Received Capital worth",
+      isDebit: true,
+      amount: 90000,
+      account: 'Cash',
+      currency: 'USD',
+      local: 'en-US'
+    },
+    {
+      date: '2021-01-01',
+      text: "Received Capital worth",
+      amount: 90000,
+      account: 'Common Stock',
+      currency: 'USD'
+    },
+    {
+      date: '2021-01-01',
+      text: "Paid $2,000 for the first month’s rent.",
+      isDebit: true,
+      amount: 80000,
+      account: 'Rent',
+      currency: 'JPY'
+    },
+    {
+      date: '2021-01-01',
+      text: "Paid $2,000 for the first month’s rent.",
+      amount: 80000,
+      account: 'Cash',
+      currency: 'JPY',
+      local: 'en-US'
+    },
+  ]
   return (
     <div>
       <AccountingDiary
-        title='My new test in dev'
+        height={650}
+        width={1200}
+        data={data}
+        title='Entreprise SANOGO'
         account={{
           width: 120,
-          color:'#ff00ff'
+          color: '#ff00ff'
         }}
         amount={{
           width: 120
         }}/>
-    </div>);
+    </div>
+  );
 }
+
 export default App;
  ```
 
@@ -103,10 +160,13 @@ export default App;
 | saveColor | Hex color, `default: #ffffff` use to set the color of the button that generate the export image of the the diary                                                                         |
 | saveIcon  | Hex color default: <Download size={16}/> use to set the icon of the button that generate the export image of the the diary <br/> The libraries use to set the svg icon is react-feather |
 | title     | Title of the the accounting-diary                                                                                                                                                        |
-| account   | Object element use to set behaviour of the account number part in the diary: **see below**                                                                                               |
-| amount    | Object element use to set behaviour of the amount part in the diary: **see below**                                                                                                       |
+| account   | Object element use to set behaviour of the account number part in the diary: **see
+below**                                                                                               |
+| amount    | Object element use to set behaviour of the amount part in the diary: **see
+below**                                                                                                       |
 
 ##### Account & Amount
+
 | Name  | Description                      | 
 |-------|----------------------------------|
 | width | Cell width in the diary          |
@@ -114,7 +174,8 @@ export default App;
 
 ## Contributing
 
-Please let us know how can we help. Do check out [issues](https://github.com/ruthel/accounting-diary/issues) for bug reports or suggestions first.
+Please let us know how can we help. Do check out [issues](https://github.com/ruthel/accounting-diary/issues) for bug
+reports or suggestions first.
 
 To become a contributor, please follow our [contributing guide](/CONTRIBUTING.md).
 

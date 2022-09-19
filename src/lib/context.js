@@ -8,7 +8,7 @@ class GlobalProvider extends React.Component {
   constructor(props, context, state) {
     super(props, context);
     this.state = {
-      data: [],
+      data: null,
       openSb: false,
       messageSb: "",
       severitySb: 'success'

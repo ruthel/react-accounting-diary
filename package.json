@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.0.7",
+  "version": "0.0.11",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
@@ -17,11 +17,11 @@
     "financial"
   ],
   "description": "Component making to generate a accounting diary and export image",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "files": [
-    "dist",
+    "lib",
     "README.md"
   ],
   "repository": {
@@ -31,15 +31,6 @@
   "bugs": {
     "type": "git",
     "url": "https://github.com/ruthel/react-accounting-diary/issues"
-  },
-  "dependencies": {
-    "@babel/polyfill": "^7.12.1",
-    "@progress/kendo-file-saver": "^1.1.1",
-    "html-to-image": "^1.9.0",
-    "lodash": "^4.17.21",
-    "react-feather": "^2.0.9",
-    "sass": "^1.54.9",
-    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -62,6 +53,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@progress/kendo-file-saver": "^1.1.1",
+    "lodash": "^4.17.21",
+    "react-feather": "^2.0.9",
+    "sass": "^1.54.9",
+    "web-vitals": "^1.0.1"
+  },
+  "peerDependencies": {
+    "html-to-image": "1.x.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
