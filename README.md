@@ -52,7 +52,7 @@ yarn add react-accounting-diary
 
 ## What's new in version
 
-#### v0.0.11
+#### v0.0.12
 
 * We now have the ability to customize the currency format and the number format of each transaction. see example
 * Now the code comme with a default font family arial that you can override directly in your css

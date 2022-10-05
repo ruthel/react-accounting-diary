@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
@@ -56,14 +56,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "html-to-image": "1.x.x",
     "@progress/kendo-file-saver": "^1.1.1",
     "lodash": "^4.17.21",
     "react-feather": "^2.0.9",
     "sass": "^1.54.9",
     "web-vitals": "^1.0.1"
-  },
-  "peerDependencies": {
-    "html-to-image": "1.x.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
