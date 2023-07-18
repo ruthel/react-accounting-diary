@@ -11,11 +11,11 @@ import {saveAs} from '@progress/kendo-file-saver';
 import Content from "./Content";
 
 class AccountingDiary extends React.Component {
-  
+
   state = {
     toFunc: 'toPng'
   }
-  
+
   getArray(data) {
     let myArray = []
     let grp = _.groupBy(data, 'date')
@@ -25,9 +25,9 @@ class AccountingDiary extends React.Component {
     })
     return myArray
   }
-  
+
   render() {
-    
+
     return (
       <GlobalProvider>
         <GlobalContext.Consumer>
@@ -45,20 +45,37 @@ class AccountingDiary extends React.Component {
               <select value={this.state.toFunc} onChange={e => this.setState({toFunc: e.target.value})}>
                 <option value="toJpeg">JPEG</option>
                 <option value="toPng">PNG</option>
-                <option value="toSvg">SVG</option>
-                <option value="toBlob">BLOB</option>
+                {/*<option value="toBlob">BLOB</option>*/}
               </select>
               <div id='diary' style={{padding: 8}}>
-                <div style={{textAlign: 'center', marginBottom: 8, fontWeight: 600, fontSize: 18}}>
+                <div style={{
+                  textAlign: 'center',
+                  marginBottom: 8,
+                  fontWeight: 500,
+                  padding: 8,
+                  fontSize: 18,
+                  color: this.props.titleColor || '#000',
+                  border: `${this.props.titleBorder ? '1px' : '0'} solid rgba(0,0,0,.1)`,
+                  background: this.props.titleBg,
+                  textTransform: this.props.titleAllCaps ? 'uppercase' : '',
+                  borderRadius: this.props.titleCorner
+                }}>
                   Accounting diary for {this.props.title}
                 </div>
-                {this.getArray(context.state.data || this.props.data).map((elt, i) => (
+                {this.getArray(context.state.data || this.props.data).map((elt, i, array) => (
                   <>
-                    <Header date={elt.date} index={i} account={this.props.account} amount={this.props.amount}/>
-                    {_.orderBy(elt.content, 'isDebit', "asc").map(row => (
-                      <Content value={row} account={this.props.account} amount={this.props.amount}/>
+                    <Header date={elt.date} columnHeader={this.props.columnHeader}
+                            columnHeaderColor={this.props.columnHeaderColor}
+                            columnHeaderBgColor={this.props.columnHeaderBgColor} index={i} account={this.props.account}
+                            amount={this.props.amount}/>
+                    {_.orderBy(elt.content, 'isDebit', "asc").map((row, i) => (
+                      <Content value={row}
+                               length={array.length}
+                               account={this.props.account} amount={this.props.amount}/>
                     ))}
-                    <Footer account={this.props.account} amount={this.props.amount}/>
+                    <Footer account={this.props.account} columnHeader={this.props.columnHeader}
+                            index={i}
+                            footer={this.props.footer} amount={this.props.amount}/>
                   </>
                 ))}
               </div>
@@ -76,7 +93,7 @@ class AccountingDiary extends React.Component {
                 <button className='btn-save-accounting'
                         style={{marginTop: 16, backgroundColor: this.props.saveColor}} onClick={() => {
                   let node = document.getElementById('diary');
-                  htmlToImage[this.state.toFunc](node, {backgroundColor: '#fff'})
+                  htmlToImage[this.state.toFunc](node, {backgroundColor: '#fff', quality: 1, pixelRatio: 10})
                     .then(function (dataUrl) {
                       var arr = dataUrl.split(','),
                         mime = arr[0].match(/:(.*?);/)[1],

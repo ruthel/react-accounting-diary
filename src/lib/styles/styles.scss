@@ -44,12 +44,14 @@
 
 .debit, .credit {
   padding: 0 16px;
-  border-left: var(--border) solid var(--border-color) !important;
+  border-left: var(--border) solid !important;
+  border-color: var(--border-color) !important;
 }
 
 .amount-debit, .amount-credit {
   padding: 0 16px;
-  border-right: var(--border) solid var(--border-color) !important;
+  border-right: var(--border) solid !important;
+  border-color: var(--border-color) !important;
 }
 
 html, body, #root {
@@ -62,24 +64,25 @@ html, body, #root {
   box-sizing: border-box;
 }
 
-.btn-save-accounting{
+.btn-save-accounting {
   width: 48px;
   cursor: pointer;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 4px;
   border: none;
-  box-shadow: 0 0 12px .1px;
+  box-shadow: 0 0 6px .01px rgba(0, 0, 0, .5);
 }
 
-.btn-add-accounting{
-  width: 64px;
-  height: 64px;
+.btn-add-accounting {
+  width: 48px;
+  height: 48px;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 4px;
   border: none;
-  box-shadow: 0 0 12px .1px;
+  box-shadow: 0 0 6px .01px rgba(0, 0, 0, .5);
 }
-.btn-save-accounting:focus{
+
+.btn-save-accounting:focus, .btn-add-accounting:focus {
   outline-offset: 2px;
   outline: rgba(0, 128, 0, 0.2) solid 4px;
 }

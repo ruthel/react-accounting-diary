@@ -52,6 +52,13 @@ yarn add react-accounting-diary
 
 ## What's new in version
 
+#### v0.1.2
+
+* Now we have the ability to customize footer style of a transaction element
+* Hide of show the column text of the debit credit label and amount
+* Change color of the column text of the debit credit label and amount
+* Improve the UI design and the ability to customize the diary
+
 #### v0.0.12
 
 * We now have the ability to customize the currency format and the number format of each transaction. see example
@@ -94,8 +101,8 @@ But if you want to personalise it your can go with the following example code:
 ### Example:
 
  ```jsx
-import React from "react";
-import AccountingDiary from 'react-accounting-diary/lib/AccountingDiary'
+import './App.css';
+import AccountingDiary from "./lib/AccountingDiary";
 
 function App() {
   const data = [
@@ -139,9 +146,23 @@ function App() {
         width={1200}
         data={data}
         title='Entreprise SANOGO'
+        titleBg='#b0d0a3'
+        titleBorder={true}
+        titleAllCaps={true}
+        titleCorner={4}
+        titleColor={'#202020'}
         account={{
           width: 120,
-          color: '#ff00ff'
+          color: '#f50545'
+        }}
+        columnHeader={true}
+        columnHeaderColor='#ffffff'
+        saveColor='#fff44b'
+        columnHeaderBgColor='#00b050'
+        footer={{
+          color: '#000',
+          background: '#fcf7fc',
+          fontWeight: '500x'
         }}
         amount={{
           width: 120
@@ -155,22 +176,31 @@ export default App;
 
 ### Properties
 
-| Name      | Description                                                                                                                                                                              | 
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| saveColor | Hex color, `default: #ffffff` use to set the color of the button that generate the export image of the the diary                                                                         |
-| saveIcon  | Hex color default: <Download size={16}/> use to set the icon of the button that generate the export image of the the diary <br/> The libraries use to set the svg icon is react-feather |
-| title     | Title of the the accounting-diary                                                                                                                                                        |
-| account   | Object element use to set behaviour of the account number part in the diary: **see
-below**                                                                                               |
-| amount    | Object element use to set behaviour of the amount part in the diary: **see
-below**                                                                                                       |
+| Name                | Description                                                                                                                                                                             | 
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| saveColor           | Hex color, `default: #ffffff` use to set the color of the button that generate the export image of the the diary                                                                        |
+| saveIcon            | Hex color default: <Download size={16}/> use to set the icon of the button that generate the export image of the the diary <br/> The libraries use to set the svg icon is react-feather |
+| title               | Title of the the accounting-diary                                                                                                                                                       |
+| titleColor          | color text of the title                                                                                                                                                                 |
+| titleBg             | Background title of the the accounting-diary                                                                                                                                            |
+| titleBorder         | Boolean to indicate either you want title to have a border or not                                                                                                                       |
+| titleAllCaps        | Transform title text to capital letter                                                                                                                                                  |
+| titleCorner         | Corner radius of title box to capital letter                                                                                                                                            |
+| columnHeader        | Boolean use to show or hide the column values                                                                                                                                           |
+| columnHeaderColor   | Hex color use to set column color value                                                                                                                                                 |
+| columnHeaderBgColor | Hex color use to set column background color value                                                                                                                                      |
+| footer              | Object element use to set behaviour of the footer part in the diary: **see below**                                                                                                      |                                                                                                              
+| account             | Object element use to set behaviour of the account number part in the diary: **see below**                                                                                              |
+| amount              | Object element use to set behaviour of the amount part in the diary: **see below**                                                                                                      |
 
-##### Account & Amount
+##### Account & Amount & Footer
 
-| Name  | Description                      | 
-|-------|----------------------------------|
-| width | Cell width in the diary          |
-| color | Text color in the cell           |
+| Name            | Description                             | 
+|-----------------|-----------------------------------------|
+| width           | Cell width in the diary                 |
+| backgroundColor | background color in the cell            |
+| fontWeight      | font weight of text in cell in the cell |
+| color           | Text color in the cell                  |
 
 ## Contributing
 

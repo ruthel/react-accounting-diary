@@ -43,9 +43,23 @@ function App() {
         width={1200}
         data={data}
         title='Entreprise SANOGO'
+        titleBg='#b0d0a3'
+        titleBorder={true}
+        titleAllCaps={true}
+        titleCorner={4}
+        titleColor={'#202020'}
         account={{
           width: 120,
-          color: '#ff00ff'
+          color: '#f50545'
+        }}
+        columnHeader={false}
+        columnHeaderColor='#ffffff'
+        saveColor='#fff44b'
+        columnHeaderBgColor='#00b050'
+        footer={{
+          color: '#000',
+          background: '#fcf7fc',
+          fontWeight: '500x'
         }}
         amount={{
           width: 120
