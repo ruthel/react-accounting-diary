@@ -37,7 +37,7 @@ function App() {
     },
   ]
   return (
-    <div>
+    <div style={{margin: 32}}>
       <AccountingDiary
         height={650}
         width={1200}
@@ -52,7 +52,7 @@ function App() {
           width: 120,
           color: '#f50545'
         }}
-        columnHeader={false}
+        columnHeader={true}
         columnHeaderColor='#ffffff'
         saveColor='#fff44b'
         columnHeaderBgColor='#00b050'

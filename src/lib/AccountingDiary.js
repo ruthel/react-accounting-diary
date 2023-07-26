@@ -42,11 +42,15 @@ class AccountingDiary extends React.Component {
               borderRadius: 4,
               boxSizing: 'border-box'
             }}>
-              <select value={this.state.toFunc} onChange={e => this.setState({toFunc: e.target.value})}>
-                <option value="toJpeg">JPEG</option>
-                <option value="toPng">PNG</option>
+              <div className='export'>
+                <button id={this.state.toFunc === 'toJpeg' ? 'active' : ''}
+                        onClick={() => this.setState({toFunc: 'toJpeg'})}>JPEG
+                </button>
+                <button id={this.state.toFunc === 'toPng' ? 'active' : ''}
+                        onClick={() => this.setState({toFunc: 'toPng'})}>PNG
+                </button>
                 {/*<option value="toBlob">BLOB</option>*/}
-              </select>
+              </div>
               <div id='diary' style={{padding: 8}}>
                 <div style={{
                   textAlign: 'center',

@@ -2,29 +2,38 @@ import * as React from 'react';
 import './styles/DialogOperation.scss';
 import './styles/styles.scss';
 import {GlobalContext} from "./context";
-import {FilePlus} from "react-feather";
+import {FilePlus, Plus} from "react-feather";
 
 export default class DialogOperation extends React.Component {
-  
-  state = {}
-  
+
+  state = {
+    open: false,
+    visibility: 'hide'
+  }
+
   constructor(props) {
     super(props);
-    
+
     this.data = props.data;
     this.setData = props.setData
   }
-  
-  handleClickOpen = () => this.setState({open: true})
-  
-  handleClose = () => this.setState({open: false});
-  
-  
+
+  handleClickOpen = () => {
+    this.setState({visibility: 'show'})
+    setTimeout(() => this.setState({open: true}), 400)
+  }
+
+  handleClose = () => {
+    this.setState({visibility: 'hide'});
+    setTimeout(() => this.setState({open: false}), 400)
+  }
+
+
   render() {
     return (
       <GlobalContext.Consumer>
         {context => {
-          
+
           const handleSave = () => {
             let validators = [this.state.amount, this.state.account, this.state.isDebit, this.state.text, this.state.date]
             if (!validators.includes("") && !validators.includes(null) && !validators.includes(undefined)) {
@@ -43,18 +52,19 @@ export default class DialogOperation extends React.Component {
               // context.setState({openSb: true, messageSb: "Please malke sure to fill all the fields", severitySb: "warning"})
             }
           };
-          
+
           return (
             <div>
               {!this.state.open &&
                 <button onClick={this.handleClickOpen} className='btn-add-accounting'>
-                  <FilePlus/>
-                </button>}
+                  <Plus/>
+                </button>
+              }
               {this.state.open && (
-                <div className='dialog-container'>
-                  <h3 style={{paddingBottom: 4}} className='dialog-title'>Add transaction</h3>
+                <div className={`dialog-container ${this.state.visibility}`}>
+                  <h3 className='dialog-title'>Add transaction</h3>
+                  <div>Insert a new transaction to your accounting diary</div>
                   <div>
-                    <div>Insert a new transaction to your accounting diary</div>
                     <div>
                       <div className='control'>
                         <label htmlFor="name">Amount</label>
@@ -73,7 +83,7 @@ export default class DialogOperation extends React.Component {
                         <input
                           autoFocus
                           id="account"
-                          placeholder="Account Num/Name"
+                          placeholder="Account Ref"
                           value={this.state.account || ""}
                           onChange={e => this.setState({account: e.target.value})}
                         />
@@ -88,18 +98,8 @@ export default class DialogOperation extends React.Component {
                           onChange={e => this.setState({date: e.target.value})}
                         />
                       </div>
-                      <div className='control'>
-                        <label htmlFor="description">Description</label>
-                        <textarea
-                          id="description"
-                          rows={5}
-                          placeholder="Description of the opeation"
-                          value={this.state.text || ""}
-                          onChange={e => this.setState({text: e.target.value})}
-                        />
-                      </div>
                       <div className='control-check'>
-                        <label>Is this operation a debit ?</label>
+                        <label>Is this operation a debit ?</label>&nbsp;
                         <input
                           type='checkbox'
                           defaultChecked={false}
@@ -108,11 +108,22 @@ export default class DialogOperation extends React.Component {
                           onChange={e => this.setState({isDebit: e.target.checked})}
                         />
                       </div>
+                      <div className='control'>
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          id="description"
+                          rows={5}
+                          placeholder="Describe the operation"
+                          value={this.state.text || ""}
+                          onChange={e => this.setState({text: e.target.value})}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className='btn-action'>
-                    <button onClick={this.handleClose} color='error'>Cancel</button>
-                    <button onClick={handleSave} color='success'>Save</button>
+                    <button onClick={this.handleClose} className='error'>Cancel</button>
+                    &nbsp;
+                    <button onClick={handleSave} className='success'>Save</button>
                   </div>
                 </div>
               )}

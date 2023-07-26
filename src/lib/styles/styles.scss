@@ -1,5 +1,5 @@
 :root {
-  --border: 2px;
+  --border: 1px;
   --border-color: grey;
 }
 
@@ -79,10 +79,51 @@ html, body, #root {
   cursor: pointer;
   border-radius: 4px;
   border: none;
+  background: #d9e5f6;
+  transition: .1s;
   box-shadow: 0 0 6px .01px rgba(0, 0, 0, .5);
+
+  &:hover {
+    transition: .1s;
+    background: #a4c5f6;
+  }
 }
 
 .btn-save-accounting:focus, .btn-add-accounting:focus {
-  outline-offset: 2px;
-  outline: rgba(0, 128, 0, 0.2) solid 4px;
+  outline-offset: 1px;
+  outline: rgba(0, 99, 243, 0.34) solid 4px;
+}
+
+.export {
+  margin-left: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  border-radius: 4px;
+  overflow: hidden;
+
+  & > :nth-child(1) {
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+  }
+
+  button {
+    background: whitesmoke;
+    border: none;
+    cursor: pointer;
+    padding: 6px 20px;
+    transition: .3s;
+
+    &:hover {
+      transition: .3s;
+      background: gainsboro;
+    }
+
+    &:active, &#active {
+      background: darkgrey !important;
+    }
+
+    &#active {
+      color: white;
+    }
+
+  }
 }

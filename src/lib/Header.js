@@ -24,13 +24,26 @@ export default class Header extends React.Component {
           {(index === 0 && columnHeader) ? <div className='date' style={{color: columnHeaderColor}}>Credit</div> :
             <div className='date'>&nbsp;</div>}
         </div>
-        <div className={`flex-col description ${index === 0 ? 'border-top' : ' '}`}
+        <div className=''
              style={{
-               borderTopLeftRadius: index === 0 && !columnHeader ? 6 : 0,
-               borderTopRightRadius: index === 0 && !columnHeader ? 6 : 0,
-               borderBottom: 'none'
+               flex: 1,
+               borderTop: index === 0 && columnHeader ? 'var(--border) solid' : '',
+               borderBottom: index === 0 && columnHeader ? 'var(--border) solid' : '',
+               background: index === 0 && columnHeader ? columnHeaderBgColor : ''
              }}>
-          <div className='date'>{date.split('-')[2]}/{date.split('-')[1]}/{date.split('-')[0]}</div>
+          {(index === 0 && columnHeader) ? (
+              <div
+                className='date'
+                style={{color: columnHeaderColor}}>{date.split('-')[2]}/{date.split('-')[1]}/{date.split('-')[0]}
+              </div>) :
+            <div className={`flex-col description ${index === 0 ? 'border-top' : ' '}`}
+                 style={{
+                   borderTopLeftRadius: index === 0 && !columnHeader ? 6 : 0,
+                   borderTopRightRadius: index === 0 && !columnHeader ? 6 : 0,
+                   borderBottom: 'none'
+                 }}>
+              <div className='date'>{date.split('-')[2]}/{date.split('-')[1]}/{date.split('-')[0]}</div>
+            </div>}
         </div>
         <div className='amount-debit'
              style={{

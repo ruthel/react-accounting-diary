@@ -1,16 +1,24 @@
 .dialog-title {
-  margin: 8px auto;
-  text-align: center;
+  margin: 8px auto 0;
+  font-weight: 500;
+  font-size: 1.6em;
+  text-transform: capitalize;
+
+  & + div {
+    font-size: .85em;
+    margin-bottom: 24px;
+  }
 }
 
 .dialog-container {
   z-index: 1000;
+  min-width: 350px;
   position: relative;
   background: white;
   border: 1px solid lightgray;
   box-shadow: 0 0 12px .1px rgba(0, 0, 0, .1);
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 32px;
 }
 
 textarea {
@@ -28,10 +36,21 @@ textarea:focus, input:focus {
 }
 
 .control {
-  margin: 8px 0;
+  margin: 16px 0 0;
+
+  * {
+    transition: .1s;
+  }
+
+  &:focus-within {
+    label {
+      color: rgba(0, 0, 255, 0.47);
+    }
+  }
 
   label {
     display: block;
+    font-size: .9em;
     margin-bottom: 4px;
   }
 
@@ -47,14 +66,77 @@ textarea:focus, input:focus {
 .control-check {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  flex-direction: row-reverse;
+  margin: 16px 0 0;
+
+  &:focus-within {
+    label {
+      color: rgba(0, 0, 255, 0.47);
+    }
+  }
+
+  label {
+    display: block;
+    font-size: .9em;
+    margin-bottom: 4px;
+  }
+  input{
+    margin-bottom: 8px;
+  }
 }
 
-.btn-action{
+.btn-action {
   display: flex;
   justify-content: end;
-  button{
+  margin-top: 8px;
+
+  button {
+    border: none;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 0 8px .1px rgba(black, .2);
     padding: 6px 16px;
     margin-right: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: .3s;
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: .3s;
+      height: 100%;
+    }
+
+    &:hover {
+      transition: .3s;
+
+      &::before {
+        transition: .3s;
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
   }
+}
+
+.error {
+  background: #cf142b;
+}
+
+.success {
+  background: #42ba96;
+}
+
+.hide {
+  opacity: 0;
+  transition: .3s;
+}
+
+.show {
+  transition: .3s;
+  opacity: 1;
 }

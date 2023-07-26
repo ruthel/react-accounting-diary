@@ -52,6 +52,10 @@ yarn add react-accounting-diary
 
 ## What's new in version
 
+#### v0.1.3
+
+* UI Improvement when adding transaction
+
 #### v0.1.2
 
 * Now we have the ability to customize footer style of a transaction element
