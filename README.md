@@ -20,6 +20,11 @@ yarn add react-accounting-diary
 
 ## What's new in version
 
+### v0.2.1
+
+* Adding of the contributors.md file
+
+
 ### v0.2.0
 
 * Graphically choose the Currency between various type
@@ -44,12 +49,6 @@ yarn add react-accounting-diary
 * Hide of show the column text of the debit credit label and amount
 * Change color of the column text of the debit credit label and amount
 * Improve the UI design and the ability to customize the diary
-
-### v0.0.12
-
-* We now have the ability to customize the currency format and the number format of each transaction. see example
-* Now the code comme with a default font family arial that you can override directly in your css
-* You can now change the height and the width of your diary container
 
 ## Usage
 

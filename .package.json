@@ -1,16 +1,19 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.2.1",
+  "version": "0.2.0",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
-    "email": "balockruthel.cedrickascens@gmail.com"
+    "email": "ruthel.crab@gmail.com"
   },
   "keywords": [
     "react",
     "accounting",
     "diary",
+    "report",
     "component",
+    "generator",
+    "image",
     "financial"
   ],
   "description": "Component making to generate a accounting diary and export image",
@@ -20,7 +23,6 @@
   "files": [
     "lib",
     "README.md",
-    "contributors.md",
     "LICENSE"
   ],
   "repository": {
@@ -73,15 +75,5 @@
     "react-scripts": "4.0.3"
   },
   "license": "MIT",
-  "contributors": [
-    {
-      "name": "Ruth3rl",
-      "email": "balockruthel.cedrickascens@gmail.com",
-      "url": "https://github.com/ruthel",
-      "contributions": 8,
-      "additions": 65167,
-      "deletions": 35438,
-      "hireable": true
-    }
-  ]
+  "contributors": []
 }
