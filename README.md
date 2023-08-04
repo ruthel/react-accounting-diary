@@ -20,6 +20,10 @@ yarn add react-accounting-diary
 
 ## What's new in version
 
+### v0.2.2
+
+* Bugs fixed and support improved
+
 ### v0.2.1
 
 * Adding of the contributors.md file
@@ -42,13 +46,6 @@ yarn add react-accounting-diary
 ### v0.1.3
 
 * UI Improvement when adding transaction
-
-### v0.1.2
-
-* Now we have the ability to customize footer style of a transaction element
-* Hide of show the column text of the debit credit label and amount
-* Change color of the column text of the debit credit label and amount
-* Improve the UI design and the ability to customize the diary
 
 ## Usage
 
@@ -187,6 +184,6 @@ reports or suggestions first.
 
 To become a contributor, please follow our [contributing guide](/CONTRIBUTING.md).
 
-<a href="https://github.com/ruthel/accounting-diary/graphs/contributors">
-  <img src="/CONTRIBUTORS.svg" alt="Contributors" width="740" />
-</a>
+[//]: # (<a href="https://github.com/ruthel/accounting-diary/graphs/contributors">)
+[//]: # (  <img src="/CONTRIBUTORS.svg" alt="Contributors" width="740" />)
+[//]: # (</a>)

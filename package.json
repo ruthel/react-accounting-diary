@@ -1,7 +1,10 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
+  "engines": {
+    "node": "^14.0.0"
+  },
   "author": {
     "name": "Ruthel Crab",
     "email": "balockruthel.cedrickascens@gmail.com"
@@ -21,6 +24,8 @@
     "lib",
     "README.md",
     "contributors.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
     "LICENSE"
   ],
   "repository": {
