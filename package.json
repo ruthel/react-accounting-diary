@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": false,
   "author": {
     "name": "Ruthel Crab",
@@ -22,7 +22,8 @@
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
@@ -56,10 +57,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "html-to-image": "1.x.x",
     "@progress/kendo-file-saver": "^1.1.1",
+    "html-to-image": "1.x.x",
     "lodash": "^4.17.21",
-    "react-feather": "^2.0.9",
+    "pdfmake": "^0.2.7",
+    "react-feather": "^2.0.10",
     "sass": "^1.54.9",
     "web-vitals": "^1.0.1"
   },
@@ -71,5 +73,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3"
-  }
+  },
+  "license": "MIT"
 }

@@ -31,7 +31,7 @@ textarea {
   margin-top: 4px;
 }
 
-textarea:focus, input:focus {
+textarea:focus, input:focus, select:focus {
   outline: 3px rgba(0, 0, 255, 0.2) solid;
 }
 
@@ -54,7 +54,11 @@ textarea:focus, input:focus {
     margin-bottom: 4px;
   }
 
-  input {
+  select{
+    padding: 10px 6px !important;
+  }
+
+  input, select {
     width: 100%;
     padding: 8px 6px;
     border-radius: 4px;

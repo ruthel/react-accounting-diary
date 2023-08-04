@@ -1,44 +1,12 @@
-<h1 align="center">react-accounting-diary</h1>
 
-<p align="center"><strong>✂️ Component making to generate a accounting diary and export image.</strong></p>
+# react-accounting-diary
+<hr/>
 
-[//]: # (<p align="center">)
-
-[//]: # (<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=flat-square" alt="MIT License"></a>)
-
-[//]: # (<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=flat-square"></a>)
-
-[//]: # (<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square"></a>)
-
-[//]: # (<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/workflow/status/bubkoo/html-to-image/%F0%9F%91%B7%E3%80%80CI/master?logo=github&style=flat-square"></a>)
-
-[//]: # (<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=flat-square&token=BWweeU2uNX"></a>)
-
-[//]: # (<a href="https://lgtm.com/projects/g/bubkoo/html-to-image/context:javascript" rel="nofollow"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/bubkoo/html-to-image.svg?logo=lgtm&style=flat-square" /></a>)
-
-[//]: # (</p>)
-
-[//]: # ()
-
-[//]: # (<p align="center">)
-
-[//]: # (<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?style=flat-square" /></a>)
-
-[//]: # (<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?style=flat-square" /></a>)
-
-[//]: # (<a href="https://david-dm.org/bubkoo/html-to-image?type=dev" rel="nofollow"><img alt="devDependencies Status" src="https://david-dm.org/bubkoo/html-to-image/dev-status.svg?style=flat-square" /></a>)
-
-[//]: # (</p>)
-
-# Accounting Diary Generator
-
+✂️ Component making to generate an accounting diary and export image file with different format or in PDF document.
 This project was created and is compatible with React library.
 
-## Available Scripts
-
-In the project directory, you can run:
-
 ## Install
+<hr/>
 
 ```shell
 npm i --save react-accounting-diary
@@ -46,24 +14,38 @@ npm i --save react-accounting-diary
 
 or
 
-```bash
+```shell
 yarn add react-accounting-diary
 ```
 
 ## What's new in version
 
-#### v0.1.3
+### v0.2.0
+
+* Graphically choose the Currency between various type
+* Is debit filed don't anymore need to be checked before save
+* Amount field now allow step of with decimal value
+* Clean the entire data
+* Load a set of sample data
+* Pdf exportation
+* Undo/Redo button added for data timeline
+
+### v0.1.4
+
+* MIT License review
+
+### v0.1.3
 
 * UI Improvement when adding transaction
 
-#### v0.1.2
+### v0.1.2
 
 * Now we have the ability to customize footer style of a transaction element
 * Hide of show the column text of the debit credit label and amount
 * Change color of the column text of the debit credit label and amount
 * Improve the UI design and the ability to customize the diary
 
-#### v0.0.12
+### v0.0.12
 
 * We now have the ability to customize the currency format and the number format of each transaction. see example
 * Now the code comme with a default font family arial that you can override directly in your css
@@ -118,13 +100,6 @@ function App() {
       account: 'Cash',
       currency: 'USD',
       local: 'en-US'
-    },
-    {
-      date: '2021-01-01',
-      text: "Received Capital worth",
-      amount: 90000,
-      account: 'Common Stock',
-      currency: 'USD'
     },
     {
       date: '2021-01-01',

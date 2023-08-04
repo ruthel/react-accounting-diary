@@ -89,8 +89,8 @@ html, body, #root {
   }
 }
 
-.btn-save-accounting:focus, .btn-add-accounting:focus {
-  outline-offset: 1px;
+.btn-save-accounting:focus, .btn-add-accounting:focus, .global-action button:active {
+  outline-offset: 0;
   outline: rgba(0, 99, 243, 0.34) solid 4px;
 }
 
@@ -125,5 +125,68 @@ html, body, #root {
       color: white;
     }
 
+  }
+}
+
+.global-action {
+  display: flex;
+  flex: 1;
+  margin-right: 10px;
+  justify-content: flex-end;
+
+  button {
+    padding: 0 16px;
+    box-shadow: 0 0 8px .1px rgba(black, .1);
+    cursor: pointer;
+    position: relative;
+    font-size: 12px;
+    text-transform: uppercase;
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: .3s;
+      height: 100%;
+    }
+
+    &:hover {
+      transition: .3s;
+
+      &::before {
+        transition: .3s;
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  .reset {
+    border-radius: 4px;
+    border: 2px solid rgba(207, 20, 43, 0.83);
+    color: #cf142b;
+    font-weight: 500;
+    background: whitesmoke;
+  }
+  .sample {
+    margin-right: 12px;
+    border-radius: 4px;
+    font-weight: 500;
+
+    &:disabled{
+      border-color: lightgray;
+      background: lightgray !important;
+    }
+    &:not(.doer){
+      background: whitesmoke;
+      border: 2px solid rgba(79, 143, 238, 0.83);
+      color: #4f8fee;
+    }
+    &.doer{
+      color: white;
+      background: #4f8fee;
+      border: none !important;
+    }
   }
 }

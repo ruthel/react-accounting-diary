@@ -3,12 +3,14 @@ import './styles/styles.scss';
 import DialogOperation from "./DialogOperation";
 import _ from "lodash";
 import * as htmlToImage from 'html-to-image';
-import {Download} from "react-feather";
+import {CornerLeftDown, CornerRightDown, Download} from "react-feather";
 import Footer from "./Footer";
 import Header from "./Header";
 import {GlobalContext, GlobalProvider} from "./context";
 import {saveAs} from '@progress/kendo-file-saver';
 import Content from "./Content";
+import data from './data/sample.json'
+import Func from "./helpers/func";
 
 class AccountingDiary extends React.Component {
 
@@ -34,7 +36,7 @@ class AccountingDiary extends React.Component {
           {context => (
             <div style={{
               border: '1px solid whitesmoke',
-              minHeight: '100px',
+              minHeight: '650px',
               height: this.props.height,
               width: this.props.width,
               position: 'relative',
@@ -42,14 +44,29 @@ class AccountingDiary extends React.Component {
               borderRadius: 4,
               boxSizing: 'border-box'
             }}>
-              <div className='export'>
-                <button id={this.state.toFunc === 'toJpeg' ? 'active' : ''}
-                        onClick={() => this.setState({toFunc: 'toJpeg'})}>JPEG
-                </button>
-                <button id={this.state.toFunc === 'toPng' ? 'active' : ''}
-                        onClick={() => this.setState({toFunc: 'toPng'})}>PNG
-                </button>
-                {/*<option value="toBlob">BLOB</option>*/}
+              <div style={{display: 'flex', marginBottom: 8}}>
+                <div className='export'>
+                  <button id={this.state.toFunc === 'toJpeg' ? 'active' : ''}
+                          onClick={() => this.setState({toFunc: 'toJpeg'})}>JPEG
+                  </button>
+                  <button id={this.state.toFunc === 'toPng' ? 'active' : ''}
+                          onClick={() => this.setState({toFunc: 'toPng'})}>PNG
+                  </button>
+                  <button id={this.state.toFunc === 'toPdf' ? 'active' : ''}
+                          onClick={() => this.setState({toFunc: 'toPdf'})}>PDF
+                  </button>
+                </div>
+                <div className='global-action'>
+                  <button className='sample doer'
+                          disabled={!(context.state.history.length > 1 && context.state.doIndex > 1)}
+                          onClick={() => context.undo()}><CornerLeftDown strokeWidth={4} size={12}/></button>
+                  <button className='sample doer' onClick={() => context.redo()}
+                          disabled={!(context.state.doIndex + 1 < context.state.history.length)}><CornerRightDown
+                    strokeWidth={4} size={12}/>
+                  </button>
+                  <button className='sample' onClick={() => context.setState({data})}>Data Sample</button>
+                  <button className='reset' onClick={() => context.setState({data: []})}>Clear the diary</button>
+                </div>
               </div>
               <div id='diary' style={{padding: 8}}>
                 <div style={{
@@ -66,7 +83,7 @@ class AccountingDiary extends React.Component {
                 }}>
                   Accounting diary for {this.props.title}
                 </div>
-                {this.getArray(context.state.data || this.props.data).map((elt, i, array) => (
+                {this.getArray(context.state.data.length > 0 ? context.state.data : this.props.data).map((elt, i, array) => (
                   <>
                     <Header date={elt.date} columnHeader={this.props.columnHeader}
                             columnHeaderColor={this.props.columnHeaderColor}
@@ -97,18 +114,23 @@ class AccountingDiary extends React.Component {
                 <button className='btn-save-accounting'
                         style={{marginTop: 16, backgroundColor: this.props.saveColor}} onClick={() => {
                   let node = document.getElementById('diary');
-                  htmlToImage[this.state.toFunc](node, {backgroundColor: '#fff', quality: 1, pixelRatio: 10})
-                    .then(function (dataUrl) {
-                      var arr = dataUrl.split(','),
+                  htmlToImage[this.state.toFunc === 'toPdf' ? 'toPng' : this.state.toFunc](node, {
+                    backgroundColor: '#fff',
+                    quality: 1,
+                    pixelRatio: 10
+                  })
+                    .then(dataUrl => {
+                      let arr = dataUrl.split(','),
                         mime = arr[0].match(/:(.*?);/)[1],
                         bstr = atob(arr[1]),
                         n = bstr.length,
                         u8arr = new Uint8Array(n);
-                      while (n--) {
-                        u8arr[n] = bstr.charCodeAt(n);
-                      }
+                      while (n--) u8arr[n] = bstr.charCodeAt(n);
                       const file = new File([u8arr], 'filename', {type: mime})
-                      saveAs(file, 'img.' + mime.split('/')[1])
+                      if (this.state.toFunc === 'toPdf')
+                        Func.extractDoc(dataUrl)
+                      else
+                        saveAs(file, 'img.' + mime.split('/')[1])
                     })
                     .catch(function (error) {
                       console.error('oops, something went wrong!', error);

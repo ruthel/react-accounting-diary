@@ -1,45 +1,11 @@
 import './App.css';
-import AccountingDiary from "./lib/AccountingDiary";
-
+import AccountingDiary from "react-accounting-diary/lib/AccountingDiary";
+import data from './lib/data/sample.json'
 function App() {
-  const data = [
-    {
-      date: '2021-01-01',
-      text: "Received Capital worth",
-      isDebit: true,
-      amount: 90000,
-      account: 'Cash',
-      currency: 'USD',
-      local: 'en-US'
-    },
-    {
-      date: '2021-01-01',
-      text: "Received Capital worth",
-      amount: 90000,
-      account: 'Common Stock',
-      currency: 'USD'
-    },
-    {
-      date: '2021-01-01',
-      text: "Paid $2,000 for the first month’s rent.",
-      isDebit: true,
-      amount: 80000,
-      account: 'Rent',
-      currency: 'JPY'
-    },
-    {
-      date: '2021-01-01',
-      text: "Paid $2,000 for the first month’s rent.",
-      amount: 80000,
-      account: 'Cash',
-      currency: 'JPY',
-      local: 'en-US'
-    },
-  ]
+
   return (
     <div style={{margin: 32}}>
       <AccountingDiary
-        height={650}
         width={1200}
         data={data}
         title='Entreprise SANOGO'

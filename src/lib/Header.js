@@ -2,7 +2,7 @@ import React from "react";
 
 export default class Header extends React.Component {
   render() {
-    let {date, index, columnHeader, length, columnHeaderColor, columnHeaderBgColor} = this.props;
+    let {date, index, columnHeader, columnHeaderColor, columnHeaderBgColor} = this.props;
     return (
       <div className='insertion'>
         <div className='debit' style={{
