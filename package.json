@@ -37,13 +37,17 @@
     "url": "https://github.com/ruthel/react-accounting-diary/issues"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "babel src/lib --out-dir lib --copy-files"
+    "start": "vite",
+    "build": "vite build",
+    "test": "vitest",
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint src/**/*.js",
+    "format": "prettier --write src/**/*.js"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier"
     ]
   },
   "browserslist": {
@@ -60,22 +64,35 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "@progress/kendo-file-saver": "^1.1.1",
-    "html-to-image": "1.x.x",
+    "@progress/kendo-file-saver": "^1.1.2",
+    "html-to-image": "^1.11.13",
     "lodash": "^4.17.21",
-    "pdfmake": "^0.2.7",
+    "pdfmake": "^0.2.20",
     "react-feather": "^2.0.10",
-    "sass": "^1.54.9",
-    "web-vitals": "^1.0.1"
+    "sass": "^1.89.2",
+    "web-vitals": "^5.0.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.14",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "@babel/preset-env": "^7.13.12",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.0.12",
+    "@types/pdfmake": "^0.2.11",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^5.5.1",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.3",
+    "vitest": "^3.2.4"
   },
   "license": "MIT",
   "contributors": [
