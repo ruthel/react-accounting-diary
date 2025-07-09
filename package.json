@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "private": false,
   "engines": {
     "node": "^14.0.0"
@@ -17,15 +17,12 @@
     "financial"
   ],
   "description": "Component making to generate a accounting diary and export image",
-  "main": "lib/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/react-accounting-diary.umd.js",
+  "module": "dist/react-accounting-diary.es.js",
+  "types": "dist/react-accounting-diary.d.ts",
   "files": [
-    "lib",
+    "dist",
     "README.md",
-    "contributors.md",
-    "CONTRIBUTING.md",
-    "CODE_OF_CONDUCT.md",
     "LICENSE"
   ],
   "repository": {
@@ -41,7 +38,8 @@
     "build": "vite build",
     "test": "vitest",
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint src/**/*.js",
-    "format": "prettier --write src/**/*.js"
+    "format": "prettier --write src/**/*.js",
+    "prepublishOnly": "npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -88,10 +86,9 @@
     "eslint-plugin-prettier": "^5.5.1",
     "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "vite": "^7.0.3",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
   },
   "license": "MIT",
