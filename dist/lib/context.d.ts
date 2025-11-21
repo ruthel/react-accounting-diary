@@ -7,6 +7,12 @@ interface IGlobalState {
     messageSb: string;
     history: IDataItem[][];
     severitySb: 'success' | 'error' | 'warning' | 'info';
+    editingTransaction?: IDataItem;
+    searchTerm?: string;
+    dateFilter?: {
+        start?: string;
+        end?: string;
+    };
 }
 interface IGlobalContext {
     state: IGlobalState;

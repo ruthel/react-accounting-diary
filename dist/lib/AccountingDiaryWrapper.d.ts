@@ -18,6 +18,16 @@ interface IAccountingDiaryWrapperProps {
     account?: IStyleConfig;
     amount?: IStyleConfig;
     footer?: IStyleConfig;
+    showExport?: boolean;
+    showUndo?: boolean;
+    showSample?: boolean;
+    showClear?: boolean;
+    showAdd?: boolean;
+    showEdit?: boolean;
+    showSearch?: boolean;
+    compactButtons?: boolean;
+    enableCSVExport?: boolean;
+    enableExcelExport?: boolean;
 }
 declare const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps>;
 export default AccountingDiaryWrapper;

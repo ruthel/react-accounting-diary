@@ -5,6 +5,7 @@ interface IContentProps {
     length?: number;
     account?: IStyleConfig;
     amount?: IStyleConfig;
+    showEdit?: boolean;
 }
 declare const Content: React.FC<IContentProps>;
 export default Content;
