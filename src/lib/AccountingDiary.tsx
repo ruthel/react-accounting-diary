@@ -34,7 +34,8 @@ interface IAccountingDiaryProps {
   footer?: IStyleConfig;
 }
 
-const getArray = (data: IDataItem[]) => {
+const getArray = (data: IDataItem[] | undefined) => {
+  if (!data || data.length === 0) return [];
   const grp = groupBy(data, 'date');
   return Object.entries(grp).map(([date, content]) => ({ date, content }));
 };
@@ -48,7 +49,7 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
 
   const { state, undo, redo, updateState } = context;
 
-  const displayData = (state.data || []).length > 0 ? state.data : (props.data || []);
+  const displayData = (state.data && state.data.length > 0) ? state.data : (props.data || []);
 
   const handleExport = () => {
     const node = document.getElementById('diary');
@@ -185,7 +186,7 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
         >
           Accounting diary for {props.title || 'Test Model'}
         </div>
-        {getArray(displayData).map((elt, i, array) => (
+        {getArray(displayData || []).map((elt, i, array) => (
           <React.Fragment key={elt.date}>
             <Header
               date={elt.date}

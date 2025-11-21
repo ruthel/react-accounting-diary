@@ -10,5 +10,5 @@
     "lib": ["ESNext"],
     "types": ["node"]
   },
-  "include": ["vite.config.js"]
+  "include": ["vite.config.js", "vite.config.ts"]
 }

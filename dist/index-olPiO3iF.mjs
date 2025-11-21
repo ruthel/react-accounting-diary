@@ -165,18 +165,23 @@ const Context = React.createContext(void 0);
 const GlobalProvider = ({ children }) => {
   const [state, setState] = useState({
     data: [],
-    doIndex: 1,
+    doIndex: 0,
     openSb: false,
     messageSb: "",
     history: [[]],
     severitySb: "success"
   });
   const undo = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      data: prevState.history[prevState.doIndex - 1],
-      doIndex: prevState.doIndex - 1
-    }));
+    setState((prevState) => {
+      if (prevState.doIndex > 0) {
+        return {
+          ...prevState,
+          data: prevState.history[prevState.doIndex - 1],
+          doIndex: prevState.doIndex - 1
+        };
+      }
+      return prevState;
+    });
   }, []);
   const redo = useCallback(() => {
     setState((prevState) => {
@@ -192,22 +197,20 @@ const GlobalProvider = ({ children }) => {
     });
   }, []);
   const updateState = useCallback((e) => {
-    if ("data" in e && !("doIndex" in e)) {
-      setState((prevState) => {
-        let history = [...prevState.history].slice(
-          0,
-          prevState.doIndex + 1
-        );
+    setState((prevState) => {
+      if ("data" in e && !("doIndex" in e)) {
+        const newData = e.data;
+        const history = [...prevState.history].slice(0, prevState.doIndex + 1);
+        const newHistory = [...history, newData];
         return {
           ...prevState,
-          history: [...history, e.data],
-          doIndex: history.length
+          data: newData,
+          history: newHistory,
+          doIndex: newHistory.length - 1
         };
-      });
-      setState((prevState) => ({ ...prevState, ...e }));
-    } else {
-      setState((prevState) => ({ ...prevState, ...e }));
-    }
+      }
+      return { ...prevState, ...e };
+    });
   }, []);
   const contextValue = {
     state,
@@ -1165,6 +1168,136 @@ function requirePropTypes() {
 }
 var propTypesExports = /* @__PURE__ */ requirePropTypes();
 const PropTypes = /* @__PURE__ */ getDefaultExportFromCjs(propTypesExports);
+function _extends$4() {
+  _extends$4 = Object.assign || function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends$4.apply(this, arguments);
+}
+function _objectWithoutProperties$4(source, excluded) {
+  if (source == null) return {};
+  var target = _objectWithoutPropertiesLoose$4(source, excluded);
+  var key, i;
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+function _objectWithoutPropertiesLoose$4(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+var CornerLeftDown = forwardRef(function(_ref, ref) {
+  var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? 24 : _ref$size, rest = _objectWithoutProperties$4(_ref, ["color", "size"]);
+  return /* @__PURE__ */ React.createElement("svg", _extends$4({
+    ref,
+    xmlns: "http://www.w3.org/2000/svg",
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, rest), /* @__PURE__ */ React.createElement("polyline", {
+    points: "14 15 9 20 4 15"
+  }), /* @__PURE__ */ React.createElement("path", {
+    d: "M20 4h-7a4 4 0 0 0-4 4v12"
+  }));
+});
+CornerLeftDown.propTypes = {
+  color: PropTypes.string,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+CornerLeftDown.displayName = "CornerLeftDown";
+function _extends$3() {
+  _extends$3 = Object.assign || function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends$3.apply(this, arguments);
+}
+function _objectWithoutProperties$3(source, excluded) {
+  if (source == null) return {};
+  var target = _objectWithoutPropertiesLoose$3(source, excluded);
+  var key, i;
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+function _objectWithoutPropertiesLoose$3(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+var CornerRightDown = forwardRef(function(_ref, ref) {
+  var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? 24 : _ref$size, rest = _objectWithoutProperties$3(_ref, ["color", "size"]);
+  return /* @__PURE__ */ React.createElement("svg", _extends$3({
+    ref,
+    xmlns: "http://www.w3.org/2000/svg",
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, rest), /* @__PURE__ */ React.createElement("polyline", {
+    points: "10 15 15 20 20 15"
+  }), /* @__PURE__ */ React.createElement("path", {
+    d: "M4 4h7a4 4 0 0 1 4 4v12"
+  }));
+});
+CornerRightDown.propTypes = {
+  color: PropTypes.string,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+CornerRightDown.displayName = "CornerRightDown";
 function _extends$2() {
   _extends$2 = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -1206,7 +1339,7 @@ function _objectWithoutPropertiesLoose$2(source, excluded) {
   }
   return target;
 }
-var CornerLeftDown = forwardRef(function(_ref, ref) {
+var Download = forwardRef(function(_ref, ref) {
   var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? 24 : _ref$size, rest = _objectWithoutProperties$2(_ref, ["color", "size"]);
   return /* @__PURE__ */ React.createElement("svg", _extends$2({
     ref,
@@ -1219,17 +1352,22 @@ var CornerLeftDown = forwardRef(function(_ref, ref) {
     strokeWidth: "2",
     strokeLinecap: "round",
     strokeLinejoin: "round"
-  }, rest), /* @__PURE__ */ React.createElement("polyline", {
-    points: "14 15 9 20 4 15"
-  }), /* @__PURE__ */ React.createElement("path", {
-    d: "M20 4h-7a4 4 0 0 0-4 4v12"
+  }, rest), /* @__PURE__ */ React.createElement("path", {
+    d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+  }), /* @__PURE__ */ React.createElement("polyline", {
+    points: "7 10 12 15 17 10"
+  }), /* @__PURE__ */ React.createElement("line", {
+    x1: "12",
+    y1: "15",
+    x2: "12",
+    y2: "3"
   }));
 });
-CornerLeftDown.propTypes = {
+Download.propTypes = {
   color: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
-CornerLeftDown.displayName = "CornerLeftDown";
+Download.displayName = "Download";
 function _extends$1() {
   _extends$1 = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -1271,7 +1409,7 @@ function _objectWithoutPropertiesLoose$1(source, excluded) {
   }
   return target;
 }
-var CornerRightDown = forwardRef(function(_ref, ref) {
+var Plus = forwardRef(function(_ref, ref) {
   var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? 24 : _ref$size, rest = _objectWithoutProperties$1(_ref, ["color", "size"]);
   return /* @__PURE__ */ React.createElement("svg", _extends$1({
     ref,
@@ -1284,17 +1422,23 @@ var CornerRightDown = forwardRef(function(_ref, ref) {
     strokeWidth: "2",
     strokeLinecap: "round",
     strokeLinejoin: "round"
-  }, rest), /* @__PURE__ */ React.createElement("polyline", {
-    points: "10 15 15 20 20 15"
-  }), /* @__PURE__ */ React.createElement("path", {
-    d: "M4 4h7a4 4 0 0 1 4 4v12"
+  }, rest), /* @__PURE__ */ React.createElement("line", {
+    x1: "12",
+    y1: "5",
+    x2: "12",
+    y2: "19"
+  }), /* @__PURE__ */ React.createElement("line", {
+    x1: "5",
+    y1: "12",
+    x2: "19",
+    y2: "12"
   }));
 });
-CornerRightDown.propTypes = {
+Plus.propTypes = {
   color: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
-CornerRightDown.displayName = "CornerRightDown";
+Plus.displayName = "Plus";
 function _extends() {
   _extends = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -1336,7 +1480,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   }
   return target;
 }
-var Plus = forwardRef(function(_ref, ref) {
+var X = forwardRef(function(_ref, ref) {
   var _ref$color = _ref.color, color = _ref$color === void 0 ? "currentColor" : _ref$color, _ref$size = _ref.size, size = _ref$size === void 0 ? 24 : _ref$size, rest = _objectWithoutProperties(_ref, ["color", "size"]);
   return /* @__PURE__ */ React.createElement("svg", _extends({
     ref,
@@ -1350,22 +1494,22 @@ var Plus = forwardRef(function(_ref, ref) {
     strokeLinecap: "round",
     strokeLinejoin: "round"
   }, rest), /* @__PURE__ */ React.createElement("line", {
-    x1: "12",
-    y1: "5",
-    x2: "12",
-    y2: "19"
+    x1: "18",
+    y1: "6",
+    x2: "6",
+    y2: "18"
   }), /* @__PURE__ */ React.createElement("line", {
-    x1: "5",
-    y1: "12",
-    x2: "19",
-    y2: "12"
+    x1: "6",
+    y1: "6",
+    x2: "18",
+    y2: "18"
   }));
 });
-Plus.propTypes = {
+X.propTypes = {
   color: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
-Plus.displayName = "Plus";
+X.displayName = "X";
 const currencies = [
   [
     "US dollar (USD)",
@@ -1400,29 +1544,32 @@ const DialogOperation = (props) => {
     amount: "",
     account: "",
     text: "",
-    date: "",
+    date: (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
     currency: "USD"
   });
   const handleClickOpen = useCallback(() => {
-    setState((prevState) => ({ ...prevState, visibility: "show" }));
-    setTimeout(() => setState((prevState) => ({ ...prevState, open: true })), 400);
+    setState((prevState) => ({ ...prevState, visibility: "show", open: true }));
   }, []);
   const handleClose = useCallback(() => {
     setState((prevState) => ({ ...prevState, visibility: "hide" }));
-    setTimeout(() => setState((prevState) => ({ ...prevState, open: false })), 400);
+    setTimeout(() => {
+      setState({
+        open: false,
+        visibility: "hide",
+        isDebit: false,
+        amount: "",
+        account: "",
+        text: "",
+        date: (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
+        currency: "USD"
+      });
+    }, 300);
   }, []);
   const context = useContext(Context);
   if (!context) return null;
   const handleSave = useCallback(() => {
-    let validators = [
-      state.amount,
-      state.account,
-      state.isDebit,
-      state.text,
-      state.date
-    ];
-    if (validators.every((validator) => !!validator)) {
-      let value = [...context.state.data || []];
+    if (state.amount && state.account && state.text && state.date) {
+      const value = [...context.state.data || []];
       value.push({
         amount: Number(state.amount),
         account: state.account,
@@ -1436,50 +1583,60 @@ const DialogOperation = (props) => {
     }
   }, [state, context, handleClose]);
   return /* @__PURE__ */ jsxs("div", { children: [
-    !state.open && /* @__PURE__ */ jsx(
-      "button",
-      {
-        onClick: handleClickOpen,
-        className: "btn-add-accounting",
-        children: /* @__PURE__ */ jsx(Plus, {})
-      }
-    ),
+    !state.open && /* @__PURE__ */ jsx("button", { onClick: handleClickOpen, className: "btn-add-accounting", title: "Add transaction", children: /* @__PURE__ */ jsx(Plus, { size: 24 }) }),
     state.open && /* @__PURE__ */ jsxs("div", { className: `dialog-container ${state.visibility}`, children: [
-      /* @__PURE__ */ jsx("h3", { className: "dialog-title", children: "Add transaction" }),
+      /* @__PURE__ */ jsxs("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }, children: [
+        /* @__PURE__ */ jsx("h3", { className: "dialog-title", children: "Add Transaction" }),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            onClick: handleClose,
+            style: {
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "4px",
+              display: "flex",
+              alignItems: "center",
+              color: "#999"
+            },
+            children: /* @__PURE__ */ jsx(X, { size: 20 })
+          }
+        )
+      ] }),
       /* @__PURE__ */ jsx("div", { children: "Insert a new transaction to your accounting diary" }),
-      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsxs("div", { children: [
+      /* @__PURE__ */ jsxs("div", { children: [
         /* @__PURE__ */ jsxs(
           "div",
           {
             style: {
               display: "grid",
-              gridTemplateColumns: "1fr 150px",
-              columnGap: 6
+              gridTemplateColumns: "1fr 120px",
+              columnGap: 12
             },
             children: [
               /* @__PURE__ */ jsxs("div", { className: "control", children: [
-                /* @__PURE__ */ jsx("label", { htmlFor: "name", children: "Amount" }),
+                /* @__PURE__ */ jsx("label", { htmlFor: "amount", children: "Amount" }),
                 /* @__PURE__ */ jsx(
                   "input",
                   {
-                    id: "name",
-                    placeholder: "Amount",
+                    id: "amount",
+                    placeholder: "0.00",
                     type: "number",
-                    step: ".01",
+                    step: "0.01",
                     value: state.amount || "",
                     onChange: (e) => setState((prevState) => ({ ...prevState, amount: e.target.value }))
                   }
                 )
               ] }),
               /* @__PURE__ */ jsxs("div", { className: "control", children: [
-                /* @__PURE__ */ jsx("label", { htmlFor: "name", children: "Currency" }),
+                /* @__PURE__ */ jsx("label", { htmlFor: "currency", children: "Currency" }),
                 /* @__PURE__ */ jsx(
                   "select",
                   {
+                    id: "currency",
                     value: state.currency || "USD",
                     onChange: (e) => setState((prevState) => ({ ...prevState, currency: e.target.value })),
-                    name: "",
-                    id: "",
                     children: currencies.map((c) => /* @__PURE__ */ jsx("option", { value: c[1], children: c[0] }, c[1]))
                   }
                 )
@@ -1494,19 +1651,18 @@ const DialogOperation = (props) => {
             {
               autoFocus: true,
               id: "account",
-              placeholder: "Account Ref",
+              placeholder: "e.g., Cash, Bank, Rent",
               value: state.account || "",
               onChange: (e) => setState((prevState) => ({ ...prevState, account: e.target.value }))
             }
           )
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "control", children: [
-          /* @__PURE__ */ jsx("label", { htmlFor: "date", children: "Operation date" }),
+          /* @__PURE__ */ jsx("label", { htmlFor: "date", children: "Date" }),
           /* @__PURE__ */ jsx(
             "input",
             {
               id: "date",
-              placeholder: "Operation date",
               type: "date",
               value: state.date,
               onChange: (e) => setState((prevState) => ({ ...prevState, date: e.target.value }))
@@ -1514,18 +1670,16 @@ const DialogOperation = (props) => {
           )
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "control-check", children: [
-          /* @__PURE__ */ jsx("label", { children: "Is this operation a debit ?" }),
-          " ",
           /* @__PURE__ */ jsx(
             "input",
             {
+              id: "isDebit",
               type: "checkbox",
-              defaultChecked: false,
               checked: state.isDebit || false,
-              style: { marginLeft: 2, marginRight: 2 },
               onChange: (e) => setState((prevState) => ({ ...prevState, isDebit: e.target.checked }))
             }
-          )
+          ),
+          /* @__PURE__ */ jsx("label", { htmlFor: "isDebit", children: "Debit transaction" })
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "control", children: [
           /* @__PURE__ */ jsx("label", { htmlFor: "description", children: "Description" }),
@@ -1533,18 +1687,17 @@ const DialogOperation = (props) => {
             "textarea",
             {
               id: "description",
-              rows: 5,
-              placeholder: "Describe the operation",
+              rows: 4,
+              placeholder: "Describe the transaction...",
               value: state.text || "",
               onChange: (e) => setState((prevState) => ({ ...prevState, text: e.target.value }))
             }
           )
         ] })
-      ] }) }),
+      ] }),
       /* @__PURE__ */ jsxs("div", { className: "btn-action", children: [
         /* @__PURE__ */ jsx("button", { onClick: handleClose, className: "error", children: "Cancel" }),
-        " ",
-        /* @__PURE__ */ jsx("button", { onClick: handleSave, className: "success", children: "Save" })
+        /* @__PURE__ */ jsx("button", { onClick: handleSave, className: "success", children: "Save Transaction" })
       ] })
     ] })
   ] });
@@ -2479,7 +2632,7 @@ function postToProxy(dataURI, fileName, options) {
 let pdfMakeInstance = null;
 const getPdfMake = async () => {
   if (!pdfMakeInstance) {
-    const pdfMake = await import("./pdfmake-CZJV0-HS.mjs").then((n) => n.p);
+    const pdfMake = await import("./pdfmake-C-tWMy5T.mjs").then((n) => n.p);
     pdfMakeInstance = pdfMake.default;
   }
   return pdfMakeInstance;
@@ -2572,6 +2725,7 @@ const data = [
   }
 ];
 const getArray = (data2) => {
+  if (!data2 || data2.length === 0) return [];
   const grp = groupBy(data2, "date");
   return Object.entries(grp).map(([date, content]) => ({ date, content }));
 };
@@ -2580,82 +2734,129 @@ const AccountingDiary = (props) => {
   const context = useContext(Context);
   if (!context) return null;
   const { state, undo, redo, updateState } = context;
-  return /* @__PURE__ */ jsx(GlobalProvider, { children: /* @__PURE__ */ jsxs(
+  const displayData = state.data && state.data.length > 0 ? state.data : props.data || [];
+  const handleExport = () => {
+    const node = document.getElementById("diary");
+    if (node) {
+      htmlToImage[toFunc === "toPdf" ? "toPng" : toFunc](node, {
+        backgroundColor: "#fff",
+        quality: 1,
+        pixelRatio: 10
+      }).then((dataUrl) => {
+        let arr = dataUrl.split(","), mime = arr[0].match(/:(.*?);/)?.[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+        const file = new File([u8arr], "filename", {
+          type: mime
+        });
+        if (toFunc === "toPdf")
+          Func.extractDoc(dataUrl);
+        else if (mime) saveAs(file, "img." + mime.split("/")[1]);
+      }).catch(function(error) {
+        console.error("oops, something went wrong!", error);
+      });
+    }
+  };
+  return /* @__PURE__ */ jsxs(
     "div",
     {
       style: {
-        border: "1px solid whitesmoke",
+        border: "1px solid #e0e0e0",
         minHeight: "650px",
         height: props.height,
         width: props.width,
         position: "relative",
         padding: 24,
-        borderRadius: 4,
-        boxSizing: "border-box"
+        borderRadius: 8,
+        boxSizing: "border-box",
+        background: "white"
       },
       children: [
-        /* @__PURE__ */ jsxs("div", { style: { display: "flex", marginBottom: 8 }, children: [
-          /* @__PURE__ */ jsxs("div", { className: "export", children: [
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                id: toFunc === "toJpeg" ? "active" : "",
-                onClick: () => setToFunc("toJpeg"),
-                children: "JPEG"
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                id: toFunc === "toPng" ? "active" : "",
-                onClick: () => setToFunc("toPng"),
-                children: "PNG"
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                id: toFunc === "toPdf" ? "active" : "",
-                onClick: () => setToFunc("toPdf"),
-                children: "PDF"
-              }
-            )
+        /* @__PURE__ */ jsxs("div", { style: { display: "flex", marginBottom: 16, gap: 12, alignItems: "center", justifyContent: "space-between" }, children: [
+          /* @__PURE__ */ jsxs("div", { style: { display: "flex", gap: 12, alignItems: "center" }, children: [
+            /* @__PURE__ */ jsxs("div", { className: "export", children: [
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  id: toFunc === "toJpeg" ? "active" : "",
+                  onClick: () => setToFunc("toJpeg"),
+                  children: "JPEG"
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  id: toFunc === "toPng" ? "active" : "",
+                  onClick: () => setToFunc("toPng"),
+                  children: "PNG"
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  id: toFunc === "toPdf" ? "active" : "",
+                  onClick: () => setToFunc("toPdf"),
+                  children: "PDF"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "global-action", children: [
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  className: "sample doer",
+                  disabled: !(state.history.length > 1 && state.doIndex > 0),
+                  onClick: () => undo(),
+                  title: "Undo",
+                  children: /* @__PURE__ */ jsx(CornerLeftDown, { strokeWidth: 4, size: 12 })
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  className: "sample doer",
+                  onClick: () => redo(),
+                  disabled: !(state.doIndex + 1 < state.history.length),
+                  title: "Redo",
+                  children: /* @__PURE__ */ jsx(CornerRightDown, { strokeWidth: 4, size: 12 })
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  className: "sample",
+                  onClick: () => updateState({ data }),
+                  title: "Load sample data",
+                  children: "Data Sample"
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  className: "reset",
+                  onClick: () => updateState({ data: [] }),
+                  title: "Clear all transactions",
+                  children: "Clear"
+                }
+              )
+            ] })
           ] }),
-          /* @__PURE__ */ jsxs("div", { className: "global-action", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxs("div", { style: { display: "flex", gap: 12, alignItems: "center" }, children: [
+            /* @__PURE__ */ jsxs(
               "button",
               {
-                className: "sample doer",
-                disabled: !(state.history.length > 1 && state.doIndex > 1),
-                onClick: () => undo(),
-                children: /* @__PURE__ */ jsx(CornerLeftDown, { strokeWidth: 4, size: 12 })
+                className: "btn-export",
+                style: {
+                  backgroundColor: props.saveColor
+                },
+                title: "Export diary",
+                onClick: handleExport,
+                children: [
+                  /* @__PURE__ */ jsx(Download, { size: 20 }),
+                  /* @__PURE__ */ jsx("span", { children: "Export" })
+                ]
               }
             ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                className: "sample doer",
-                onClick: () => redo(),
-                disabled: !(state.doIndex + 1 < state.history.length),
-                children: /* @__PURE__ */ jsx(CornerRightDown, { strokeWidth: 4, size: 12 })
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                className: "sample",
-                onClick: () => updateState({ data }),
-                children: "Data Sample"
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                className: "reset",
-                onClick: () => updateState({ data: [] }),
-                children: "Clear the diary"
-              }
-            )
+            /* @__PURE__ */ jsx(DialogOperation, {})
           ] })
         ] }),
         /* @__PURE__ */ jsxs("div", { id: "diary", style: { padding: 8 }, children: [
@@ -2664,15 +2865,15 @@ const AccountingDiary = (props) => {
             {
               style: {
                 textAlign: "center",
-                marginBottom: 8,
-                fontWeight: 500,
-                padding: 8,
+                marginBottom: 16,
+                fontWeight: 600,
+                padding: 12,
                 fontSize: 18,
                 color: props.titleColor || "#000",
-                border: `${props.titleBorder ? "1px" : "0"} solid rgba(0,0,0,.1)`,
+                border: `${props.titleBorder ? "2px" : "0"} solid rgba(0,0,0,.1)`,
                 background: props.titleBg,
                 textTransform: props.titleAllCaps ? "uppercase" : "none",
-                borderRadius: props.titleCorner
+                borderRadius: props.titleCorner || 8
               },
               children: [
                 "Accounting diary for ",
@@ -2680,9 +2881,7 @@ const AccountingDiary = (props) => {
               ]
             }
           ),
-          getArray(
-            (state.data || []).length > 0 ? state.data || [] : props.data || []
-          ).map((elt, i, array) => /* @__PURE__ */ jsxs(React.Fragment, { children: [
+          getArray(displayData || []).map((elt, i, array) => /* @__PURE__ */ jsxs(React.Fragment, { children: [
             /* @__PURE__ */ jsx(
               Header,
               {
@@ -2716,64 +2915,20 @@ const AccountingDiary = (props) => {
               }
             )
           ] }, elt.date))
-        ] }),
-        /* @__PURE__ */ jsxs(
-          "div",
-          {
-            style: {
-              position: "absolute",
-              justifyContent: "center",
-              alignItems: "end",
-              display: "flex",
-              flexDirection: "column",
-              right: 24,
-              bottom: 16
-            },
-            children: [
-              /* @__PURE__ */ jsx(DialogOperation, {}),
-              /* @__PURE__ */ jsx(
-                "button",
-                {
-                  className: "btn-save-accounting",
-                  style: {
-                    marginTop: 16,
-                    backgroundColor: props.saveColor
-                  },
-                  onClick: () => {
-                    const node = document.getElementById("diary");
-                    if (node) {
-                      htmlToImage[toFunc === "toPdf" ? "toPng" : toFunc](node, {
-                        backgroundColor: "#fff",
-                        quality: 1,
-                        pixelRatio: 10
-                      }).then((dataUrl) => {
-                        let arr = dataUrl.split(","), mime = arr[0].match(/:(.*?);/)?.[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                        while (n--) u8arr[n] = bstr.charCodeAt(n);
-                        const file = new File([u8arr], "filename", {
-                          type: mime
-                        });
-                        if (toFunc === "toPdf")
-                          Func.extractDoc(dataUrl);
-                        else if (mime) saveAs(file, "img." + mime.split("/")[1]);
-                      }).catch(function(error) {
-                        console.error("oops, something went wrong!", error);
-                      });
-                    }
-                  },
-                  children: props.saveIcon
-                }
-              )
-            ]
-          }
-        )
+        ] })
       ]
     }
-  ) });
+  );
+};
+const AccountingDiaryWrapper = (props) => {
+  return /* @__PURE__ */ jsx(GlobalProvider, { children: /* @__PURE__ */ jsx(AccountingDiary, { ...props }) });
 };
 export {
   AccountingDiary as A,
   DialogOperation as D,
   Footer as F,
+  GlobalProvider as G,
   Header as H,
+  AccountingDiaryWrapper as a,
   getDefaultExportFromCjs as g
 };
