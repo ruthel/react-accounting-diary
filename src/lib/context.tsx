@@ -23,7 +23,7 @@ const Context = React.createContext<IGlobalContext | undefined>(undefined);
 const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<IGlobalState>({
     data: [],
-    doIndex: 1,
+    doIndex: 0,
     openSb: false,
     messageSb: '',
     history: [[]],
@@ -31,11 +31,16 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   });
 
   const undo = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      data: prevState.history[prevState.doIndex - 1],
-      doIndex: prevState.doIndex - 1,
-    }));
+    setState((prevState) => {
+      if (prevState.doIndex > 0) {
+        return {
+          ...prevState,
+          data: prevState.history[prevState.doIndex - 1],
+          doIndex: prevState.doIndex - 1,
+        };
+      }
+      return prevState;
+    });
   }, []);
 
   const redo = useCallback(() => {
@@ -48,27 +53,25 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
           doIndex: newIndex,
         };
       }
-      return prevState; // Return previous state for no change
+      return prevState;
     });
   }, []);
 
   const updateState = useCallback((e: Partial<IGlobalState> | { data: IDataItem[] }) => {
-    if ('data' in e && !('doIndex' in e)) {
-      setState((prevState) => {
-        let history = [...prevState.history].slice(
-          0,
-          prevState.doIndex + 1
-        );
+    setState((prevState) => {
+      if ('data' in e && !('doIndex' in e)) {
+        const newData = e.data as IDataItem[];
+        const history = [...prevState.history].slice(0, prevState.doIndex + 1);
+        const newHistory = [...history, newData];
         return {
           ...prevState,
-          history: [...history, e.data as IDataItem[]],
-          doIndex: history.length,
+          data: newData,
+          history: newHistory,
+          doIndex: newHistory.length - 1,
         };
-      });
-      setState((prevState) => ({ ...prevState, ...e }));
-    } else {
-      setState((prevState) => ({ ...prevState, ...e }));
-    }
+      }
+      return { ...prevState, ...e };
+    });
   }, []);
 
   const contextValue = {

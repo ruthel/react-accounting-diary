@@ -1,4 +1,4 @@
-import pdfMake from 'pdfmake';
+import { extractDoc } from './pdfLoader';
 
 export default class Func {
   static currency(value: number, devise: string = 'XAF', local: string = 'de-DE') {
@@ -26,16 +26,6 @@ export default class Func {
   }
 
   static extractDoc(blob: string) {
-    pdfMake
-      .createPdf({
-        pageMargins: 0,
-        content: [
-          {
-            image: blob,
-            width: 595,
-          },
-        ],
-      })
-      .download();
+    extractDoc(blob);
   }
 }

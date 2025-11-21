@@ -1,79 +1,65 @@
 # react-accounting-diary
 
-[![npm version](https://badge.fury.io/js/%40ruthel%2Freact-accounting-diary.svg)](https://badge.fury.io/js/%40ruthel%2Freact-accounting-diary)
+[![npm version](https://badge.fury.io/js/react-accounting-diary.svg)](https://www.npmjs.com/package/react-accounting-diary)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
-React component to generate an accounting diary and export it as an image or PDF document.
+Lightweight React component to generate accounting diaries with export to PNG, JPEG, or PDF.
 
 ## Installation
 
 ```bash
-npm install react-accounting-diary
+npm install react-accounting-diary react react-dom
 # or
-yarn add react-accounting-diary
+yarn add react-accounting-diary react react-dom
 ```
 
-## Usage
+**Requirements:**
+- React 16.8+ or 17.x or 18.x
+- Node.js 18.0.0 or higher
+
+## Quick Start
 
 ```jsx
-import React from "react";
 import AccountingDiary from 'react-accounting-diary';
 
 function App() {
   const data = [
     {
-      date: '2021-01-01',
-      text: "Received Capital worth",
+      date: '2024-01-01',
+      text: "Opening balance",
       isDebit: true,
-      amount: 90000,
+      amount: 10000,
       account: 'Cash',
       currency: 'USD',
-      local: 'en-US'
-    },
-    {
-      date: '2021-01-01',
-      text: "Paid $2,000 for the first month’s rent.",
-      isDebit: true,
-      amount: 80000,
-      account: 'Rent',
-      currency: 'JPY'
     },
   ];
 
   return (
-    <div style={{ margin: 32 }}>
-      <AccountingDiary
-        width={1200}
-        data={data}
-        title="Entreprise SANOGO"
-        titleBg="#b0d0a3"
-        titleBorder={true}
-        titleAllCaps={true}
-        titleCorner={4}
-        titleColor={'#202020'}
-        account={{
-          width: 120,
-          color: '#f50545',
-        }}
-        columnHeader={true}
-        columnHeaderColor="#ffffff"
-        saveColor="#fff44b"
-        columnHeaderBgColor="#00b050"
-        footer={{
-          color: '#000',
-          background: '#fcf7fc',
-          fontWeight: '500x',
-        }}
-        amount={{
-          width: 120,
-        }}
-      />
-    </div>
+    <AccountingDiary
+      width={1200}
+      data={data}
+      title="My Company"
+      titleBg="#b0d0a3"
+      columnHeader={true}
+    />
   );
 }
 
 export default App;
 ```
+
+For more examples and advanced usage, see [USAGE.md](USAGE.md)
+
+## Features
+
+- ✅ Add transactions with interactive dialog
+- ✅ Export to PNG, JPEG, PDF
+- ✅ Undo/Redo functionality
+- ✅ Multi-currency support
+- ✅ Customizable styling
+- ✅ Responsive design
+- ✅ Zero external CSS
 
 ## Props
 
@@ -97,12 +83,18 @@ export default App;
 | `amount`            | `IStyleConfig`        | `{ width: 128, color: '#646464' }` | Object to configure amount column styles.                                                                                                                                               |
 | `footer`            | `IStyleConfig`        | `undefined`  | Object to configure footer styles.                                                                                                                                                      |
 
+## Performance
+
+- **Bundle size:** ~45KB (gzipped)
+- **Zero external CSS:** Styles are scoped and included
+- **Tree-shakeable:** ESM exports with `sideEffects: false`
+
 ## Contributing
 
-Please let us know how can we help. Do check out [issues](https://github.com/ruthel/react-accounting-diary/issues) for bug reports or suggestions first.
+Please check [issues](https://github.com/ruthel/react-accounting-diary/issues) for bug reports or suggestions.
 
-To become a contributor, please follow our [contributing guide](/CONTRIBUTING.md).
+To contribute, follow our [contributing guide](/CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT - see [LICENSE](LICENSE) file for details.

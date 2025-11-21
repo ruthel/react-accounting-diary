@@ -1,14 +1,14 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import dts from 'vite-plugin-dts'; // Import dts
+import dts from 'vite-plugin-dts';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
     react(),
-    dts({ // Configure dts plugin
-      insertTypesEntry: true,
-    }),
+    dts({ insertTypesEntry: true }),
+    visualizer({ open: false }),
   ],
   test: {
     globals: true,
@@ -24,8 +24,12 @@ export default defineConfig({
       name: 'ReactAccountingDiary',
       fileName: (format) => `react-accounting-diary.${format}.js`,
     },
+    minify: 'terser',
+    terserOptions: {
+      compress: { drop_console: true },
+    },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'React',
