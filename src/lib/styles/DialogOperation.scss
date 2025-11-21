@@ -1,7 +1,7 @@
 .dialog-title {
-  margin: 0 0 8px 0;
-  font-weight: 700;
-  font-size: 20px;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+  font-size: 16px;
   color: #1a1a1a;
   background: linear-gradient(135deg, #5b7cfa 0%, #4c63d2 100%);
   -webkit-background-clip: text;
@@ -9,24 +9,25 @@
   background-clip: text;
 
   & + div {
-    font-size: 13px;
-    margin-bottom: 20px;
+    font-size: 12px;
+    margin-bottom: 16px;
     color: #666;
   }
 }
 
 .dialog-container {
   z-index: 1001;
-  min-width: 380px;
+  min-width: 320px;
+  max-width: 400px;
   position: fixed;
-  bottom: 100px;
-  right: 24px;
+  bottom: 80px;
+  right: 20px;
   background: white;
   border: 1px solid #e8eaed;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  border-radius: 16px;
-  padding: 28px;
-  max-height: 80vh;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  max-height: 70vh;
   overflow-y: auto;
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
@@ -46,15 +47,16 @@
 textarea {
   width: 100%;
   resize: vertical;
-  padding: 12px;
+  padding: 8px 10px;
   box-sizing: border-box;
   border: 1px solid #e8eaed;
-  border-radius: 8px;
-  margin-top: 6px;
+  border-radius: 6px;
+  margin-top: 4px;
   font-family: inherit;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.4;
   transition: all 0.2s ease;
+  min-height: 60px;
 }
 
 textarea:focus, input:focus, select:focus {
@@ -64,12 +66,12 @@ textarea:focus, input:focus, select:focus {
 }
 
 .control {
-  margin: 18px 0 0;
+  margin: 12px 0 0;
 
   label {
     display: block;
-    font-size: 13px;
-    margin-bottom: 8px;
+    font-size: 12px;
+    margin-bottom: 4px;
     font-weight: 600;
     color: #374151;
     letter-spacing: 0.3px;
@@ -81,11 +83,11 @@ textarea:focus, input:focus, select:focus {
 
   input, select {
     width: 100%;
-    padding: 11px 12px;
-    border-radius: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
     box-sizing: border-box;
     border: 1px solid #e8eaed;
-    font-size: 13px;
+    font-size: 12px;
     transition: all 0.2s ease;
     background: #f9fafb;
 
@@ -103,11 +105,11 @@ textarea:focus, input:focus, select:focus {
 .control-check {
   display: flex;
   align-items: center;
-  margin: 18px 0 0;
-  gap: 10px;
+  margin: 12px 0 0;
+  gap: 8px;
 
   label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #374151;
     margin: 0;
@@ -125,18 +127,18 @@ textarea:focus, input:focus, select:focus {
 .btn-action {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 24px;
+  gap: 8px;
+  margin-top: 16px;
 
   button {
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    padding: 11px 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 8px 16px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
     transition: all 0.2s ease;
     letter-spacing: 0.3px;
 

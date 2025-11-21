@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": false,
   "engines": {
     "node": ">=18.0.0"
@@ -14,9 +14,15 @@
     "accounting",
     "diary",
     "component",
-    "financial"
+    "financial",
+    "export",
+    "csv",
+    "excel",
+    "pdf",
+    "dark-mode",
+    "typescript"
   ],
-  "description": "React component to generate an accounting diary and export as image or PDF",
+  "description": "Lightweight React component for accounting diaries with export to PNG, JPEG, PDF, CSV, Excel. Features dark mode, search, edit transactions.",
   "main": "dist/react-accounting-diary.umd.js",
   "module": "dist/react-accounting-diary.es.js",
   "types": "dist/react-accounting-diary.d.ts",
@@ -31,7 +37,9 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "CHANGELOG.md",
+    "LICENSE",
+    "src/types"
   ],
   "repository": {
     "type": "git",
@@ -42,11 +50,10 @@
     "url": "https://github.com/ruthel/react-accounting-diary/issues"
   },
   "scripts": {
-    "start": "vite",
     "build": "vite build",
     "test": "vitest",
-    "lint": "eslint src/**/*.{ts,tsx}",
-    "format": "prettier --write src/**/*.{ts,tsx}",
+    "lint": "eslint src/lib/**/*.{ts,tsx}",
+    "format": "prettier --write src/lib/**/*.{ts,tsx}",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
@@ -57,12 +64,10 @@
     "@progress/kendo-file-saver": "^1.1.2",
     "html-to-image": "^1.11.13",
     "pdfmake": "^0.2.20",
-    "react-feather": "^2.0.10"
+    "react-feather": "^2.0.10",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.0.12",
     "@types/pdfmake": "^0.2.11",
     "@types/react": "^19.1.8",
@@ -74,11 +79,9 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-react": "^7.33.0",
-    "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.89.2",
     "terser": "^5.31.0",
     "typescript": "^5.8.3",

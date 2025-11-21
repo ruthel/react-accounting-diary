@@ -49,14 +49,25 @@ function App() {
 export default App;
 ```
 
-For more examples and advanced usage, see [USAGE.md](USAGE.md)
+## 🚀 Live Demo
+
+[![Edit react-accounting-diary](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/react-accounting-diary-demo)
+
+Try the interactive demo to see all features in action!
+
+For more examples and advanced usage, see [FEATURES.md](FEATURES.md) and [QUICK-START.md](QUICK-START.md)
 
 ## Features
 
-- ✅ Add transactions with interactive dialog
-- ✅ Export to PNG, JPEG, PDF
+- ✅ Add & edit transactions with interactive dialog
+- ✅ Export to PNG, JPEG, PDF, CSV, Excel
+- ✅ Import from CSV files
+- ✅ Search & filter by date range
 - ✅ Undo/Redo functionality
+- ✅ Dark/Light theme support
 - ✅ Multi-currency support
+- ✅ Print-ready CSS
+- ✅ Keyboard navigation & ARIA labels
 - ✅ Customizable styling
 - ✅ Responsive design
 - ✅ Zero external CSS
@@ -93,7 +104,7 @@ For more examples and advanced usage, see [USAGE.md](USAGE.md)
 
 Please check [issues](https://github.com/ruthel/react-accounting-diary/issues) for bug reports or suggestions.
 
-To contribute, follow our [contributing guide](/CONTRIBUTING.md).
+To contribute, follow our [contributing guide](CONTRIBUTING.md).
 
 ## License
 

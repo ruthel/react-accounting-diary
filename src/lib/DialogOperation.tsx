@@ -21,6 +21,8 @@ interface IDialogOperationState {
 }
 
 const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
+  const context = useContext(GlobalContext);
+  
   const [state, setState] = useState<IDialogOperationState>({
     open: false,
     visibility: 'hide',
@@ -32,9 +34,30 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
     currency: 'USD',
   });
 
+  // Auto-open dialog when editing transaction
+  React.useEffect(() => {
+    if (context?.state.editingTransaction && !state.open) {
+      handleClickOpen();
+    }
+  }, [context?.state.editingTransaction]);
+
   const handleClickOpen = useCallback(() => {
-    setState((prevState) => ({ ...prevState, visibility: 'show', open: true }));
-  }, []);
+    const editingTransaction = context?.state.editingTransaction;
+    if (editingTransaction) {
+      setState({
+        open: true,
+        visibility: 'show',
+        isDebit: editingTransaction.isDebit,
+        amount: editingTransaction.amount,
+        account: editingTransaction.account,
+        text: editingTransaction.text,
+        date: editingTransaction.date,
+        currency: editingTransaction.currency || 'USD',
+      });
+    } else {
+      setState((prevState) => ({ ...prevState, visibility: 'show', open: true }));
+    }
+  }, [context?.state.editingTransaction]);
 
   const handleClose = useCallback(() => {
     setState((prevState) => ({ ...prevState, visibility: 'hide' }));
@@ -52,22 +75,44 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
     }, 300);
   }, []);
 
-  const context = useContext(GlobalContext);
-
   if (!context) return null;
 
   const handleSave = useCallback(() => {
     if (state.amount && state.account && state.text && state.date) {
       const value: IDataItem[] = [...(context.state.data || [])];
-      value.push({
-        amount: Number(state.amount),
-        account: state.account,
-        isDebit: state.isDebit,
-        text: state.text,
-        date: state.date,
-        currency: state.currency,
-      });
-      context.updateState({ data: value });
+      const editingTransaction = context.state.editingTransaction;
+      
+      if (editingTransaction) {
+        // Edit existing transaction
+        const index = value.findIndex(item => 
+          item.date === editingTransaction.date && 
+          item.account === editingTransaction.account && 
+          item.text === editingTransaction.text &&
+          item.amount === editingTransaction.amount
+        );
+        if (index !== -1) {
+          value[index] = {
+            amount: Number(state.amount),
+            account: state.account,
+            isDebit: state.isDebit,
+            text: state.text,
+            date: state.date,
+            currency: state.currency,
+          };
+        }
+        context.updateState({ data: value, editingTransaction: undefined });
+      } else {
+        // Add new transaction
+        value.push({
+          amount: Number(state.amount),
+          account: state.account,
+          isDebit: state.isDebit,
+          text: state.text,
+          date: state.date,
+          currency: state.currency,
+        });
+        context.updateState({ data: value });
+      }
       handleClose();
     }
   }, [state, context, handleClose]);
@@ -82,7 +127,7 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
       {state.open && (
         <div className={`dialog-container ${state.visibility}`}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 className="dialog-title">Add Transaction</h3>
+            <h3 className="dialog-title">{context?.state.editingTransaction ? 'Edit Transaction' : 'Add Transaction'}</h3>
             <button
               onClick={handleClose}
               style={{
@@ -98,7 +143,7 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
               <X size={20} />
             </button>
           </div>
-          <div>Insert a new transaction to your accounting diary</div>
+          <div>{context?.state.editingTransaction ? 'Modify the transaction details' : 'Insert a new transaction to your accounting diary'}</div>
           <div>
             <div
               style={{
@@ -175,7 +220,7 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
               <label htmlFor="description">Description</label>
               <textarea
                 id="description"
-                rows={4}
+                rows={2}
                 placeholder="Describe the transaction..."
                 value={state.text || ''}
                 onChange={(e) =>
@@ -189,7 +234,7 @@ const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
               Cancel
             </button>
             <button onClick={handleSave} className="success">
-              Save Transaction
+              {context?.state.editingTransaction ? 'Update Transaction' : 'Save Transaction'}
             </button>
           </div>
         </div>

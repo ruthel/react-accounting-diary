@@ -1,0 +1,65 @@
+/* Print-specific styles for accounting diary */
+@media print {
+  /* Hide non-essential elements when printing */
+  .export,
+  .global-action,
+  .btn-export,
+  .edit-action {
+    display: none !important;
+  }
+
+  /* Optimize layout for print */
+  #diary {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Ensure proper page breaks */
+  .insertion {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* High contrast for better print quality */
+  .insertion {
+    border-bottom: 1px solid #000 !important;
+  }
+
+  /* Ensure text is black for printing */
+  * {
+    color: #000 !important;
+    background: white !important;
+  }
+
+  /* Keep table structure intact */
+  .insertion {
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  /* Optimize font sizes for print */
+  body {
+    font-size: 12pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Remove unnecessary margins */
+  @page {
+    margin: 1cm;
+    size: A4;
+  }
+
+  /* Ensure proper column widths */
+  .debit,
+  .credit {
+    flex: 1 !important;
+  }
+
+  .amount-debit,
+  .amount-credit {
+    width: 100px !important;
+    text-align: right !important;
+  }
+}

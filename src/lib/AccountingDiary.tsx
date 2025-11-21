@@ -32,6 +32,14 @@ interface IAccountingDiaryProps {
   account?: IStyleConfig;
   amount?: IStyleConfig;
   footer?: IStyleConfig;
+  showExport?: boolean;
+  showUndo?: boolean;
+  showSample?: boolean;
+  showClear?: boolean;
+  showAdd?: boolean;
+  showEdit?: boolean;
+  showSearch?: boolean;
+  compactButtons?: boolean;
 }
 
 const getArray = (data: IDataItem[] | undefined) => {
@@ -97,79 +105,108 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
         background: 'white',
       }}
     >
-      <div style={{ display: 'flex', marginBottom: 16, gap: 12, alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div className="export">
-            <button
-              id={toFunc === 'toJpeg' ? 'active' : ''}
-              onClick={() => setToFunc('toJpeg')}
-            >
-              JPEG
-            </button>
-            <button
-              id={toFunc === 'toPng' ? 'active' : ''}
-              onClick={() => setToFunc('toPng')}
-            >
-              PNG
-            </button>
-            <button
-              id={toFunc === 'toPdf' ? 'active' : ''}
-              onClick={() => setToFunc('toPdf')}
-            >
-              PDF
-            </button>
-          </div>
-          <div className="global-action">
-            <button
-              className="sample doer"
-              disabled={!(state.history.length > 1 && state.doIndex > 0)}
-              onClick={() => undo()}
-              title="Undo"
-            >
-              <CornerLeftDown strokeWidth={4} size={12} />
-            </button>
-            <button
-              className="sample doer"
-              onClick={() => redo()}
-              disabled={!(state.doIndex + 1 < state.history.length)}
-              title="Redo"
-            >
-              <CornerRightDown strokeWidth={4} size={12} />
-            </button>
-            <button
-              className="sample"
-              onClick={() => updateState({ data: data as IDataItem[] })}
-              title="Load sample data"
-            >
-              Data Sample
-            </button>
-            <button
-              className="reset"
-              onClick={() => updateState({ data: [] })}
-              title="Clear all transactions"
-            >
-              Clear
-            </button>
+      <div style={{ display: 'flex', marginBottom: 16, gap: props.compactButtons ? 4 : 12, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: props.compactButtons ? 4 : 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          {props.showExport !== false && (
+            <div className="export">
+              <button
+                id={toFunc === 'toJpeg' ? 'active' : ''}
+                onClick={() => setToFunc('toJpeg')}
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                {props.compactButtons ? 'JPG' : 'JPEG'}
+              </button>
+              <button
+                id={toFunc === 'toPng' ? 'active' : ''}
+                onClick={() => setToFunc('toPng')}
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                PNG
+              </button>
+              <button
+                id={toFunc === 'toPdf' ? 'active' : ''}
+                onClick={() => setToFunc('toPdf')}
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                PDF
+              </button>
+            </div>
+          )}
+          <div className="global-action" style={{ display: 'flex', gap: props.compactButtons ? 2 : 8 }}>
+            {props.showUndo !== false && (
+              <>
+                <button
+                  className="sample doer"
+                  disabled={!(state.history.length > 1 && state.doIndex > 0)}
+                  onClick={() => undo()}
+                  title="Undo"
+                  style={{ padding: props.compactButtons ? '4px' : '8px' }}
+                >
+                  <CornerLeftDown strokeWidth={4} size={props.compactButtons ? 10 : 12} />
+                </button>
+                <button
+                  className="sample doer"
+                  onClick={() => redo()}
+                  disabled={!(state.doIndex + 1 < state.history.length)}
+                  title="Redo"
+                  style={{ padding: props.compactButtons ? '4px' : '8px' }}
+                >
+                  <CornerRightDown strokeWidth={4} size={props.compactButtons ? 10 : 12} />
+                </button>
+              </>
+            )}
+            {props.showSample !== false && (
+              <button
+                className="sample"
+                onClick={() => updateState({ data: data as IDataItem[] })}
+                title="Load sample data"
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                {props.compactButtons ? 'Sample' : 'Data Sample'}
+              </button>
+            )}
+            {props.showClear !== false && (
+              <button
+                className="reset"
+                onClick={() => updateState({ data: [] })}
+                title="Clear all transactions"
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                Clear
+              </button>
+            )}
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <button
-            className="btn-export"
-            style={{
-              backgroundColor: props.saveColor,
-            }}
-            title="Export diary"
-            onClick={handleExport}
-          >
-            <Download size={20} />
-            <span>Export</span>
-          </button>
-          <DialogOperation />
+        <div style={{ display: 'flex', gap: props.compactButtons ? 4 : 12, alignItems: 'center' }}>
+          {props.showExport !== false && (
+            <button
+              className="btn-export"
+              style={{
+                backgroundColor: props.saveColor,
+                padding: props.compactButtons ? '6px 12px' : '8px 16px',
+                fontSize: props.compactButtons ? '12px' : '14px'
+              }}
+              title="Export diary"
+              onClick={handleExport}
+              aria-label="Export accounting diary"
+              role="button"
+              tabIndex={0}
+            >
+              <Download size={props.compactButtons ? 16 : 20} aria-hidden="true" />
+              <span>{props.compactButtons ? '' : 'Export'}</span>
+            </button>
+          )}
+          {props.showAdd !== false && <DialogOperation />}
         </div>
       </div>
 
-      <div id="diary" style={{ padding: 8 }}>
+      <div 
+        id="diary" 
+        style={{ padding: 8 }}
+        role="table"
+        aria-label="Accounting diary entries"
+      >
         <div
           style={{
             textAlign: 'center',
@@ -183,6 +220,8 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
             textTransform: props.titleAllCaps ? 'uppercase' : 'none',
             borderRadius: props.titleCorner || 8,
           }}
+          role="heading"
+          aria-level={1}
         >
           Accounting diary for {props.title || 'Test Model'}
         </div>
@@ -204,6 +243,7 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
                 length={array.length}
                 account={props.account}
                 amount={props.amount}
+                showEdit={props.showEdit}
               />
             ))}
             <Footer
