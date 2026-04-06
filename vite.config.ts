@@ -17,12 +17,13 @@ export default defineConfig({
       fileName: (format) => `react-accounting-diary.${format}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'pdfmake'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'jsxRuntime',
+          pdfmake: 'pdfMake',
         },
       },
     },

@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem } from '../types/common';
+import { IDataItem, ILabels, SortField, SortOrder } from '../types/common';
 interface IGlobalState {
     data?: IDataItem[];
     doIndex: number;
@@ -8,20 +8,39 @@ interface IGlobalState {
     history: IDataItem[][];
     severitySb: 'success' | 'error' | 'warning' | 'info';
     editingTransaction?: IDataItem;
+    openAddDialog?: boolean;
     searchTerm?: string;
     dateFilter?: {
         start?: string;
         end?: string;
     };
+    sortField?: SortField;
+    sortOrder?: SortOrder;
+    currentPage: number;
 }
 interface IGlobalContext {
     state: IGlobalState;
+    labels: Required<ILabels>;
+    pageSize?: number;
     undo: () => void;
     redo: () => void;
     updateState: (e: Partial<IGlobalState> | {
         data: IDataItem[];
     }) => void;
+    onAdd?: (item: IDataItem) => void;
+    onDelete?: (item: IDataItem) => void;
+    onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+    onChange?: (data: IDataItem[]) => void;
 }
 declare const Context: React.Context<IGlobalContext | undefined>;
-declare const GlobalProvider: React.FC<React.PropsWithChildren>;
+interface IGlobalProviderProps extends React.PropsWithChildren {
+    labels?: ILabels;
+    pageSize?: number;
+    onAdd?: (item: IDataItem) => void;
+    onDelete?: (item: IDataItem) => void;
+    onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+    onChange?: (data: IDataItem[]) => void;
+}
+declare const GlobalProvider: React.FC<IGlobalProviderProps>;
 export { GlobalProvider, Context as GlobalContext };
+export type { IGlobalState, IGlobalContext };

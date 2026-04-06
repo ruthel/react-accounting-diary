@@ -102,3 +102,8 @@ export const Database = (p: IconProps = {}) => {
   const props = { ...defaultProps, ...p };
   return svg(props, <><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></>);
 };
+
+export const MoreVertical = (p: IconProps = {}) => {
+  const props = { ...defaultProps, ...p };
+  return svg(props, <><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></>);
+};

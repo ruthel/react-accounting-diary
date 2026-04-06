@@ -4,39 +4,44 @@
 
 | Feature | React Accounting Diary | QuickBooks Components | Xero SDK | Custom Solution |
 |---------|----------------------|---------------------|----------|----------------|
-| **Bundle Size** | 45KB gzipped | 180KB+ | 250KB+ | Varies |
+| **Bundle Size** | 18KB gzipped (ESM) | 180KB+ | 250KB+ | Varies |
 | **Setup Time** | < 5 minutes | 2-3 hours | 4-6 hours | Weeks |
 | **Export Formats** | PNG, JPEG, PDF, CSV, Excel | PDF only | Limited | Custom |
 | **Dark Mode** | ✅ Built-in | ❌ | ❌ | Custom |
+| **i18n** | ✅ 30+ label keys | ❌ | ⚠️ Partial | Custom |
+| **Callbacks** | ✅ onChange/onAdd/onEdit/onDelete | ⚠️ Limited | ⚠️ Limited | Custom |
+| **Pagination** | ✅ Built-in | ❌ | ❌ | Custom |
+| **Sortable Columns** | ✅ Built-in | ❌ | ❌ | Custom |
+| **Balance Validation** | ✅ Automatic | ❌ | ❌ | Custom |
 | **Offline Ready** | ✅ | ❌ Requires API | ❌ Requires API | Depends |
 | **TypeScript** | ✅ Full support | ⚠️ Partial | ⚠️ Partial | Custom |
-| **Customization** | ✅ Extensive | ⚠️ Limited | ⚠️ Limited | ✅ |
+| **Keyboard Navigation** | ✅ Full ARIA | ❌ | ❌ | Custom |
 | **License** | MIT (Free) | Paid | Paid | N/A |
-| **Learning Curve** | Minimal | Steep | Steep | High |
 
 ## 📊 Performance Comparison
 
 ```
-Bundle Size (gzipped):
-React Accounting Diary: ████████░░ 45KB
-QuickBooks Components: ████████████████████████████████████████ 180KB
-Xero SDK: ██████████████████████████████████████████████████ 250KB
+Bundle Size (gzipped ESM):
+React Accounting Diary: ████░░░░░░ 18KB
+QuickBooks Components:  ████████████████████████████████████████ 180KB
+Xero SDK:               ██████████████████████████████████████████████████ 250KB
 
 Setup Time:
 React Accounting Diary: █ 5 min
-QuickBooks Components: ████████ 2-3 hours  
-Xero SDK: ████████████████ 4-6 hours
-Custom Solution: ████████████████████████████████████████████████ Weeks
+QuickBooks Components:  ████████ 2-3 hours
+Xero SDK:               ████████████████ 4-6 hours
+Custom Solution:        ████████████████████████████████████████████████ Weeks
 ```
 
 ## 🎯 Use Case Fit
 
-### ✅ Perfect for React Accounting Diary:
+### ✅ Perfect for:
 - **Startups & SMBs**: Quick setup, no monthly fees
 - **Educational Projects**: Clean, simple interface
-- **Prototyping**: Fast implementation
-- **Custom Apps**: Full control over styling
+- **Prototyping**: Fast implementation with callbacks
+- **Custom Apps**: Full control over styling and data flow
 - **Offline Applications**: No API dependencies
+- **Multi-language Apps**: Full i18n support
 
 ### ⚠️ Consider Alternatives for:
 - **Enterprise ERP**: QuickBooks/Xero integration needed
@@ -57,36 +62,25 @@ Custom Solution: █████████████████████
 ### From QuickBooks Components:
 ```jsx
 // Before (QuickBooks)
-<QBJournalEntry 
-  entries={data} 
+<QBJournalEntry
+  entries={data}
   companyId="123"
   apiKey="xxx"
 />
 
 // After (React Accounting Diary)
-<AccountingDiary 
+<AccountingDiary
   data={data}
   title="My Company"
   columnHeader={true}
+  onChange={(updated) => saveToBackend(updated)}
+  onAdd={(item) => trackEvent('transaction_added', item)}
 />
 ```
 
 ### From Custom Solution:
 1. Replace table rendering with `<AccountingDiary>`
-2. Map your data to our `IDataItem` interface
-3. Remove 500+ lines of custom code
-4. Add export functionality for free
-
-## 📈 Success Stories
-
-> "Reduced our accounting component development time from 3 weeks to 1 day. The export features saved us another week of work." 
-> 
-> — **Sarah Chen, CTO at FinTech Startup**
-
-> "Bundle size decreased by 75% after switching from QuickBooks components. Page load time improved significantly."
-> 
-> — **Mike Rodriguez, Lead Developer**
-
-## 🔄 Easy Migration
-
-Most teams migrate in **under 2 hours** with our migration guides and support.
+2. Map your data to the `IDataItem` interface
+3. Use `onChange` to sync with your existing state management
+4. Remove hundreds of lines of custom table/export code
+5. Get sorting, pagination, balance validation for free

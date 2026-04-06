@@ -6,13 +6,12 @@ import { groupBy, orderBy } from './helpers/utils';
 import { Undo, Redo, Download, Upload, FileImage, FileText, Database, Trash2 } from './icons';
 import Footer from "./Footer.tsx";
 import Header from "./Header.tsx";
-import {GlobalContext} from "./context.tsx";
+import { GlobalContext } from "./context.tsx";
 import Content from "./Content.tsx";
 import SearchFilter from "./SearchFilter.tsx";
-import data from './data/sample.json';
+import sampleData from './data/sample.json';
 import Func from "./helpers/func.ts";
 import { importFromCSV } from './helpers/exportUtils';
-
 import { IDataItem, IStyleConfig, generateId } from '../types/common';
 
 interface IAccountingDiaryProps {
@@ -40,10 +39,11 @@ interface IAccountingDiaryProps {
   showAdd?: boolean;
   showEdit?: boolean;
   showSearch?: boolean;
+  showGrandTotal?: boolean;
   compactButtons?: boolean;
 }
 
-const getArray = (data: IDataItem[] | undefined) => {
+const getArray = (data: IDataItem[]) => {
   if (!data || data.length === 0) return [];
   const grp = groupBy(data, 'date');
   return Object.entries(grp).map(([date, content]) => ({ date, content }));
@@ -51,17 +51,19 @@ const getArray = (data: IDataItem[] | undefined) => {
 
 const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
   const [toFunc, setToFunc] = useState<'toPng' | 'toJpeg' | 'toPdf'>('toPng');
-
   const context = useContext(GlobalContext);
 
   if (!context) return null;
 
-  const { state, undo, redo, updateState } = context;
+  const { state, labels, pageSize, undo, redo, updateState } = context;
 
   const hasInteracted = state.history.length > 1;
-  const rawData = hasInteracted ? (state.data || []) : (props.data && props.data.length > 0 ? props.data : (state.data && state.data.length > 0 ? state.data : data as IDataItem[]));
+  const rawData = hasInteracted
+    ? (state.data || [])
+    : (props.data && props.data.length > 0 ? props.data : (state.data && state.data.length > 0 ? state.data : sampleData as IDataItem[]));
 
-  const displayData = useMemo(() => {
+  // Filter
+  const filteredData = useMemo(() => {
     let filtered = rawData;
     if (state.searchTerm) {
       const term = state.searchTerm.toLowerCase();
@@ -78,6 +80,33 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
     }
     return filtered;
   }, [rawData, state.searchTerm, state.dateFilter]);
+
+  // Sort
+  const sortedData = useMemo(() => {
+    if (!state.sortField) return filteredData;
+    return [...filteredData].sort((a, b) => {
+      let aVal: any, bVal: any;
+      if (state.sortField === 'date') { aVal = a.date; bVal = b.date; }
+      else if (state.sortField === 'account') { aVal = a.account; bVal = b.account; }
+      else { aVal = a.amount; bVal = b.amount; }
+      const cmp = aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+      return state.sortOrder === 'desc' ? -cmp : cmp;
+    });
+  }, [filteredData, state.sortField, state.sortOrder]);
+
+  // Pagination
+  const totalPages = pageSize ? Math.max(1, Math.ceil(sortedData.length / pageSize)) : 1;
+  const currentPage = Math.min(state.currentPage, totalPages);
+  const displayData = pageSize
+    ? sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    : sortedData;
+
+  // Grand totals (on all filtered data, not just current page)
+  const grandTotalDebit = filteredData.filter(d => d.isDebit).reduce((s, d) => s + d.amount, 0);
+  const grandTotalCredit = filteredData.filter(d => !d.isDebit).reduce((s, d) => s + d.amount, 0);
+  const isBalanced = Math.abs(grandTotalDebit - grandTotalCredit) < 0.01;
+  const mainCurrency = filteredData[0]?.currency || 'USD';
+  const mainLocal = filteredData[0]?.local;
 
   const csvInputRef = useRef<HTMLInputElement>(null);
 
@@ -96,14 +125,8 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
     const node = document.getElementById('diary');
     if (node) {
       htmlToImage[
-        toFunc === 'toPdf'
-          ? 'toPng'
-          : toFunc
-      ](node, {
-        backgroundColor: '#fff',
-        quality: 1,
-        pixelRatio: 10,
-      })
+        toFunc === 'toPdf' ? 'toPng' : toFunc
+      ](node, { backgroundColor: '#fff', quality: 1, pixelRatio: 10 })
         .then((dataUrl) => {
           let arr = dataUrl.split(','),
             mime = arr[0].match(/:(.*?);/)?.[1],
@@ -111,11 +134,8 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
             n = bstr.length,
             u8arr = new Uint8Array(n);
           while (n--) u8arr[n] = bstr.charCodeAt(n);
-          const file = new File([u8arr], 'filename', {
-            type: mime,
-          });
-          if (toFunc === 'toPdf')
-            Func.extractDoc(dataUrl);
+          const file = new File([u8arr], 'filename', { type: mime });
+          if (toFunc === 'toPdf') Func.extractDoc(dataUrl);
           else if (mime) {
             const link = document.createElement('a');
             link.href = URL.createObjectURL(file);
@@ -124,10 +144,12 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
             URL.revokeObjectURL(link.href);
           }
         })
-        .catch(function (error) {
-          console.error('oops, something went wrong!', error);
-        });
+        .catch((error) => console.error('Export failed:', error));
     }
+  };
+
+  const goToPage = (page: number) => {
+    updateState({ currentPage: Math.max(1, Math.min(page, totalPages)) } as any);
   };
 
   return (
@@ -146,6 +168,7 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
         fontFamily: 'var(--rad-font)',
       }}
     >
+      {/* Toolbar */}
       <div style={{ display: 'flex', marginBottom: 16, gap: props.compactButtons ? 4 : 12, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', gap: props.compactButtons ? 4 : 12, alignItems: 'center', flexWrap: 'wrap' }}>
           {props.showExport !== false && (
@@ -202,23 +225,23 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
             {props.showSample !== false && (
               <button
                 className="sample"
-                onClick={() => updateState({ data: data as IDataItem[] })}
-                title="Load sample data"
+                onClick={() => updateState({ data: sampleData as IDataItem[] })}
+                title={labels.sample}
                 style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
               >
                 <Database size={props.compactButtons ? 10 : 12} />
-                {props.compactButtons ? 'Sample' : 'Data Sample'}
+                {props.compactButtons ? 'Sample' : labels.sample}
               </button>
             )}
             {props.showClear !== false && (
               <button
                 className="reset"
                 onClick={() => updateState({ data: [] })}
-                title="Clear all transactions"
+                title={labels.clear}
                 style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
               >
                 <Trash2 size={props.compactButtons ? 10 : 12} />
-                Clear
+                {labels.clear}
               </button>
             )}
             <button
@@ -249,14 +272,14 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
                 padding: props.compactButtons ? '6px 12px' : '8px 16px',
                 fontSize: props.compactButtons ? '12px' : '14px'
               }}
-              title="Export diary"
+              title={labels.export}
               onClick={handleExport}
               aria-label="Export accounting diary"
               role="button"
               tabIndex={0}
             >
               <Download size={props.compactButtons ? 16 : 20} aria-hidden="true" />
-              <span>{props.compactButtons ? '' : 'Export'}</span>
+              <span>{props.compactButtons ? '' : labels.export}</span>
             </button>
           )}
           {props.showAdd !== false && <DialogOperation />}
@@ -265,8 +288,9 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
 
       {props.showSearch !== false && <SearchFilter />}
 
-      <div 
-        id="diary" 
+      {/* Diary content */}
+      <div
+        id="diary"
         style={{ padding: 8 }}
         role="table"
         aria-label="Accounting diary entries"
@@ -290,40 +314,96 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
         >
           Accounting diary for {props.title || 'Test Model'}
         </div>
-        {getArray(displayData || []).map((elt, i, array) => (
-          <React.Fragment key={elt.date}>
-            <Header
-              date={elt.date}
-              columnHeader={props.columnHeader}
-              columnHeaderColor={props.columnHeaderColor}
-              columnHeaderBgColor={props.columnHeaderBgColor}
-              index={i}
-              account={props.account}
-              amount={props.amount}
-              showEdit={props.showEdit}
-            />
-            {orderBy(elt.content, 'isDebit', 'asc').map((row, i) => (
-              <Content
-                key={i}
-                value={row}
-                length={array.length}
+
+        {displayData.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-state-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="12" y1="18" x2="12" y2="12" />
+                <line x1="9" y1="15" x2="15" y2="15" />
+              </svg>
+            </div>
+            <p className="empty-state-text">{labels.noData}</p>
+            {props.showAdd !== false && (
+              <button
+                className="empty-state-cta"
+                onClick={() => updateState({ openAddDialog: true } as any)}
+                aria-label={labels.addTransaction}
+              >
+                {labels.addTransaction}
+              </button>
+            )}
+          </div>
+        ) : (
+          getArray(displayData).map((elt, i, array) => (
+            <React.Fragment key={elt.date}>
+              <Header
+                date={elt.date}
+                columnHeader={props.columnHeader}
+                columnHeaderColor={props.columnHeaderColor}
+                columnHeaderBgColor={props.columnHeaderBgColor}
+                index={i}
                 account={props.account}
                 amount={props.amount}
                 showEdit={props.showEdit}
               />
-            ))}
-            <Footer
-              account={props.account}
-              columnHeader={props.columnHeader}
-              index={i}
-              footer={props.footer}
-              amount={props.amount}
-              data={elt.content}
-              showEdit={props.showEdit}
-            />
-          </React.Fragment>
-        ))}
+              {orderBy(elt.content, 'isDebit', 'asc').map((row, j) => (
+                <Content
+                  key={row.id || j}
+                  value={row}
+                  length={array.length}
+                  account={props.account}
+                  amount={props.amount}
+                  showEdit={props.showEdit}
+                />
+              ))}
+              <Footer
+                account={props.account}
+                columnHeader={props.columnHeader}
+                index={i}
+                footer={props.footer}
+                amount={props.amount}
+                data={elt.content}
+                showEdit={props.showEdit}
+              />
+            </React.Fragment>
+          ))
+        )}
+
+        {/* Grand Total + Balance */}
+        {props.showGrandTotal !== false && filteredData.length > 0 && (
+          <div className="grand-total">
+            <div className="grand-total-row">
+              <span className="grand-total-label">{labels.grandTotal}</span>
+              <span className="grand-total-amounts">
+                <span className="grand-total-debit">
+                  {labels.debit}: {Func.currency(grandTotalDebit, mainCurrency, mainLocal)}
+                </span>
+                <span className="grand-total-credit">
+                  {labels.credit}: {Func.currency(grandTotalCredit, mainCurrency, mainLocal)}
+                </span>
+              </span>
+            </div>
+            <div className="grand-total-row">
+              <span className="grand-total-label">{labels.balance}</span>
+              <span className={`balance-badge ${isBalanced ? 'balanced' : 'unbalanced'}`}>
+                {isBalanced ? `✓ ${labels.balanced}` : `⚠ ${labels.unbalanced} (${Func.currency(Math.abs(grandTotalDebit - grandTotalCredit), mainCurrency, mainLocal)})`}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Pagination */}
+      {pageSize && totalPages > 1 && (
+        <div className="pagination">
+          <button disabled={currentPage <= 1} onClick={() => goToPage(currentPage - 1)}>←</button>
+          <span>{labels.page} {currentPage} {labels.of} {totalPages}</span>
+          <button disabled={currentPage >= totalPages} onClick={() => goToPage(currentPage + 1)}>→</button>
+        </div>
+      )}
     </div>
   );
 };

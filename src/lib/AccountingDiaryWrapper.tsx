@@ -2,7 +2,7 @@ import React from 'react';
 import AccountingDiary from './AccountingDiary.tsx';
 import { GlobalProvider } from './context.tsx';
 import { ThemeProvider } from './ThemeProvider.tsx';
-import { IDataItem, IStyleConfig } from '../types/common';
+import { IDataItem, IStyleConfig, ILabels } from '../types/common';
 
 interface IAccountingDiaryWrapperProps {
   height?: number;
@@ -29,16 +29,31 @@ interface IAccountingDiaryWrapperProps {
   showAdd?: boolean;
   showEdit?: boolean;
   showSearch?: boolean;
+  showGrandTotal?: boolean;
   compactButtons?: boolean;
   enableCSVExport?: boolean;
   enableExcelExport?: boolean;
   theme?: 'light' | 'dark';
+  labels?: ILabels;
+  pageSize?: number;
+  onChange?: (data: IDataItem[]) => void;
+  onAdd?: (item: IDataItem) => void;
+  onDelete?: (item: IDataItem) => void;
+  onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+  onExport?: (format: string, data: IDataItem[]) => void;
 }
 
 const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps> = (props) => {
   return (
     <ThemeProvider>
-      <GlobalProvider>
+      <GlobalProvider
+        labels={props.labels}
+        pageSize={props.pageSize}
+        onAdd={props.onAdd}
+        onDelete={props.onDelete}
+        onEdit={props.onEdit}
+        onChange={props.onChange}
+      >
         <AccountingDiary {...props} />
       </GlobalProvider>
     </ThemeProvider>

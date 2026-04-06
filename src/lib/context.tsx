@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-
-import { IDataItem } from '../types/common';
+import { IDataItem, ILabels, defaultLabels, SortField, SortOrder } from '../types/common';
 
 interface IGlobalState {
   data?: IDataItem[];
@@ -10,20 +9,41 @@ interface IGlobalState {
   history: IDataItem[][];
   severitySb: 'success' | 'error' | 'warning' | 'info';
   editingTransaction?: IDataItem;
+  openAddDialog?: boolean;
   searchTerm?: string;
   dateFilter?: { start?: string; end?: string };
+  sortField?: SortField;
+  sortOrder?: SortOrder;
+  currentPage: number;
 }
 
 interface IGlobalContext {
   state: IGlobalState;
+  labels: Required<ILabels>;
+  pageSize?: number;
   undo: () => void;
   redo: () => void;
   updateState: (e: Partial<IGlobalState> | { data: IDataItem[] }) => void;
+  onAdd?: (item: IDataItem) => void;
+  onDelete?: (item: IDataItem) => void;
+  onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+  onChange?: (data: IDataItem[]) => void;
 }
 
 const Context = React.createContext<IGlobalContext | undefined>(undefined);
 
-const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface IGlobalProviderProps extends React.PropsWithChildren {
+  labels?: ILabels;
+  pageSize?: number;
+  onAdd?: (item: IDataItem) => void;
+  onDelete?: (item: IDataItem) => void;
+  onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+  onChange?: (data: IDataItem[]) => void;
+}
+
+const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, pageSize, onAdd, onDelete, onEdit, onChange }) => {
+  const mergedLabels = { ...defaultLabels, ...labels } as Required<ILabels>;
+
   const [state, setState] = useState<IGlobalState>({
     data: [],
     doIndex: 0,
@@ -32,36 +52,44 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     history: [[]],
     severitySb: 'success',
     editingTransaction: undefined,
+    openAddDialog: false,
     searchTerm: '',
     dateFilter: {},
+    sortField: undefined,
+    sortOrder: 'asc',
+    currentPage: 1,
   });
 
   const undo = useCallback(() => {
     setState((prevState) => {
       if (prevState.doIndex > 0) {
+        const newData = prevState.history[prevState.doIndex - 1];
+        onChange?.(newData);
         return {
           ...prevState,
-          data: prevState.history[prevState.doIndex - 1],
+          data: newData,
           doIndex: prevState.doIndex - 1,
         };
       }
       return prevState;
     });
-  }, []);
+  }, [onChange]);
 
   const redo = useCallback(() => {
     setState((prevState) => {
       let newIndex = prevState.doIndex + 1;
       if (newIndex < prevState.history.length) {
+        const newData = prevState.history[newIndex];
+        onChange?.(newData);
         return {
           ...prevState,
-          data: prevState.history[newIndex],
+          data: newData,
           doIndex: newIndex,
         };
       }
       return prevState;
     });
-  }, []);
+  }, [onChange]);
 
   const updateState = useCallback((e: Partial<IGlobalState> | { data: IDataItem[] }) => {
     setState((prevState) => {
@@ -69,8 +97,10 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
         const newData = e.data as IDataItem[];
         const history = [...prevState.history].slice(0, prevState.doIndex + 1);
         const newHistory = [...history, newData];
+        onChange?.(newData);
         return {
           ...prevState,
+          ...e,
           data: newData,
           history: newHistory,
           doIndex: newHistory.length - 1,
@@ -78,13 +108,19 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       }
       return { ...prevState, ...e };
     });
-  }, []);
+  }, [onChange]);
 
-  const contextValue = {
+  const contextValue: IGlobalContext = {
     state,
+    labels: mergedLabels,
+    pageSize,
     undo,
     redo,
     updateState,
+    onAdd,
+    onDelete,
+    onEdit,
+    onChange,
   };
 
   return (
@@ -95,3 +131,4 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 };
 
 export { GlobalProvider, Context as GlobalContext };
+export type { IGlobalState, IGlobalContext };

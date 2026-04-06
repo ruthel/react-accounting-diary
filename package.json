@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": false,
   "engines": {
     "node": ">=18.0.0"
@@ -60,16 +60,20 @@
   "homepage": "https://github.com/ruthel/react-accounting-diary#readme",
   "scripts": {
     "build": "vite build",
-    "lint": "eslint src/lib/",
-    "prepublishOnly": "npm run build"
+    "lint": "eslint src/lib/"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react-dom": ">=16.8.0",
+    "pdfmake": ">=0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "pdfmake": {
+      "optional": true
+    }
   },
   "dependencies": {
-    "html-to-image": "^1.11.13",
-    "pdfmake": "^0.2.20"
+    "html-to-image": "^1.11.13"
   },
   "devDependencies": {
     "@types/node": "^24.0.12",

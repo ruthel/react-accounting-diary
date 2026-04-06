@@ -25,6 +25,7 @@ interface IAccountingDiaryProps {
     showAdd?: boolean;
     showEdit?: boolean;
     showSearch?: boolean;
+    showGrandTotal?: boolean;
     compactButtons?: boolean;
 }
 declare const AccountingDiary: React.FC<IAccountingDiaryProps>;

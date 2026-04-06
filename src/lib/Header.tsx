@@ -1,5 +1,6 @@
-import React from 'react';
-import { IStyleConfig } from '../types/common';
+import React, { useContext } from 'react';
+import { IStyleConfig, SortField } from '../types/common';
+import { GlobalContext } from './context';
 
 interface IHeaderProps {
   date: string;
@@ -14,7 +15,19 @@ interface IHeaderProps {
 
 const borderStyle = 'var(--rad-border) solid var(--rad-border-color)';
 
+const SortIndicator: React.FC<{ field: SortField }> = ({ field }) => {
+  const context = useContext(GlobalContext);
+  if (!context) return null;
+  const { state } = context;
+  if (state.sortField !== field) return <span style={{ opacity: 0.3, marginLeft: 4, fontSize: 10 }}>↕</span>;
+  return <span style={{ marginLeft: 4, fontSize: 10 }}>{state.sortOrder === 'asc' ? '↑' : '↓'}</span>;
+};
+
 const Header: React.FC<IHeaderProps> = (props) => {
+  const context = useContext(GlobalContext);
+  if (!context) return null;
+
+  const { labels, state, updateState } = context;
   let { date, index, columnHeader, columnHeaderColor, columnHeaderBgColor } = props;
   const isFirst = index === 0 && columnHeader;
   const formattedDate = `${date.split('-')[2]}/${date.split('-')[1]}/${date.split('-')[0]}`;
@@ -22,8 +35,15 @@ const Header: React.FC<IHeaderProps> = (props) => {
   const { width: _aw, ...accountStyle } = props.account || {};
   const { width: _mw, ...amountStyle } = props.amount || {};
 
+  const handleSort = (field: SortField) => {
+    const newOrder = state.sortField === field && state.sortOrder === 'asc' ? 'desc' : 'asc';
+    updateState({ sortField: field, sortOrder: newOrder } as any);
+  };
+
+  const sortableStyle: React.CSSProperties = isFirst ? { cursor: 'pointer', userSelect: 'none' } : {};
+
   return (
-    <div className="insertion">
+    <div className="insertion" role="row">
       <div
         className="debit flex-col"
         style={{
@@ -32,9 +52,13 @@ const Header: React.FC<IHeaderProps> = (props) => {
           borderBottom: isFirst ? borderStyle : '',
           background: isFirst ? columnHeaderBgColor : '',
         }}
+        role="columnheader"
+        onClick={isFirst ? () => handleSort('account') : undefined}
       >
         {isFirst ? (
-          <div className="date" style={{ color: columnHeaderColor }}>Debit</div>
+          <div className="date" style={{ color: columnHeaderColor, ...sortableStyle }}>
+            {labels.debit}<SortIndicator field="account" />
+          </div>
         ) : (
           <div className="date">&nbsp;</div>
         )}
@@ -47,15 +71,15 @@ const Header: React.FC<IHeaderProps> = (props) => {
           borderBottom: isFirst ? borderStyle : '',
           background: isFirst ? columnHeaderBgColor : '',
         }}
+        role="columnheader"
       >
         {isFirst ? (
-          <div className="date" style={{ color: columnHeaderColor }}>Credit</div>
+          <div className="date" style={{ color: columnHeaderColor }}>{labels.credit}</div>
         ) : (
           <div className="date">&nbsp;</div>
         )}
       </div>
       <div
-        className=""
         style={{
           flex: 1,
           minWidth: 150,
@@ -63,9 +87,13 @@ const Header: React.FC<IHeaderProps> = (props) => {
           borderBottom: isFirst ? borderStyle : '',
           background: isFirst ? columnHeaderBgColor : '',
         }}
+        role="columnheader"
+        onClick={isFirst ? () => handleSort('date') : undefined}
       >
         {isFirst ? (
-          <div className="date" style={{ color: columnHeaderColor }}>{formattedDate}</div>
+          <div className="date" style={{ color: columnHeaderColor, ...sortableStyle }}>
+            {formattedDate}<SortIndicator field="date" />
+          </div>
         ) : (
           <div
             className={`flex-col description ${index === 0 ? 'border-top' : ''}`}
@@ -87,9 +115,13 @@ const Header: React.FC<IHeaderProps> = (props) => {
           borderBottom: isFirst ? borderStyle : '',
           background: isFirst ? columnHeaderBgColor : '',
         }}
+        role="columnheader"
+        onClick={isFirst ? () => handleSort('amount') : undefined}
       >
         {isFirst ? (
-          <div className="date" style={{ color: columnHeaderColor }}>Debit</div>
+          <div className="date" style={{ color: columnHeaderColor, ...sortableStyle }}>
+            {labels.debit}<SortIndicator field="amount" />
+          </div>
         ) : (
           <div className="date">&nbsp;</div>
         )}
@@ -102,9 +134,10 @@ const Header: React.FC<IHeaderProps> = (props) => {
           borderBottom: isFirst ? borderStyle : '',
           background: isFirst ? columnHeaderBgColor : '',
         }}
+        role="columnheader"
       >
         {isFirst ? (
-          <div className="date" style={{ color: columnHeaderColor }}>Credit</div>
+          <div className="date" style={{ color: columnHeaderColor }}>{labels.credit}</div>
         ) : (
           <div className="date">&nbsp;</div>
         )}

@@ -16,7 +16,7 @@ const SearchFilter: React.FC = () => {
   const context = useContext(GlobalContext);
   if (!context) return null;
   
-  const { state, updateState } = context;
+  const { state, labels, updateState } = context;
 
   return (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
@@ -24,7 +24,7 @@ const SearchFilter: React.FC = () => {
         <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'hsl(220, 9%, 46%)' }} />
         <input
           type="text"
-          placeholder="Search..."
+          placeholder={labels.search}
           value={state.searchTerm || ''}
           onChange={(e) => updateState({ searchTerm: e.target.value })}
           style={{ ...inputStyle, paddingLeft: '32px', width: '180px' }}
@@ -41,7 +41,7 @@ const SearchFilter: React.FC = () => {
           })}
           style={inputStyle}
         />
-        <span style={{ color: 'hsl(220, 9%, 46%)', fontSize: '12px' }}>to</span>
+        <span style={{ color: 'hsl(220, 9%, 46%)', fontSize: '12px' }}>{labels.to}</span>
         <input
           type="date"
           value={state.dateFilter?.end || ''}
@@ -65,7 +65,7 @@ const SearchFilter: React.FC = () => {
               transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            Clear
+            {labels.clear}
           </button>
         )}
       </div>

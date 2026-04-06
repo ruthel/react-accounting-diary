@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem, IStyleConfig } from '../types/common';
+import { IDataItem, IStyleConfig, ILabels } from '../types/common';
 interface IAccountingDiaryWrapperProps {
     height?: number;
     width?: number;
@@ -25,10 +25,18 @@ interface IAccountingDiaryWrapperProps {
     showAdd?: boolean;
     showEdit?: boolean;
     showSearch?: boolean;
+    showGrandTotal?: boolean;
     compactButtons?: boolean;
     enableCSVExport?: boolean;
     enableExcelExport?: boolean;
     theme?: 'light' | 'dark';
+    labels?: ILabels;
+    pageSize?: number;
+    onChange?: (data: IDataItem[]) => void;
+    onAdd?: (item: IDataItem) => void;
+    onDelete?: (item: IDataItem) => void;
+    onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
+    onExport?: (format: string, data: IDataItem[]) => void;
 }
 declare const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps>;
 export default AccountingDiaryWrapper;

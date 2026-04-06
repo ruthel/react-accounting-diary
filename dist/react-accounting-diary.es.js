@@ -1,201 +1,41 @@
-(function(){"use strict";try{if(typeof document<"u"){var r=document.createElement("style");r.appendChild(document.createTextNode('@charset "UTF-8";.dialog-overlay{position:fixed;inset:0;z-index:1000;background:#0006;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;animation:overlayIn .15s ease}@keyframes overlayIn{0%{opacity:0}to{opacity:1}}.dialog-modal{background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:calc(var(--rad-radius) + 4px);box-shadow:0 16px 70px -12px #00000040;width:440px;max-width:calc(100vw - 32px);max-height:calc(100vh - 64px);overflow-y:auto;font-family:var(--rad-font);animation:modalIn .2s cubic-bezier(.16,1,.3,1)}@keyframes modalIn{0%{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}.dialog-header{display:flex;justify-content:space-between;align-items:flex-start;padding:24px 24px 0}.dialog-title{margin:0;font-weight:600;font-size:16px;color:var(--rad-text);letter-spacing:-.02em;line-height:1.4}.dialog-description{margin:4px 0 0;font-size:13px;color:var(--rad-text-muted);line-height:1.4}.dialog-close{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--rad-radius-sm);color:var(--rad-text-muted);transition:all var(--rad-transition);flex-shrink:0}.dialog-close:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.dialog-body{padding:20px 24px;display:flex;flex-direction:column;gap:16px}.dialog-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}.dialog-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--rad-border-color);background:var(--rad-bg-muted);border-radius:0 0 calc(var(--rad-radius) + 4px) calc(var(--rad-radius) + 4px)}.btn-cancel,.btn-confirm{padding:8px 16px;border-radius:var(--rad-radius-sm);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition)}.btn-cancel:active,.btn-confirm:active{transform:scale(.98)}.btn-cancel:focus-visible,.btn-confirm:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-cancel{background:var(--rad-bg);color:var(--rad-text-secondary);border:1px solid var(--rad-border-color);box-shadow:var(--rad-shadow-sm)}.btn-cancel:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.btn-confirm{background:var(--rad-text);color:#fff;border:none;box-shadow:var(--rad-shadow-sm)}.btn-confirm:hover{opacity:.9}.control{display:flex;flex-direction:column;margin:0}.control label{display:block;font-size:12px;margin-bottom:6px;font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.control input,.control select,.control textarea{width:100%;height:36px;padding:0 10px;border-radius:var(--rad-radius-sm);box-sizing:border-box;border:1px solid var(--rad-border-color);font-size:13px;font-family:inherit;transition:all var(--rad-transition);background:var(--rad-bg);color:var(--rad-text)}.control input::placeholder,.control select::placeholder,.control textarea::placeholder{color:var(--rad-text-muted)}.control input:hover,.control select:hover,.control textarea:hover{border-color:#c5cad3}.control input:focus,.control select:focus,.control textarea:focus{outline:none;border-color:var(--rad-primary);box-shadow:0 0 0 3px var(--rad-primary-ring)}.control textarea{height:auto;min-height:60px;padding:8px 10px;resize:vertical;line-height:1.5}.control select{cursor:pointer}.control-check{display:flex;align-items:center;margin:0;gap:8px;height:36px}.control-check label{font-size:13px;font-weight:500;color:var(--rad-text);margin:0;cursor:pointer;-webkit-user-select:none;user-select:none}.control-check input{width:16px;height:16px;cursor:pointer;accent-color:var(--rad-primary);border-radius:4px;flex-shrink:0}:root{--rad-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-border: 1px;--rad-border-color: hsl(220, 13%, 91%);--rad-primary: hsl(221, 83%, 53%);--rad-primary-hover: hsl(221, 83%, 46%);--rad-primary-ring: hsla(221, 83%, 53%, .15);--rad-danger: hsl(0, 84%, 60%);--rad-danger-hover: hsl(0, 84%, 53%);--rad-danger-ring: hsla(0, 84%, 60%, .15);--rad-success: hsl(142, 71%, 45%);--rad-success-hover: hsl(142, 71%, 38%);--rad-success-ring: hsla(142, 71%, 45%, .15);--rad-bg: hsl(0, 0%, 100%);--rad-bg-muted: hsl(220, 14%, 96%);--rad-bg-hover: hsl(220, 14%, 96%);--rad-text: hsl(224, 71%, 4%);--rad-text-muted: hsl(220, 9%, 46%);--rad-text-secondary: hsl(220, 9%, 36%);--rad-radius: 8px;--rad-radius-sm: 6px;--rad-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, .05);--rad-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);--rad-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--rad-transition: .15s cubic-bezier(.4, 0, .2, 1)}.insertion{display:flex;width:100%;font-size:13px;font-family:var(--rad-font);border-bottom:var(--rad-border) solid var(--rad-border-color);transition:background var(--rad-transition);align-items:stretch}.insertion:hover{background:var(--rad-bg-hover)}.flex-col{display:flex;flex-direction:column;justify-content:center}.description{border-left:var(--rad-border) solid var(--rad-border-color)!important;border-right:var(--rad-border) solid var(--rad-border-color)!important;padding:8px 16px;flex:1;min-width:150px;min-height:36px;box-sizing:border-box}.border-bottom{border-bottom:var(--rad-border) solid var(--rad-border-color)!important}.border-top{border-top:2px solid var(--rad-border-color)!important}.date,.transaction-title{text-align:center;padding:6px 0;font-size:13px}.date{font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.transaction-content{flex:1;color:var(--rad-text-muted);line-height:1.5}.debit,.credit{padding:8px 12px;border-left:var(--rad-border) solid var(--rad-border-color)!important;text-align:center;font-weight:500;color:var(--rad-text);min-width:140px;max-width:160px;min-height:36px;box-sizing:border-box;flex-shrink:0}.debit div,.credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.amount-debit,.amount-credit{padding:8px 12px;border-right:var(--rad-border) solid var(--rad-border-color)!important;text-align:right;font-weight:500;color:var(--rad-text);font-variant-numeric:tabular-nums;font-family:var(--rad-font-mono);min-width:120px;max-width:180px;min-height:36px;box-sizing:border-box;flex-shrink:0}.amount-debit div,.amount-credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}html,body,#root{height:100%}#root{overflow-y:auto;padding:32px;box-sizing:border-box;background:var(--rad-bg-muted)}.btn-export{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;height:36px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;font-weight:500;font-size:13px;cursor:pointer;box-shadow:var(--rad-shadow-sm);transition:all var(--rad-transition);letter-spacing:-.01em}.btn-export:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-export:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-export:active{transform:scale(.98)}.btn-save-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-save-accounting:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-save-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-add-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-add-accounting:hover{opacity:.9;box-shadow:var(--rad-shadow)}.btn-add-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-text)}.btn-add-accounting:active{transform:scale(.96)}.export{display:inline-flex;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);overflow:hidden;background:var(--rad-bg);box-shadow:var(--rad-shadow-sm)}.export button{background:var(--rad-bg);border:none;cursor:pointer;padding:8px 14px;transition:all var(--rad-transition);font-weight:500;font-size:12px;color:var(--rad-text-muted);border-right:1px solid var(--rad-border-color)}.export button:last-child{border-right:none}.export button:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.export button:active,.export button#active{background:var(--rad-text);color:#fff}.global-action{display:flex;gap:6px;align-items:center}.global-action button{padding:8px 12px;cursor:pointer;font-size:12px;font-weight:500;border-radius:var(--rad-radius-sm);transition:all var(--rad-transition);border:1px solid var(--rad-border-color);background:var(--rad-bg);color:var(--rad-text-secondary);box-shadow:var(--rad-shadow-sm)}.global-action button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text);box-shadow:var(--rad-shadow)}.global-action button:active:not(:disabled){transform:scale(.98)}.global-action button:disabled{opacity:.5;cursor:not-allowed}.global-action .reset{border-color:var(--rad-danger);color:var(--rad-danger);background:var(--rad-bg)}.global-action .reset:hover:not(:disabled){background:var(--rad-danger-ring);color:var(--rad-danger-hover)}.global-action .sample.doer{background:var(--rad-text);border-color:var(--rad-text);color:#fff;padding:8px 10px}.global-action .sample.doer:hover:not(:disabled){opacity:.9;background:var(--rad-text);color:#fff}.edit-action button{transition:all var(--rad-transition);border-radius:var(--rad-radius-sm)}.edit-action button:hover{background:var(--rad-bg-muted)!important;opacity:1!important}')),document.head.appendChild(r)}}catch(a){console.error("vite-plugin-css-injected-by-js",a)}})();
-import { jsxs as d, jsx as i, Fragment as y } from "react/jsx-runtime";
-import ot, { useState as z, useCallback as P, useContext as M, useEffect as Y, useMemo as wt, useRef as vt, createContext as St } from "react";
-const v = "var(--rad-border) solid var(--rad-border-color)", Ct = (t) => {
-  let { date: e, index: n, columnHeader: r, columnHeaderColor: a, columnHeaderBgColor: o } = t;
-  const l = n === 0 && r, c = `${e.split("-")[2]}/${e.split("-")[1]}/${e.split("-")[0]}`, { width: s, ...u } = t.account || {}, { width: h, ...m } = t.amount || {};
-  return /* @__PURE__ */ d("div", { className: "insertion", children: [
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "debit flex-col",
-        style: {
-          ...u,
-          borderTop: l ? v : "",
-          borderBottom: l ? v : "",
-          background: l ? o : ""
-        },
-        children: l ? /* @__PURE__ */ i("div", { className: "date", style: { color: a }, children: "Debit" }) : /* @__PURE__ */ i("div", { className: "date", children: " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "credit flex-col",
-        style: {
-          ...u,
-          borderTop: l ? v : "",
-          borderBottom: l ? v : "",
-          background: l ? o : ""
-        },
-        children: l ? /* @__PURE__ */ i("div", { className: "date", style: { color: a }, children: "Credit" }) : /* @__PURE__ */ i("div", { className: "date", children: " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "",
-        style: {
-          flex: 1,
-          minWidth: 150,
-          borderTop: l ? v : "",
-          borderBottom: l ? v : "",
-          background: l ? o : ""
-        },
-        children: l ? /* @__PURE__ */ i("div", { className: "date", style: { color: a }, children: c }) : /* @__PURE__ */ i(
-          "div",
-          {
-            className: `flex-col description ${n === 0 ? "border-top" : ""}`,
-            style: {
-              borderTopLeftRadius: n === 0 && !r ? 6 : 0,
-              borderTopRightRadius: n === 0 && !r ? 6 : 0,
-              borderBottom: "none"
-            },
-            children: /* @__PURE__ */ i("div", { className: "date", children: c })
-          }
-        )
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "amount-debit flex-col",
-        style: {
-          ...m,
-          borderTop: l ? v : "",
-          borderBottom: l ? v : "",
-          background: l ? o : ""
-        },
-        children: l ? /* @__PURE__ */ i("div", { className: "date", style: { color: a }, children: "Debit" }) : /* @__PURE__ */ i("div", { className: "date", children: " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "amount-credit flex-col",
-        style: {
-          ...m,
-          borderTop: l ? v : "",
-          borderBottom: l ? v : "",
-          background: l ? o : ""
-        },
-        children: l ? /* @__PURE__ */ i("div", { className: "date", style: { color: a }, children: "Credit" }) : /* @__PURE__ */ i("div", { className: "date", children: " " })
-      }
-    ),
-    t.showEdit !== !1 && /* @__PURE__ */ i("div", { style: { width: 32, flexShrink: 0 } })
-  ] });
-};
-let W = null;
-const Et = async () => (W || (W = (await import("./pdfmake-CaUiNrns.mjs").then((e) => e.p)).default), W), kt = async (t) => {
-  (await Et()).createPdf({
-    pageMargins: 0,
-    content: [
-      {
-        image: t,
-        width: 595
-      }
-    ]
-  }).download();
-};
-class I {
-  static currency(e, n = "XAF", r = "de-DE") {
-    return new Intl.NumberFormat(r, {
-      style: "currency",
-      currency: n
-    }).format(e) || "0,00";
-  }
-  static number(e) {
-    return new Intl.NumberFormat("en-IN", { minimumIntegerDigits: 2 }).format(
-      e || 0
-    );
-  }
-  static date(e) {
-    return new Date(e).toLocaleDateString("fr-FR", {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    });
-  }
-  static extractDoc(e) {
-    kt(e);
-  }
-}
-const N = "var(--rad-border) solid var(--rad-border-color)", Dt = (t) => {
-  const e = (t.data || []).filter((u) => u.isDebit).reduce((u, h) => u + h.amount, 0), n = (t.data || []).filter((u) => !u.isDebit).reduce((u, h) => u + h.amount, 0), r = t.data?.[0]?.currency || "USD", a = t.data?.[0]?.local, { width: o, ...l } = t.account || {}, { width: c, ...s } = t.amount || {};
-  return /* @__PURE__ */ d("div", { className: "insertion", children: [
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "debit flex-col",
-        style: {
-          ...l,
-          borderBottom: t.columnHeader ? N : ""
-        },
-        children: /* @__PURE__ */ i("div", { className: "transaction-title", children: " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "credit flex-col",
-        style: {
-          ...l,
-          borderBottom: t.columnHeader ? N : ""
-        },
-        children: /* @__PURE__ */ i("div", { className: "transaction-title", children: " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "flex-col description border-bottom",
-        style: { padding: 0 },
-        children: /* @__PURE__ */ i(
-          "div",
-          {
-            className: "transaction-title",
-            style: {
-              ...t.footer,
-              fontSize: 11,
-              marginTop: 7,
-              textTransform: "uppercase"
-            },
-            children: "transactions entries"
-          }
-        )
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "amount-debit flex-col",
-        style: {
-          ...s,
-          borderBottom: t.columnHeader ? N : "",
-          fontWeight: 600,
-          fontSize: 12
-        },
-        children: /* @__PURE__ */ i("div", { className: "transaction-title", children: e > 0 ? I.currency(e, r, a) : " " })
-      }
-    ),
-    /* @__PURE__ */ i(
-      "div",
-      {
-        className: "amount-credit flex-col",
-        style: {
-          ...s,
-          borderBottom: t.columnHeader ? N : "",
-          fontWeight: 600,
-          fontSize: 12
-        },
-        children: /* @__PURE__ */ i("div", { className: "transaction-title", children: n > 0 ? I.currency(n, r, a) : " " })
-      }
-    ),
-    t.showEdit !== !1 && /* @__PURE__ */ i("div", { style: { width: 32, flexShrink: 0 } })
-  ] });
-}, B = ot.createContext(void 0), Rt = ({ children: t }) => {
-  const [e, n] = z({
+(function(){"use strict";try{if(typeof document<"u"){var r=document.createElement("style");r.appendChild(document.createTextNode('@charset "UTF-8";.dialog-overlay{position:fixed;inset:0;z-index:1000;background:#0006;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;animation:overlayIn .15s ease}@keyframes overlayIn{0%{opacity:0}to{opacity:1}}.dialog-modal{background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:calc(var(--rad-radius) + 4px);box-shadow:0 16px 70px -12px #00000040;width:440px;max-width:calc(100vw - 32px);max-height:calc(100vh - 64px);overflow-y:auto;font-family:var(--rad-font);animation:modalIn .2s cubic-bezier(.16,1,.3,1)}@keyframes modalIn{0%{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}.dialog-header{display:flex;justify-content:space-between;align-items:flex-start;padding:24px 24px 0}.dialog-title{margin:0;font-weight:600;font-size:16px;color:var(--rad-text);letter-spacing:-.02em;line-height:1.4}.dialog-description{margin:4px 0 0;font-size:13px;color:var(--rad-text-muted);line-height:1.4}.dialog-close{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--rad-radius-sm);color:var(--rad-text-muted);transition:all var(--rad-transition);flex-shrink:0}.dialog-close:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.dialog-body{padding:20px 24px;display:flex;flex-direction:column;gap:16px}.dialog-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}.dialog-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--rad-border-color);background:var(--rad-bg-muted);border-radius:0 0 calc(var(--rad-radius) + 4px) calc(var(--rad-radius) + 4px)}.btn-cancel,.btn-confirm{padding:8px 16px;border-radius:var(--rad-radius-sm);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition)}.btn-cancel:active,.btn-confirm:active{transform:scale(.98)}.btn-cancel:focus-visible,.btn-confirm:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-cancel{background:var(--rad-bg);color:var(--rad-text-secondary);border:1px solid var(--rad-border-color);box-shadow:var(--rad-shadow-sm)}.btn-cancel:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.btn-confirm{background:var(--rad-text);color:#fff;border:none;box-shadow:var(--rad-shadow-sm)}.btn-confirm:hover{opacity:.9}.control{display:flex;flex-direction:column;margin:0}.control label{display:block;font-size:12px;margin-bottom:6px;font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.control input,.control select,.control textarea{width:100%;height:36px;padding:0 10px;border-radius:var(--rad-radius-sm);box-sizing:border-box;border:1px solid var(--rad-border-color);font-size:13px;font-family:inherit;transition:all var(--rad-transition);background:var(--rad-bg);color:var(--rad-text)}.control input::placeholder,.control select::placeholder,.control textarea::placeholder{color:var(--rad-text-muted)}.control input:hover,.control select:hover,.control textarea:hover{border-color:#c5cad3}.control input:focus,.control select:focus,.control textarea:focus{outline:none;border-color:var(--rad-primary);box-shadow:0 0 0 3px var(--rad-primary-ring)}.control textarea{height:auto;min-height:60px;padding:8px 10px;resize:vertical;line-height:1.5}.control select{cursor:pointer}.control-check{display:flex;align-items:center;margin:0;gap:8px;height:36px}.control-check label{font-size:13px;font-weight:500;color:var(--rad-text);margin:0;cursor:pointer;-webkit-user-select:none;user-select:none}.control-check input{width:16px;height:16px;cursor:pointer;accent-color:var(--rad-primary);border-radius:4px;flex-shrink:0}:root{--rad-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-border: 1px;--rad-border-color: hsl(220, 13%, 91%);--rad-primary: hsl(221, 83%, 53%);--rad-primary-hover: hsl(221, 83%, 46%);--rad-primary-ring: hsla(221, 83%, 53%, .15);--rad-danger: hsl(0, 84%, 60%);--rad-danger-hover: hsl(0, 84%, 53%);--rad-danger-ring: hsla(0, 84%, 60%, .15);--rad-success: hsl(142, 71%, 45%);--rad-success-hover: hsl(142, 71%, 38%);--rad-success-ring: hsla(142, 71%, 45%, .15);--rad-bg: hsl(0, 0%, 100%);--rad-bg-muted: hsl(220, 14%, 96%);--rad-bg-hover: hsl(220, 14%, 96%);--rad-text: hsl(224, 71%, 4%);--rad-text-muted: hsl(220, 9%, 46%);--rad-text-secondary: hsl(220, 9%, 36%);--rad-radius: 8px;--rad-radius-sm: 6px;--rad-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, .05);--rad-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);--rad-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--rad-transition: .15s cubic-bezier(.4, 0, .2, 1)}.insertion{display:flex;width:100%;font-size:13px;font-family:var(--rad-font);border-bottom:var(--rad-border) solid var(--rad-border-color);transition:background var(--rad-transition);align-items:stretch}.insertion:hover{background:var(--rad-bg-hover)}.flex-col{display:flex;flex-direction:column;justify-content:center}.description{border-left:var(--rad-border) solid var(--rad-border-color)!important;border-right:var(--rad-border) solid var(--rad-border-color)!important;padding:8px 16px;flex:1;min-width:150px;min-height:36px;box-sizing:border-box}.border-bottom{border-bottom:var(--rad-border) solid var(--rad-border-color)!important}.border-top{border-top:2px solid var(--rad-border-color)!important}.date,.transaction-title{text-align:center;padding:6px 0;font-size:13px}.date{font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.transaction-content{flex:1;color:var(--rad-text-muted);line-height:1.5}.debit,.credit{padding:8px 12px;border-left:var(--rad-border) solid var(--rad-border-color)!important;text-align:center;font-weight:500;color:var(--rad-text);min-width:140px;max-width:160px;min-height:36px;box-sizing:border-box;flex-shrink:0}.debit div,.credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.amount-debit,.amount-credit{padding:8px 12px;border-right:var(--rad-border) solid var(--rad-border-color)!important;text-align:right;font-weight:500;color:var(--rad-text);font-variant-numeric:tabular-nums;font-family:var(--rad-font-mono);min-width:120px;max-width:180px;min-height:36px;box-sizing:border-box;flex-shrink:0}.amount-debit div,.amount-credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}html,body,#root{height:100%}#root{overflow-y:auto;padding:32px;box-sizing:border-box;background:var(--rad-bg-muted)}.btn-export{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;height:36px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;font-weight:500;font-size:13px;cursor:pointer;box-shadow:var(--rad-shadow-sm);transition:all var(--rad-transition);letter-spacing:-.01em}.btn-export:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-export:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-export:active{transform:scale(.98)}.btn-save-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-save-accounting:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-save-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-add-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-add-accounting:hover{opacity:.9;box-shadow:var(--rad-shadow)}.btn-add-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-text)}.btn-add-accounting:active{transform:scale(.96)}.export{display:inline-flex;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);overflow:hidden;background:var(--rad-bg);box-shadow:var(--rad-shadow-sm)}.export button{background:var(--rad-bg);border:none;cursor:pointer;padding:8px 14px;transition:all var(--rad-transition);font-weight:500;font-size:12px;color:var(--rad-text-muted);border-right:1px solid var(--rad-border-color)}.export button:last-child{border-right:none}.export button:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.export button:active,.export button#active{background:var(--rad-text);color:#fff}.global-action{display:flex;gap:6px;align-items:center}.global-action button{padding:8px 12px;cursor:pointer;font-size:12px;font-weight:500;border-radius:var(--rad-radius-sm);transition:all var(--rad-transition);border:1px solid var(--rad-border-color);background:var(--rad-bg);color:var(--rad-text-secondary);box-shadow:var(--rad-shadow-sm)}.global-action button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text);box-shadow:var(--rad-shadow)}.global-action button:active:not(:disabled){transform:scale(.98)}.global-action button:disabled{opacity:.5;cursor:not-allowed}.global-action .reset{border-color:var(--rad-danger);color:var(--rad-danger);background:var(--rad-bg)}.global-action .reset:hover:not(:disabled){background:var(--rad-danger-ring);color:var(--rad-danger-hover)}.global-action .sample.doer{background:var(--rad-text);border-color:var(--rad-text);color:#fff;padding:8px 10px}.global-action .sample.doer:hover:not(:disabled){opacity:.9;background:var(--rad-text);color:#fff}.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 24px;gap:12px}.empty-state .empty-state-icon{color:var(--rad-border-color);margin-bottom:4px}.empty-state .empty-state-text{color:var(--rad-text-muted);font-size:14px;margin:0}.empty-state .empty-state-cta{margin-top:8px;padding:8px 20px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.empty-state .empty-state-cta:hover{opacity:.9;box-shadow:var(--rad-shadow)}.empty-state .empty-state-cta:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.insertion:focus{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary-ring);background:var(--rad-bg-hover)}.insertion:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary);background:var(--rad-bg-hover)}.grand-total{margin-top:16px;padding:12px 16px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg-muted);font-family:var(--rad-font)}.grand-total .grand-total-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}.grand-total .grand-total-row:not(:last-child){border-bottom:1px solid var(--rad-border-color);padding-bottom:8px;margin-bottom:8px}.grand-total .grand-total-label{font-weight:600;font-size:13px;color:var(--rad-text);text-transform:uppercase;letter-spacing:.02em}.grand-total .grand-total-amounts{display:flex;gap:24px;font-size:13px;font-weight:600;font-family:var(--rad-font-mono);font-variant-numeric:tabular-nums}.grand-total .grand-total-debit,.grand-total .grand-total-credit{color:var(--rad-text)}.balance-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600}.balance-badge.balanced{background:var(--rad-success-ring);color:var(--rad-success)}.balance-badge.unbalanced{background:var(--rad-danger-ring);color:var(--rad-danger)}.pagination{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px;font-family:var(--rad-font);font-size:13px;color:var(--rad-text-muted)}.pagination button{padding:6px 12px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.pagination button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text)}.pagination button:disabled{opacity:.4;cursor:not-allowed}.row-actions{position:relative;display:flex;align-items:center;width:32px;justify-content:center}.row-actions .row-actions-trigger{background:none;border:none;cursor:pointer;padding:4px;border-radius:var(--rad-radius-sm);opacity:.6;transition:all var(--rad-transition);display:flex;align-items:center;justify-content:center}.row-actions .row-actions-trigger:hover{background:var(--rad-success);color:#fff;opacity:1}.row-actions .row-actions-menu{position:absolute;right:0;top:100%;z-index:10;background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);box-shadow:var(--rad-shadow-md);min-width:120px;overflow:hidden}.row-actions .row-actions-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition)}.row-actions .row-actions-menu button:hover{background:var(--rad-success);color:#fff}.row-actions .row-actions-menu button.danger:hover{background:var(--rad-danger);color:#fff}')),document.head.appendChild(r)}}catch(a){console.error("vite-plugin-css-injected-by-js",a)}})();
+import { jsx as c, jsxs as d, Fragment as S } from "react/jsx-runtime";
+import be, { useState as U, useCallback as M, useContext as A, useEffect as G, useRef as we, useMemo as le, createContext as $e } from "react";
+let ze = 0;
+const ve = () => `txn_${Date.now()}_${++ze}`, Me = {
+  debit: "Debit",
+  credit: "Credit",
+  description: "Description",
+  transactionEntries: "Transaction entries",
+  addTransaction: "Add Transaction",
+  editTransaction: "Edit Transaction",
+  modifyDescription: "Modify the transaction details.",
+  addDescription: "Add a new entry to your accounting diary.",
+  amount: "Amount",
+  currency: "Currency",
+  account: "Account",
+  date: "Date",
+  debitTransaction: "Debit transaction",
+  save: "Save",
+  update: "Update",
+  cancel: "Cancel",
+  export: "Export",
+  clear: "Clear",
+  sample: "Data Sample",
+  search: "Search...",
+  to: "to",
+  noData: "No transactions yet.",
+  grandTotal: "Grand Total",
+  balance: "Balance",
+  balanced: "Balanced",
+  unbalanced: "Unbalanced",
+  page: "Page",
+  of: "of",
+  edit: "Edit",
+  delete: "Delete",
+  actions: "Actions"
+}, N = be.createContext(void 0), Ue = ({ children: e, labels: t, pageSize: n, onAdd: a, onDelete: r, onEdit: i, onChange: o }) => {
+  const s = { ...Me, ...t }, [u, m] = U({
     data: [],
     doIndex: 0,
     openSb: !1,
@@ -203,148 +43,398 @@ const N = "var(--rad-border) solid var(--rad-border-color)", Dt = (t) => {
     history: [[]],
     severitySb: "success",
     editingTransaction: void 0,
+    openAddDialog: !1,
     searchTerm: "",
-    dateFilter: {}
-  }), r = P(() => {
-    n((c) => c.doIndex > 0 ? {
-      ...c,
-      data: c.history[c.doIndex - 1],
-      doIndex: c.doIndex - 1
-    } : c);
-  }, []), a = P(() => {
-    n((c) => {
-      let s = c.doIndex + 1;
-      return s < c.history.length ? {
-        ...c,
-        data: c.history[s],
-        doIndex: s
-      } : c;
-    });
-  }, []), o = P((c) => {
-    n((s) => {
-      if ("data" in c && !("doIndex" in c)) {
-        const u = c.data, m = [...[...s.history].slice(0, s.doIndex + 1), u];
-        return {
-          ...s,
-          data: u,
-          history: m,
-          doIndex: m.length - 1
+    dateFilter: {},
+    sortField: void 0,
+    sortOrder: "asc",
+    currentPage: 1
+  }), l = M(() => {
+    m((f) => {
+      if (f.doIndex > 0) {
+        const p = f.history[f.doIndex - 1];
+        return o?.(p), {
+          ...f,
+          data: p,
+          doIndex: f.doIndex - 1
         };
       }
-      return { ...s, ...c };
+      return f;
     });
-  }, []), l = {
-    state: e,
-    undo: r,
-    redo: a,
-    updateState: o
+  }, [o]), h = M(() => {
+    m((f) => {
+      let p = f.doIndex + 1;
+      if (p < f.history.length) {
+        const g = f.history[p];
+        return o?.(g), {
+          ...f,
+          data: g,
+          doIndex: p
+        };
+      }
+      return f;
+    });
+  }, [o]), b = M((f) => {
+    m((p) => {
+      if ("data" in f && !("doIndex" in f)) {
+        const g = f.data, I = [...[...p.history].slice(0, p.doIndex + 1), g];
+        return o?.(g), {
+          ...p,
+          ...f,
+          data: g,
+          history: I,
+          doIndex: I.length - 1
+        };
+      }
+      return { ...p, ...f };
+    });
+  }, [o]), v = {
+    state: u,
+    labels: s,
+    pageSize: n,
+    undo: l,
+    redo: h,
+    updateState: b,
+    onAdd: a,
+    onDelete: r,
+    onEdit: i,
+    onChange: o
   };
-  return /* @__PURE__ */ i(B.Provider, { value: l, children: t });
-}, b = { size: 16, strokeWidth: 2 }, w = (t, e) => /* @__PURE__ */ i(
+  return /* @__PURE__ */ c(N.Provider, { value: v, children: e });
+}, R = "var(--rad-border) solid var(--rad-border-color)", Q = ({ field: e }) => {
+  const t = A(N);
+  if (!t) return null;
+  const { state: n } = t;
+  return n.sortField !== e ? /* @__PURE__ */ c("span", { style: { opacity: 0.3, marginLeft: 4, fontSize: 10 }, children: "↕" }) : /* @__PURE__ */ c("span", { style: { marginLeft: 4, fontSize: 10 }, children: n.sortOrder === "asc" ? "↑" : "↓" });
+}, He = (e) => {
+  const t = A(N);
+  if (!t) return null;
+  const { labels: n, state: a, updateState: r } = t;
+  let { date: i, index: o, columnHeader: s, columnHeaderColor: u, columnHeaderBgColor: m } = e;
+  const l = o === 0 && s, h = `${i.split("-")[2]}/${i.split("-")[1]}/${i.split("-")[0]}`, { width: b, ...v } = e.account || {}, { width: f, ...p } = e.amount || {}, g = (I) => {
+    const V = a.sortField === I && a.sortOrder === "asc" ? "desc" : "asc";
+    r({ sortField: I, sortOrder: V });
+  }, w = l ? { cursor: "pointer", userSelect: "none" } : {};
+  return /* @__PURE__ */ d("div", { className: "insertion", role: "row", children: [
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "debit flex-col",
+        style: {
+          ...v,
+          borderTop: l ? R : "",
+          borderBottom: l ? R : "",
+          background: l ? m : ""
+        },
+        role: "columnheader",
+        onClick: l ? () => g("account") : void 0,
+        children: l ? /* @__PURE__ */ d("div", { className: "date", style: { color: u, ...w }, children: [
+          n.debit,
+          /* @__PURE__ */ c(Q, { field: "account" })
+        ] }) : /* @__PURE__ */ c("div", { className: "date", children: " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "credit flex-col",
+        style: {
+          ...v,
+          borderTop: l ? R : "",
+          borderBottom: l ? R : "",
+          background: l ? m : ""
+        },
+        role: "columnheader",
+        children: l ? /* @__PURE__ */ c("div", { className: "date", style: { color: u }, children: n.credit }) : /* @__PURE__ */ c("div", { className: "date", children: " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        style: {
+          flex: 1,
+          minWidth: 150,
+          borderTop: l ? R : "",
+          borderBottom: l ? R : "",
+          background: l ? m : ""
+        },
+        role: "columnheader",
+        onClick: l ? () => g("date") : void 0,
+        children: l ? /* @__PURE__ */ d("div", { className: "date", style: { color: u, ...w }, children: [
+          h,
+          /* @__PURE__ */ c(Q, { field: "date" })
+        ] }) : /* @__PURE__ */ c(
+          "div",
+          {
+            className: `flex-col description ${o === 0 ? "border-top" : ""}`,
+            style: {
+              borderTopLeftRadius: o === 0 && !s ? 6 : 0,
+              borderTopRightRadius: o === 0 && !s ? 6 : 0,
+              borderBottom: "none"
+            },
+            children: /* @__PURE__ */ c("div", { className: "date", children: h })
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "amount-debit flex-col",
+        style: {
+          ...p,
+          borderTop: l ? R : "",
+          borderBottom: l ? R : "",
+          background: l ? m : ""
+        },
+        role: "columnheader",
+        onClick: l ? () => g("amount") : void 0,
+        children: l ? /* @__PURE__ */ d("div", { className: "date", style: { color: u, ...w }, children: [
+          n.debit,
+          /* @__PURE__ */ c(Q, { field: "amount" })
+        ] }) : /* @__PURE__ */ c("div", { className: "date", children: " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "amount-credit flex-col",
+        style: {
+          ...p,
+          borderTop: l ? R : "",
+          borderBottom: l ? R : "",
+          background: l ? m : ""
+        },
+        role: "columnheader",
+        children: l ? /* @__PURE__ */ c("div", { className: "date", style: { color: u }, children: n.credit }) : /* @__PURE__ */ c("div", { className: "date", children: " " })
+      }
+    ),
+    e.showEdit !== !1 && /* @__PURE__ */ c("div", { style: { width: 32, flexShrink: 0 } })
+  ] });
+};
+let Z = null;
+const Ve = async () => (Z || (Z = (await import("./pdfmake-CaUiNrns.mjs").then((t) => t.p)).default), Z), Oe = async (e) => {
+  (await Ve()).createPdf({
+    pageMargins: 0,
+    content: [
+      {
+        image: e,
+        width: 595
+      }
+    ]
+  }).download();
+};
+class B {
+  static currency(t, n = "XAF", a = "de-DE") {
+    return new Intl.NumberFormat(a, {
+      style: "currency",
+      currency: n
+    }).format(t) || "0,00";
+  }
+  static number(t) {
+    return new Intl.NumberFormat("en-IN", { minimumIntegerDigits: 2 }).format(
+      t || 0
+    );
+  }
+  static date(t) {
+    return new Date(t).toLocaleDateString("fr-FR", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
+  }
+  static extractDoc(t) {
+    Oe(t);
+  }
+}
+const j = "var(--rad-border) solid var(--rad-border-color)", We = (e) => {
+  const t = A(N);
+  if (!t) return null;
+  const { labels: n } = t, a = (e.data || []).filter((h) => h.isDebit).reduce((h, b) => h + b.amount, 0), r = (e.data || []).filter((h) => !h.isDebit).reduce((h, b) => h + b.amount, 0), i = e.data?.[0]?.currency || "USD", o = e.data?.[0]?.local, { width: s, ...u } = e.account || {}, { width: m, ...l } = e.amount || {};
+  return /* @__PURE__ */ d("div", { className: "insertion", role: "row", children: [
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "debit flex-col",
+        style: {
+          ...u,
+          borderBottom: e.columnHeader ? j : ""
+        },
+        children: /* @__PURE__ */ c("div", { className: "transaction-title", children: " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "credit flex-col",
+        style: {
+          ...u,
+          borderBottom: e.columnHeader ? j : ""
+        },
+        children: /* @__PURE__ */ c("div", { className: "transaction-title", children: " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "flex-col description border-bottom",
+        style: { padding: 0 },
+        children: /* @__PURE__ */ c(
+          "div",
+          {
+            className: "transaction-title",
+            style: {
+              ...e.footer,
+              fontSize: 11,
+              marginTop: 7,
+              textTransform: "uppercase"
+            },
+            children: n.transactionEntries
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "amount-debit flex-col",
+        style: {
+          ...l,
+          borderBottom: e.columnHeader ? j : "",
+          fontWeight: 600,
+          fontSize: 12
+        },
+        children: /* @__PURE__ */ c("div", { className: "transaction-title", children: a > 0 ? B.currency(a, i, o) : " " })
+      }
+    ),
+    /* @__PURE__ */ c(
+      "div",
+      {
+        className: "amount-credit flex-col",
+        style: {
+          ...l,
+          borderBottom: e.columnHeader ? j : "",
+          fontWeight: 600,
+          fontSize: 12
+        },
+        children: /* @__PURE__ */ c("div", { className: "transaction-title", children: r > 0 ? B.currency(r, i, o) : " " })
+      }
+    ),
+    e.showEdit !== !1 && /* @__PURE__ */ c("div", { style: { width: 32, flexShrink: 0 } })
+  ] });
+}, k = { size: 16, strokeWidth: 2 }, T = (e, t) => /* @__PURE__ */ c(
   "svg",
   {
     xmlns: "http://www.w3.org/2000/svg",
-    width: t.size,
-    height: t.size,
+    width: e.size,
+    height: e.size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: t.strokeWidth,
+    strokeWidth: e.strokeWidth,
     strokeLinecap: "round",
     strokeLinejoin: "round",
-    className: t.className,
-    style: t.style,
+    className: e.className,
+    style: e.style,
     "aria-hidden": "true",
-    children: e
+    children: t
   }
-), Ft = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("polyline", { points: "1 4 1 10 7 10" }),
-    /* @__PURE__ */ i("path", { d: "M3.51 15a9 9 0 1 0 2.13-9.36L1 10" })
+), _e = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("polyline", { points: "1 4 1 10 7 10" }),
+    /* @__PURE__ */ c("path", { d: "M3.51 15a9 9 0 1 0 2.13-9.36L1 10" })
   ] }));
-}, Tt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("polyline", { points: "23 4 23 10 17 10" }),
-    /* @__PURE__ */ i("path", { d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10" })
+}, je = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("polyline", { points: "23 4 23 10 17 10" }),
+    /* @__PURE__ */ c("path", { d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10" })
   ] }));
-}, Pt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
-    /* @__PURE__ */ i("polyline", { points: "7 10 12 15 17 10" }),
-    /* @__PURE__ */ i("line", { x1: "12", y1: "15", x2: "12", y2: "3" })
+}, Ge = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
+    /* @__PURE__ */ c("polyline", { points: "7 10 12 15 17 10" }),
+    /* @__PURE__ */ c("line", { x1: "12", y1: "15", x2: "12", y2: "3" })
   ] }));
-}, It = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
-    /* @__PURE__ */ i("polyline", { points: "17 8 12 3 7 8" }),
-    /* @__PURE__ */ i("line", { x1: "12", y1: "3", x2: "12", y2: "15" })
+}, qe = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
+    /* @__PURE__ */ c("polyline", { points: "17 8 12 3 7 8" }),
+    /* @__PURE__ */ c("line", { x1: "12", y1: "3", x2: "12", y2: "15" })
   ] }));
-}, Bt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("line", { x1: "12", y1: "5", x2: "12", y2: "19" }),
-    /* @__PURE__ */ i("line", { x1: "5", y1: "12", x2: "19", y2: "12" })
+}, Je = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("line", { x1: "12", y1: "5", x2: "12", y2: "19" }),
+    /* @__PURE__ */ c("line", { x1: "5", y1: "12", x2: "19", y2: "12" })
   ] }));
-}, Lt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
-    /* @__PURE__ */ i("line", { x1: "6", y1: "6", x2: "18", y2: "18" })
+}, Xe = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
+    /* @__PURE__ */ c("line", { x1: "6", y1: "6", x2: "18", y2: "18" })
   ] }));
-}, At = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ i(y, { children: /* @__PURE__ */ i("path", { d: "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" }) }));
-}, $t = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("circle", { cx: "11", cy: "11", r: "8" }),
-    /* @__PURE__ */ i("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
+}, Ke = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ c(S, { children: /* @__PURE__ */ c("path", { d: "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" }) }));
+}, Ye = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("circle", { cx: "11", cy: "11", r: "8" }),
+    /* @__PURE__ */ c("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
   ] }));
-}, Nt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }),
-    /* @__PURE__ */ i("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
-    /* @__PURE__ */ i("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
-    /* @__PURE__ */ i("line", { x1: "3", y1: "10", x2: "21", y2: "10" })
+}, Qe = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }),
+    /* @__PURE__ */ c("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
+    /* @__PURE__ */ c("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
+    /* @__PURE__ */ c("line", { x1: "3", y1: "10", x2: "21", y2: "10" })
   ] }));
-}, K = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
-    /* @__PURE__ */ i("polyline", { points: "14 2 14 8 20 8" }),
-    /* @__PURE__ */ i("circle", { cx: "10", cy: "13", r: "2" }),
-    /* @__PURE__ */ i("path", { d: "m20 17-1.1-1.1a2 2 0 0 0-2.81 0L10 22" })
+}, se = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
+    /* @__PURE__ */ c("polyline", { points: "14 2 14 8 20 8" }),
+    /* @__PURE__ */ c("circle", { cx: "10", cy: "13", r: "2" }),
+    /* @__PURE__ */ c("path", { d: "m20 17-1.1-1.1a2 2 0 0 0-2.81 0L10 22" })
   ] }));
-}, Ut = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
-    /* @__PURE__ */ i("polyline", { points: "14 2 14 8 20 8" }),
-    /* @__PURE__ */ i("line", { x1: "16", y1: "13", x2: "8", y2: "13" }),
-    /* @__PURE__ */ i("line", { x1: "16", y1: "17", x2: "8", y2: "17" }),
-    /* @__PURE__ */ i("line", { x1: "10", y1: "9", x2: "8", y2: "9" })
+}, Ze = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
+    /* @__PURE__ */ c("polyline", { points: "14 2 14 8 20 8" }),
+    /* @__PURE__ */ c("line", { x1: "16", y1: "13", x2: "8", y2: "13" }),
+    /* @__PURE__ */ c("line", { x1: "16", y1: "17", x2: "8", y2: "17" }),
+    /* @__PURE__ */ c("line", { x1: "10", y1: "9", x2: "8", y2: "9" })
   ] }));
-}, Ht = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("polyline", { points: "3 6 5 6 21 6" }),
-    /* @__PURE__ */ i("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }),
-    /* @__PURE__ */ i("line", { x1: "10", y1: "11", x2: "10", y2: "17" }),
-    /* @__PURE__ */ i("line", { x1: "14", y1: "11", x2: "14", y2: "17" })
+}, Se = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("polyline", { points: "3 6 5 6 21 6" }),
+    /* @__PURE__ */ c("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }),
+    /* @__PURE__ */ c("line", { x1: "10", y1: "11", x2: "10", y2: "17" }),
+    /* @__PURE__ */ c("line", { x1: "14", y1: "11", x2: "14", y2: "17" })
   ] }));
-}, zt = (t = {}) => {
-  const e = { ...b, ...t };
-  return w(e, /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("ellipse", { cx: "12", cy: "5", rx: "9", ry: "3" }),
-    /* @__PURE__ */ i("path", { d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" }),
-    /* @__PURE__ */ i("path", { d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" })
+}, et = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("ellipse", { cx: "12", cy: "5", rx: "9", ry: "3" }),
+    /* @__PURE__ */ c("path", { d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" }),
+    /* @__PURE__ */ c("path", { d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" })
   ] }));
-}, Mt = [
+}, tt = (e = {}) => {
+  const t = { ...k, ...e };
+  return T(t, /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("circle", { cx: "12", cy: "12", r: "1" }),
+    /* @__PURE__ */ c("circle", { cx: "12", cy: "5", r: "1" }),
+    /* @__PURE__ */ c("circle", { cx: "12", cy: "19", r: "1" })
+  ] }));
+}, nt = [
   [
     "US dollar (USD)",
     "USD"
@@ -369,9 +459,7 @@ const N = "var(--rad-border) solid var(--rad-border-color)", Dt = (t) => {
     "Cameroonian franc (XAF)",
     "XAF"
   ]
-];
-let Vt = 0;
-const lt = () => `txn_${Date.now()}_${++Vt}`, Q = {
+], de = {
   open: !1,
   isDebit: !1,
   amount: "",
@@ -379,58 +467,66 @@ const lt = () => `txn_${Date.now()}_${++Vt}`, Q = {
   text: "",
   date: (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
   currency: "USD"
-}, Wt = () => {
-  const t = M(B), [e, n] = z(Q);
-  Y(() => {
-    const c = t?.state.editingTransaction;
-    c && n({
+}, at = () => {
+  const e = A(N), [t, n] = U(de);
+  G(() => {
+    const l = e?.state.editingTransaction;
+    l && n({
       open: !0,
-      isDebit: c.isDebit ?? !1,
-      amount: c.amount,
-      account: c.account,
-      text: c.text,
-      date: c.date,
-      currency: c.currency || "USD"
+      isDebit: l.isDebit ?? !1,
+      amount: l.amount,
+      account: l.account,
+      text: l.text,
+      date: l.date,
+      currency: l.currency || "USD"
     });
-  }, [t?.state.editingTransaction]), Y(() => {
-    if (!e.open) return;
-    const c = (s) => {
-      s.key === "Escape" && a();
+  }, [e?.state.editingTransaction]), G(() => {
+    e?.state.openAddDialog && (n((l) => ({ ...l, open: !0 })), e.updateState({ openAddDialog: !1 }));
+  }, [e?.state.openAddDialog]), G(() => {
+    if (!t.open) return;
+    const l = (h) => {
+      h.key === "Escape" && r();
     };
-    return document.addEventListener("keydown", c), () => document.removeEventListener("keydown", c);
-  }, [e.open]);
-  const r = P(() => {
-    n((c) => ({ ...c, open: !0 }));
-  }, []), a = P(() => {
-    n(Q), t?.state.editingTransaction && t.updateState({ editingTransaction: void 0 });
-  }, [t]);
-  if (!t) return null;
-  const o = () => {
-    const c = Number(e.amount), s = e.account.trim(), u = e.text.trim(), h = e.date;
-    if (!c || c <= 0 || !s || !u || !h || isNaN(new Date(h).getTime())) return;
-    const m = [...t.state.data || []], D = t.state.editingTransaction;
-    if (D) {
-      const T = m.findIndex((f) => f.id === D.id);
-      T !== -1 && (m[T] = { ...m[T], amount: c, account: s, isDebit: e.isDebit, text: u, date: h, currency: e.currency }), t.updateState({ data: m, editingTransaction: void 0 });
-    } else
-      m.push({ id: lt(), amount: c, account: s, isDebit: e.isDebit, text: u, date: h, currency: e.currency }), t.updateState({ data: m });
-    a();
-  }, l = !!t.state.editingTransaction;
-  return /* @__PURE__ */ d(y, { children: [
-    /* @__PURE__ */ i("button", { onClick: r, className: "btn-add-accounting", title: "Add transaction", children: /* @__PURE__ */ i(Bt, { size: 20 }) }),
-    e.open && /* @__PURE__ */ i("div", { className: "dialog-overlay", onClick: a, children: /* @__PURE__ */ d("div", { className: "dialog-modal", onClick: (c) => c.stopPropagation(), children: [
+    return document.addEventListener("keydown", l), () => document.removeEventListener("keydown", l);
+  }, [t.open]);
+  const a = M(() => {
+    n((l) => ({ ...l, open: !0 }));
+  }, []), r = M(() => {
+    n(de), e?.state.editingTransaction && e.updateState({ editingTransaction: void 0 });
+  }, [e]);
+  if (!e) return null;
+  const { labels: i, onAdd: o, onEdit: s } = e, u = () => {
+    const l = Number(t.amount), h = t.account.trim(), b = t.text.trim(), v = t.date;
+    if (!l || l <= 0 || !h || !b || !v || isNaN(new Date(v).getTime())) return;
+    const f = [...e.state.data || []], p = e.state.editingTransaction;
+    if (p) {
+      const g = f.findIndex((w) => w.id === p.id);
+      if (g !== -1) {
+        const w = { ...f[g], amount: l, account: h, isDebit: t.isDebit, text: b, date: v, currency: t.currency };
+        s?.(f[g], w), f[g] = w;
+      }
+      e.updateState({ data: f, editingTransaction: void 0 });
+    } else {
+      const g = { id: ve(), amount: l, account: h, isDebit: t.isDebit, text: b, date: v, currency: t.currency };
+      o?.(g), f.push(g), e.updateState({ data: f });
+    }
+    r();
+  }, m = !!e.state.editingTransaction;
+  return /* @__PURE__ */ d(S, { children: [
+    /* @__PURE__ */ c("button", { onClick: a, className: "btn-add-accounting", title: i.addTransaction, children: /* @__PURE__ */ c(Je, { size: 20 }) }),
+    t.open && /* @__PURE__ */ c("div", { className: "dialog-overlay", onClick: r, children: /* @__PURE__ */ d("div", { className: "dialog-modal", onClick: (l) => l.stopPropagation(), children: [
       /* @__PURE__ */ d("div", { className: "dialog-header", children: [
         /* @__PURE__ */ d("div", { children: [
-          /* @__PURE__ */ i("h3", { className: "dialog-title", children: l ? "Edit Transaction" : "Add Transaction" }),
-          /* @__PURE__ */ i("p", { className: "dialog-description", children: l ? "Modify the transaction details." : "Add a new entry to your accounting diary." })
+          /* @__PURE__ */ c("h3", { className: "dialog-title", children: m ? i.editTransaction : i.addTransaction }),
+          /* @__PURE__ */ c("p", { className: "dialog-description", children: m ? i.modifyDescription : i.addDescription })
         ] }),
-        /* @__PURE__ */ i("button", { onClick: a, className: "dialog-close", children: /* @__PURE__ */ i(Lt, { size: 16 }) })
+        /* @__PURE__ */ c("button", { onClick: r, className: "dialog-close", children: /* @__PURE__ */ c(Xe, { size: 16 }) })
       ] }),
       /* @__PURE__ */ d("div", { className: "dialog-body", children: [
         /* @__PURE__ */ d("div", { className: "dialog-grid-2", children: [
           /* @__PURE__ */ d("div", { className: "control", children: [
-            /* @__PURE__ */ i("label", { htmlFor: "rad-amount", children: "Amount" }),
-            /* @__PURE__ */ i(
+            /* @__PURE__ */ c("label", { htmlFor: "rad-amount", children: i.amount }),
+            /* @__PURE__ */ c(
               "input",
               {
                 id: "rad-amount",
@@ -438,639 +534,669 @@ const lt = () => `txn_${Date.now()}_${++Vt}`, Q = {
                 type: "number",
                 step: "0.01",
                 min: "0",
-                value: e.amount || "",
-                onChange: (c) => n((s) => ({ ...s, amount: c.target.value }))
+                value: t.amount || "",
+                onChange: (l) => n((h) => ({ ...h, amount: l.target.value }))
               }
             )
           ] }),
           /* @__PURE__ */ d("div", { className: "control", children: [
-            /* @__PURE__ */ i("label", { htmlFor: "rad-currency", children: "Currency" }),
-            /* @__PURE__ */ i(
+            /* @__PURE__ */ c("label", { htmlFor: "rad-currency", children: i.currency }),
+            /* @__PURE__ */ c(
               "select",
               {
                 id: "rad-currency",
-                value: e.currency,
-                onChange: (c) => n((s) => ({ ...s, currency: c.target.value })),
-                children: Mt.map((c) => /* @__PURE__ */ i("option", { value: c[1], children: c[0] }, c[1]))
+                value: t.currency,
+                onChange: (l) => n((h) => ({ ...h, currency: l.target.value })),
+                children: nt.map((l) => /* @__PURE__ */ c("option", { value: l[1], children: l[0] }, l[1]))
               }
             )
           ] })
         ] }),
         /* @__PURE__ */ d("div", { className: "dialog-grid-2", children: [
           /* @__PURE__ */ d("div", { className: "control", children: [
-            /* @__PURE__ */ i("label", { htmlFor: "rad-account", children: "Account" }),
-            /* @__PURE__ */ i(
+            /* @__PURE__ */ c("label", { htmlFor: "rad-account", children: i.account }),
+            /* @__PURE__ */ c(
               "input",
               {
                 autoFocus: !0,
                 id: "rad-account",
                 placeholder: "e.g., Cash, Bank, Rent",
-                value: e.account,
-                onChange: (c) => n((s) => ({ ...s, account: c.target.value }))
+                value: t.account,
+                onChange: (l) => n((h) => ({ ...h, account: l.target.value }))
               }
             )
           ] }),
           /* @__PURE__ */ d("div", { className: "control", children: [
-            /* @__PURE__ */ i("label", { htmlFor: "rad-date", children: "Date" }),
-            /* @__PURE__ */ i(
+            /* @__PURE__ */ c("label", { htmlFor: "rad-date", children: i.date }),
+            /* @__PURE__ */ c(
               "input",
               {
                 id: "rad-date",
                 type: "date",
-                value: e.date,
-                onChange: (c) => n((s) => ({ ...s, date: c.target.value }))
+                value: t.date,
+                onChange: (l) => n((h) => ({ ...h, date: l.target.value }))
               }
             )
           ] })
         ] }),
         /* @__PURE__ */ d("div", { className: "control-check", children: [
-          /* @__PURE__ */ i(
+          /* @__PURE__ */ c(
             "input",
             {
               id: "rad-isDebit",
               type: "checkbox",
-              checked: e.isDebit,
-              onChange: (c) => n((s) => ({ ...s, isDebit: c.target.checked }))
+              checked: t.isDebit,
+              onChange: (l) => n((h) => ({ ...h, isDebit: l.target.checked }))
             }
           ),
-          /* @__PURE__ */ i("label", { htmlFor: "rad-isDebit", children: "Debit transaction" })
+          /* @__PURE__ */ c("label", { htmlFor: "rad-isDebit", children: i.debitTransaction })
         ] }),
         /* @__PURE__ */ d("div", { className: "control", children: [
-          /* @__PURE__ */ i("label", { htmlFor: "rad-description", children: "Description" }),
-          /* @__PURE__ */ i(
+          /* @__PURE__ */ c("label", { htmlFor: "rad-description", children: i.description }),
+          /* @__PURE__ */ c(
             "textarea",
             {
               id: "rad-description",
               rows: 2,
               placeholder: "Describe the transaction...",
-              value: e.text,
-              onChange: (c) => n((s) => ({ ...s, text: c.target.value }))
+              value: t.text,
+              onChange: (l) => n((h) => ({ ...h, text: l.target.value }))
             }
           )
         ] })
       ] }),
       /* @__PURE__ */ d("div", { className: "dialog-footer", children: [
-        /* @__PURE__ */ i("button", { onClick: a, className: "btn-cancel", children: "Cancel" }),
-        /* @__PURE__ */ i("button", { onClick: o, className: "btn-confirm", children: l ? "Update" : "Save" })
+        /* @__PURE__ */ c("button", { onClick: r, className: "btn-cancel", children: i.cancel }),
+        /* @__PURE__ */ c("button", { onClick: u, className: "btn-confirm", children: m ? i.update : i.save })
       ] })
     ] }) })
   ] });
 };
-function _t(t, e) {
-  if (t.match(/^[a-z]+:\/\//i))
-    return t;
-  if (t.match(/^\/\//))
-    return window.location.protocol + t;
-  if (t.match(/^[a-z]+:/i))
-    return t;
-  const n = document.implementation.createHTMLDocument(), r = n.createElement("base"), a = n.createElement("a");
-  return n.head.appendChild(r), n.body.appendChild(a), e && (r.href = e), a.href = t, a.href;
+function rt(e, t) {
+  if (e.match(/^[a-z]+:\/\//i))
+    return e;
+  if (e.match(/^\/\//))
+    return window.location.protocol + e;
+  if (e.match(/^[a-z]+:/i))
+    return e;
+  const n = document.implementation.createHTMLDocument(), a = n.createElement("base"), r = n.createElement("a");
+  return n.head.appendChild(a), n.body.appendChild(r), t && (a.href = t), r.href = e, r.href;
 }
-const Ot = /* @__PURE__ */ (() => {
-  let t = 0;
-  const e = () => (
+const ct = /* @__PURE__ */ (() => {
+  let e = 0;
+  const t = () => (
     // eslint-disable-next-line no-bitwise
     `0000${(Math.random() * 36 ** 4 << 0).toString(36)}`.slice(-4)
   );
-  return () => (t += 1, `u${e()}${t}`);
+  return () => (e += 1, `u${t()}${e}`);
 })();
-function C(t) {
-  const e = [];
-  for (let n = 0, r = t.length; n < r; n++)
-    e.push(t[n]);
-  return e;
+function L(e) {
+  const t = [];
+  for (let n = 0, a = e.length; n < a; n++)
+    t.push(e[n]);
+  return t;
 }
-let R = null;
-function st(t = {}) {
-  return R || (t.includeStyleProperties ? (R = t.includeStyleProperties, R) : (R = C(window.getComputedStyle(document.documentElement)), R));
+let $ = null;
+function Ce(e = {}) {
+  return $ || (e.includeStyleProperties ? ($ = e.includeStyleProperties, $) : ($ = L(window.getComputedStyle(document.documentElement)), $));
 }
-function U(t, e) {
-  const r = (t.ownerDocument.defaultView || window).getComputedStyle(t).getPropertyValue(e);
-  return r ? parseFloat(r.replace("px", "")) : 0;
+function q(e, t) {
+  const a = (e.ownerDocument.defaultView || window).getComputedStyle(e).getPropertyValue(t);
+  return a ? parseFloat(a.replace("px", "")) : 0;
 }
-function jt(t) {
-  const e = U(t, "border-left-width"), n = U(t, "border-right-width");
-  return t.clientWidth + e + n;
+function it(e) {
+  const t = q(e, "border-left-width"), n = q(e, "border-right-width");
+  return e.clientWidth + t + n;
 }
-function qt(t) {
-  const e = U(t, "border-top-width"), n = U(t, "border-bottom-width");
-  return t.clientHeight + e + n;
+function ot(e) {
+  const t = q(e, "border-top-width"), n = q(e, "border-bottom-width");
+  return e.clientHeight + t + n;
 }
-function q(t, e = {}) {
-  const n = e.width || jt(t), r = e.height || qt(t);
-  return { width: n, height: r };
+function ae(e, t = {}) {
+  const n = t.width || it(e), a = t.height || ot(e);
+  return { width: n, height: a };
 }
-function Gt() {
-  let t, e;
+function lt() {
+  let e, t;
   try {
-    e = process;
+    t = process;
   } catch {
   }
-  const n = e && e.env ? e.env.devicePixelRatio : null;
-  return n && (t = parseInt(n, 10), Number.isNaN(t) && (t = 1)), t || window.devicePixelRatio || 1;
+  const n = t && t.env ? t.env.devicePixelRatio : null;
+  return n && (e = parseInt(n, 10), Number.isNaN(e) && (e = 1)), e || window.devicePixelRatio || 1;
 }
-const p = 16384;
-function Jt(t) {
-  (t.width > p || t.height > p) && (t.width > p && t.height > p ? t.width > t.height ? (t.height *= p / t.width, t.width = p) : (t.width *= p / t.height, t.height = p) : t.width > p ? (t.height *= p / t.width, t.width = p) : (t.width *= p / t.height, t.height = p));
+const F = 16384;
+function st(e) {
+  (e.width > F || e.height > F) && (e.width > F && e.height > F ? e.width > e.height ? (e.height *= F / e.width, e.width = F) : (e.width *= F / e.height, e.height = F) : e.width > F ? (e.height *= F / e.width, e.width = F) : (e.width *= F / e.height, e.height = F));
 }
-function Xt(t, e = {}) {
-  return t.toBlob ? new Promise((n) => {
-    t.toBlob(n, e.type ? e.type : "image/png", e.quality ? e.quality : 1);
+function dt(e, t = {}) {
+  return e.toBlob ? new Promise((n) => {
+    e.toBlob(n, t.type ? t.type : "image/png", t.quality ? t.quality : 1);
   }) : new Promise((n) => {
-    const r = window.atob(t.toDataURL(e.type ? e.type : void 0, e.quality ? e.quality : void 0).split(",")[1]), a = r.length, o = new Uint8Array(a);
-    for (let l = 0; l < a; l += 1)
-      o[l] = r.charCodeAt(l);
-    n(new Blob([o], {
-      type: e.type ? e.type : "image/png"
+    const a = window.atob(e.toDataURL(t.type ? t.type : void 0, t.quality ? t.quality : void 0).split(",")[1]), r = a.length, i = new Uint8Array(r);
+    for (let o = 0; o < r; o += 1)
+      i[o] = a.charCodeAt(o);
+    n(new Blob([i], {
+      type: t.type ? t.type : "image/png"
     }));
   });
 }
-function H(t) {
-  return new Promise((e, n) => {
-    const r = new Image();
-    r.onload = () => {
-      r.decode().then(() => {
-        requestAnimationFrame(() => e(r));
+function J(e) {
+  return new Promise((t, n) => {
+    const a = new Image();
+    a.onload = () => {
+      a.decode().then(() => {
+        requestAnimationFrame(() => t(a));
       });
-    }, r.onerror = n, r.crossOrigin = "anonymous", r.decoding = "async", r.src = t;
+    }, a.onerror = n, a.crossOrigin = "anonymous", a.decoding = "async", a.src = e;
   });
 }
-async function Yt(t) {
-  return Promise.resolve().then(() => new XMLSerializer().serializeToString(t)).then(encodeURIComponent).then((e) => `data:image/svg+xml;charset=utf-8,${e}`);
+async function ut(e) {
+  return Promise.resolve().then(() => new XMLSerializer().serializeToString(e)).then(encodeURIComponent).then((t) => `data:image/svg+xml;charset=utf-8,${t}`);
 }
-async function Kt(t, e, n) {
-  const r = "http://www.w3.org/2000/svg", a = document.createElementNS(r, "svg"), o = document.createElementNS(r, "foreignObject");
-  return a.setAttribute("width", `${e}`), a.setAttribute("height", `${n}`), a.setAttribute("viewBox", `0 0 ${e} ${n}`), o.setAttribute("width", "100%"), o.setAttribute("height", "100%"), o.setAttribute("x", "0"), o.setAttribute("y", "0"), o.setAttribute("externalResourcesRequired", "true"), a.appendChild(o), o.appendChild(t), Yt(a);
+async function ht(e, t, n) {
+  const a = "http://www.w3.org/2000/svg", r = document.createElementNS(a, "svg"), i = document.createElementNS(a, "foreignObject");
+  return r.setAttribute("width", `${t}`), r.setAttribute("height", `${n}`), r.setAttribute("viewBox", `0 0 ${t} ${n}`), i.setAttribute("width", "100%"), i.setAttribute("height", "100%"), i.setAttribute("x", "0"), i.setAttribute("y", "0"), i.setAttribute("externalResourcesRequired", "true"), r.appendChild(i), i.appendChild(e), ut(r);
 }
-const x = (t, e) => {
-  if (t instanceof e)
+const E = (e, t) => {
+  if (e instanceof t)
     return !0;
-  const n = Object.getPrototypeOf(t);
-  return n === null ? !1 : n.constructor.name === e.name || x(n, e);
+  const n = Object.getPrototypeOf(e);
+  return n === null ? !1 : n.constructor.name === t.name || E(n, t);
 };
-function Qt(t) {
-  const e = t.getPropertyValue("content");
-  return `${t.cssText} content: '${e.replace(/'|"/g, "")}';`;
+function mt(e) {
+  const t = e.getPropertyValue("content");
+  return `${e.cssText} content: '${t.replace(/'|"/g, "")}';`;
 }
-function Zt(t, e) {
-  return st(e).map((n) => {
-    const r = t.getPropertyValue(n), a = t.getPropertyPriority(n);
-    return `${n}: ${r}${a ? " !important" : ""};`;
+function ft(e, t) {
+  return Ce(t).map((n) => {
+    const a = e.getPropertyValue(n), r = e.getPropertyPriority(n);
+    return `${n}: ${a}${r ? " !important" : ""};`;
   }).join(" ");
 }
-function te(t, e, n, r) {
-  const a = `.${t}:${e}`, o = n.cssText ? Qt(n) : Zt(n, r);
-  return document.createTextNode(`${a}{${o}}`);
+function gt(e, t, n, a) {
+  const r = `.${e}:${t}`, i = n.cssText ? mt(n) : ft(n, a);
+  return document.createTextNode(`${r}{${i}}`);
 }
-function Z(t, e, n, r) {
-  const a = window.getComputedStyle(t, n), o = a.getPropertyValue("content");
-  if (o === "" || o === "none")
+function ue(e, t, n, a) {
+  const r = window.getComputedStyle(e, n), i = r.getPropertyValue("content");
+  if (i === "" || i === "none")
     return;
-  const l = Ot();
+  const o = ct();
   try {
-    e.className = `${e.className} ${l}`;
+    t.className = `${t.className} ${o}`;
   } catch {
     return;
   }
-  const c = document.createElement("style");
-  c.appendChild(te(l, n, a, r)), e.appendChild(c);
+  const s = document.createElement("style");
+  s.appendChild(gt(o, n, r, a)), t.appendChild(s);
 }
-function ee(t, e, n) {
-  Z(t, e, ":before", n), Z(t, e, ":after", n);
+function yt(e, t, n) {
+  ue(e, t, ":before", n), ue(e, t, ":after", n);
 }
-const tt = "application/font-woff", et = "image/jpeg", ne = {
-  woff: tt,
-  woff2: tt,
+const he = "application/font-woff", me = "image/jpeg", pt = {
+  woff: he,
+  woff2: he,
   ttf: "application/font-truetype",
   eot: "application/vnd.ms-fontobject",
   png: "image/png",
-  jpg: et,
-  jpeg: et,
+  jpg: me,
+  jpeg: me,
   gif: "image/gif",
   tiff: "image/tiff",
   svg: "image/svg+xml",
   webp: "image/webp"
 };
-function re(t) {
-  const e = /\.([^./]*?)$/g.exec(t);
-  return e ? e[1] : "";
+function xt(e) {
+  const t = /\.([^./]*?)$/g.exec(e);
+  return t ? t[1] : "";
 }
-function G(t) {
-  const e = re(t).toLowerCase();
-  return ne[e] || "";
+function re(e) {
+  const t = xt(e).toLowerCase();
+  return pt[t] || "";
 }
-function ae(t) {
-  return t.split(/,/)[1];
+function bt(e) {
+  return e.split(/,/)[1];
 }
-function j(t) {
-  return t.search(/^(data:)/) !== -1;
+function ne(e) {
+  return e.search(/^(data:)/) !== -1;
 }
-function ie(t, e) {
-  return `data:${e};base64,${t}`;
+function wt(e, t) {
+  return `data:${t};base64,${e}`;
 }
-async function dt(t, e, n) {
-  const r = await fetch(t, e);
-  if (r.status === 404)
-    throw new Error(`Resource "${r.url}" not found`);
-  const a = await r.blob();
-  return new Promise((o, l) => {
-    const c = new FileReader();
-    c.onerror = l, c.onloadend = () => {
+async function De(e, t, n) {
+  const a = await fetch(e, t);
+  if (a.status === 404)
+    throw new Error(`Resource "${a.url}" not found`);
+  const r = await a.blob();
+  return new Promise((i, o) => {
+    const s = new FileReader();
+    s.onerror = o, s.onloadend = () => {
       try {
-        o(n({ res: r, result: c.result }));
-      } catch (s) {
-        l(s);
+        i(n({ res: a, result: s.result }));
+      } catch (u) {
+        o(u);
       }
-    }, c.readAsDataURL(a);
+    }, s.readAsDataURL(r);
   });
 }
-const _ = {};
-function ce(t, e, n) {
-  let r = t.replace(/\?.*/, "");
-  return n && (r = t), /ttf|otf|eot|woff2?/i.test(r) && (r = r.replace(/.*\//, "")), e ? `[${e}]${r}` : r;
+const ee = {};
+function vt(e, t, n) {
+  let a = e.replace(/\?.*/, "");
+  return n && (a = e), /ttf|otf|eot|woff2?/i.test(a) && (a = a.replace(/.*\//, "")), t ? `[${t}]${a}` : a;
 }
-async function J(t, e, n) {
-  const r = ce(t, e, n.includeQueryParams);
-  if (_[r] != null)
-    return _[r];
-  n.cacheBust && (t += (/\?/.test(t) ? "&" : "?") + (/* @__PURE__ */ new Date()).getTime());
-  let a;
+async function ce(e, t, n) {
+  const a = vt(e, t, n.includeQueryParams);
+  if (ee[a] != null)
+    return ee[a];
+  n.cacheBust && (e += (/\?/.test(e) ? "&" : "?") + (/* @__PURE__ */ new Date()).getTime());
+  let r;
   try {
-    const o = await dt(t, n.fetchRequestInit, ({ res: l, result: c }) => (e || (e = l.headers.get("Content-Type") || ""), ae(c)));
-    a = ie(o, e);
-  } catch (o) {
-    a = n.imagePlaceholder || "";
-    let l = `Failed to fetch resource: ${t}`;
-    o && (l = typeof o == "string" ? o : o.message), l && console.warn(l);
+    const i = await De(e, n.fetchRequestInit, ({ res: o, result: s }) => (t || (t = o.headers.get("Content-Type") || ""), bt(s)));
+    r = wt(i, t);
+  } catch (i) {
+    r = n.imagePlaceholder || "";
+    let o = `Failed to fetch resource: ${e}`;
+    i && (o = typeof i == "string" ? i : i.message), o && console.warn(o);
   }
-  return _[r] = a, a;
+  return ee[a] = r, r;
 }
-async function oe(t) {
-  const e = t.toDataURL();
-  return e === "data:," ? t.cloneNode(!1) : H(e);
+async function St(e) {
+  const t = e.toDataURL();
+  return t === "data:," ? e.cloneNode(!1) : J(t);
 }
-async function le(t, e) {
-  if (t.currentSrc) {
-    const o = document.createElement("canvas"), l = o.getContext("2d");
-    o.width = t.clientWidth, o.height = t.clientHeight, l?.drawImage(t, 0, 0, o.width, o.height);
-    const c = o.toDataURL();
-    return H(c);
+async function Ct(e, t) {
+  if (e.currentSrc) {
+    const i = document.createElement("canvas"), o = i.getContext("2d");
+    i.width = e.clientWidth, i.height = e.clientHeight, o?.drawImage(e, 0, 0, i.width, i.height);
+    const s = i.toDataURL();
+    return J(s);
   }
-  const n = t.poster, r = G(n), a = await J(n, r, e);
-  return H(a);
+  const n = e.poster, a = re(n), r = await ce(n, a, t);
+  return J(r);
 }
-async function se(t, e) {
+async function Dt(e, t) {
   var n;
   try {
-    if (!((n = t?.contentDocument) === null || n === void 0) && n.body)
-      return await V(t.contentDocument.body, e, !0);
+    if (!((n = e?.contentDocument) === null || n === void 0) && n.body)
+      return await X(e.contentDocument.body, t, !0);
   } catch {
   }
-  return t.cloneNode(!1);
+  return e.cloneNode(!1);
 }
-async function de(t, e) {
-  return x(t, HTMLCanvasElement) ? oe(t) : x(t, HTMLVideoElement) ? le(t, e) : x(t, HTMLIFrameElement) ? se(t, e) : t.cloneNode(ut(t));
+async function Et(e, t) {
+  return E(e, HTMLCanvasElement) ? St(e) : E(e, HTMLVideoElement) ? Ct(e, t) : E(e, HTMLIFrameElement) ? Dt(e, t) : e.cloneNode(Ee(e));
 }
-const ue = (t) => t.tagName != null && t.tagName.toUpperCase() === "SLOT", ut = (t) => t.tagName != null && t.tagName.toUpperCase() === "SVG";
-async function he(t, e, n) {
-  var r, a;
-  if (ut(e))
-    return e;
-  let o = [];
-  return ue(t) && t.assignedNodes ? o = C(t.assignedNodes()) : x(t, HTMLIFrameElement) && (!((r = t.contentDocument) === null || r === void 0) && r.body) ? o = C(t.contentDocument.body.childNodes) : o = C(((a = t.shadowRoot) !== null && a !== void 0 ? a : t).childNodes), o.length === 0 || x(t, HTMLVideoElement) || await o.reduce((l, c) => l.then(() => V(c, n)).then((s) => {
-    s && e.appendChild(s);
-  }), Promise.resolve()), e;
+const kt = (e) => e.tagName != null && e.tagName.toUpperCase() === "SLOT", Ee = (e) => e.tagName != null && e.tagName.toUpperCase() === "SVG";
+async function Tt(e, t, n) {
+  var a, r;
+  if (Ee(t))
+    return t;
+  let i = [];
+  return kt(e) && e.assignedNodes ? i = L(e.assignedNodes()) : E(e, HTMLIFrameElement) && (!((a = e.contentDocument) === null || a === void 0) && a.body) ? i = L(e.contentDocument.body.childNodes) : i = L(((r = e.shadowRoot) !== null && r !== void 0 ? r : e).childNodes), i.length === 0 || E(e, HTMLVideoElement) || await i.reduce((o, s) => o.then(() => X(s, n)).then((u) => {
+    u && t.appendChild(u);
+  }), Promise.resolve()), t;
 }
-function me(t, e, n) {
-  const r = e.style;
-  if (!r)
+function Ft(e, t, n) {
+  const a = t.style;
+  if (!a)
     return;
-  const a = window.getComputedStyle(t);
-  a.cssText ? (r.cssText = a.cssText, r.transformOrigin = a.transformOrigin) : st(n).forEach((o) => {
-    let l = a.getPropertyValue(o);
-    o === "font-size" && l.endsWith("px") && (l = `${Math.floor(parseFloat(l.substring(0, l.length - 2))) - 0.1}px`), x(t, HTMLIFrameElement) && o === "display" && l === "inline" && (l = "block"), o === "d" && e.getAttribute("d") && (l = `path(${e.getAttribute("d")})`), r.setProperty(o, l, a.getPropertyPriority(o));
+  const r = window.getComputedStyle(e);
+  r.cssText ? (a.cssText = r.cssText, a.transformOrigin = r.transformOrigin) : Ce(n).forEach((i) => {
+    let o = r.getPropertyValue(i);
+    i === "font-size" && o.endsWith("px") && (o = `${Math.floor(parseFloat(o.substring(0, o.length - 2))) - 0.1}px`), E(e, HTMLIFrameElement) && i === "display" && o === "inline" && (o = "block"), i === "d" && t.getAttribute("d") && (o = `path(${t.getAttribute("d")})`), a.setProperty(i, o, r.getPropertyPriority(i));
   });
 }
-function fe(t, e) {
-  x(t, HTMLTextAreaElement) && (e.innerHTML = t.value), x(t, HTMLInputElement) && e.setAttribute("value", t.value);
+function Pt(e, t) {
+  E(e, HTMLTextAreaElement) && (t.innerHTML = e.value), E(e, HTMLInputElement) && t.setAttribute("value", e.value);
 }
-function ge(t, e) {
-  if (x(t, HTMLSelectElement)) {
-    const r = Array.from(e.children).find((a) => t.value === a.getAttribute("value"));
-    r && r.setAttribute("selected", "");
+function Rt(e, t) {
+  if (E(e, HTMLSelectElement)) {
+    const a = Array.from(t.children).find((r) => e.value === r.getAttribute("value"));
+    a && a.setAttribute("selected", "");
   }
 }
-function ye(t, e, n) {
-  return x(e, Element) && (me(t, e, n), ee(t, e, n), fe(t, e), ge(t, e)), e;
+function It(e, t, n) {
+  return E(t, Element) && (Ft(e, t, n), yt(e, t, n), Pt(e, t), Rt(e, t)), t;
 }
-async function xe(t, e) {
-  const n = t.querySelectorAll ? t.querySelectorAll("use") : [];
+async function Bt(e, t) {
+  const n = e.querySelectorAll ? e.querySelectorAll("use") : [];
   if (n.length === 0)
-    return t;
-  const r = {};
-  for (let o = 0; o < n.length; o++) {
-    const c = n[o].getAttribute("xlink:href");
-    if (c) {
-      const s = t.querySelector(c), u = document.querySelector(c);
-      !s && u && !r[c] && (r[c] = await V(u, e, !0));
-    }
-  }
-  const a = Object.values(r);
-  if (a.length) {
-    const o = "http://www.w3.org/1999/xhtml", l = document.createElementNS(o, "svg");
-    l.setAttribute("xmlns", o), l.style.position = "absolute", l.style.width = "0", l.style.height = "0", l.style.overflow = "hidden", l.style.display = "none";
-    const c = document.createElementNS(o, "defs");
-    l.appendChild(c);
-    for (let s = 0; s < a.length; s++)
-      c.appendChild(a[s]);
-    t.appendChild(l);
-  }
-  return t;
-}
-async function V(t, e, n) {
-  return !n && e.filter && !e.filter(t) ? null : Promise.resolve(t).then((r) => de(r, e)).then((r) => he(t, r, e)).then((r) => ye(t, r, e)).then((r) => xe(r, e));
-}
-const ht = /url\((['"]?)([^'"]+?)\1\)/g, pe = /url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g, be = /src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;
-function we(t) {
-  const e = t.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
-  return new RegExp(`(url\\(['"]?)(${e})(['"]?\\))`, "g");
-}
-function ve(t) {
-  const e = [];
-  return t.replace(ht, (n, r, a) => (e.push(a), n)), e.filter((n) => !j(n));
-}
-async function Se(t, e, n, r, a) {
-  try {
-    const o = n ? _t(e, n) : e, l = G(e);
-    let c;
-    return a || (c = await J(o, l, r)), t.replace(we(e), `$1${c}$3`);
-  } catch {
-  }
-  return t;
-}
-function Ce(t, { preferredFontFormat: e }) {
-  return e ? t.replace(be, (n) => {
-    for (; ; ) {
-      const [r, , a] = pe.exec(n) || [];
-      if (!a)
-        return "";
-      if (a === e)
-        return `src: ${r};`;
-    }
-  }) : t;
-}
-function mt(t) {
-  return t.search(ht) !== -1;
-}
-async function ft(t, e, n) {
-  if (!mt(t))
-    return t;
-  const r = Ce(t, n);
-  return ve(r).reduce((o, l) => o.then((c) => Se(c, l, e, n)), Promise.resolve(r));
-}
-async function F(t, e, n) {
-  var r;
-  const a = (r = e.style) === null || r === void 0 ? void 0 : r.getPropertyValue(t);
-  if (a) {
-    const o = await ft(a, null, n);
-    return e.style.setProperty(t, o, e.style.getPropertyPriority(t)), !0;
-  }
-  return !1;
-}
-async function Ee(t, e) {
-  await F("background", t, e) || await F("background-image", t, e), await F("mask", t, e) || await F("-webkit-mask", t, e) || await F("mask-image", t, e) || await F("-webkit-mask-image", t, e);
-}
-async function ke(t, e) {
-  const n = x(t, HTMLImageElement);
-  if (!(n && !j(t.src)) && !(x(t, SVGImageElement) && !j(t.href.baseVal)))
-    return;
-  const r = n ? t.src : t.href.baseVal, a = await J(r, G(r), e);
-  await new Promise((o, l) => {
-    t.onload = o, t.onerror = e.onImageErrorHandler ? (...s) => {
-      try {
-        o(e.onImageErrorHandler(...s));
-      } catch (u) {
-        l(u);
-      }
-    } : l;
-    const c = t;
-    c.decode && (c.decode = o), c.loading === "lazy" && (c.loading = "eager"), n ? (t.srcset = "", t.src = a) : t.href.baseVal = a;
-  });
-}
-async function De(t, e) {
-  const r = C(t.childNodes).map((a) => gt(a, e));
-  await Promise.all(r).then(() => t);
-}
-async function gt(t, e) {
-  x(t, Element) && (await Ee(t, e), await ke(t, e), await De(t, e));
-}
-function Re(t, e) {
-  const { style: n } = t;
-  e.backgroundColor && (n.backgroundColor = e.backgroundColor), e.width && (n.width = `${e.width}px`), e.height && (n.height = `${e.height}px`);
-  const r = e.style;
-  return r != null && Object.keys(r).forEach((a) => {
-    n[a] = r[a];
-  }), t;
-}
-const nt = {};
-async function rt(t) {
-  let e = nt[t];
-  if (e != null)
     return e;
-  const r = await (await fetch(t)).text();
-  return e = { url: t, cssText: r }, nt[t] = e, e;
-}
-async function at(t, e) {
-  let n = t.cssText;
-  const r = /url\(["']?([^"')]+)["']?\)/g, o = (n.match(/url\([^)]+\)/g) || []).map(async (l) => {
-    let c = l.replace(r, "$1");
-    return c.startsWith("https://") || (c = new URL(c, t.url).href), dt(c, e.fetchRequestInit, ({ result: s }) => (n = n.replace(l, `url(${s})`), [l, s]));
-  });
-  return Promise.all(o).then(() => n);
-}
-function it(t) {
-  if (t == null)
-    return [];
-  const e = [], n = /(\/\*[\s\S]*?\*\/)/gi;
-  let r = t.replace(n, "");
-  const a = new RegExp("((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})", "gi");
-  for (; ; ) {
-    const s = a.exec(r);
-    if (s === null)
-      break;
-    e.push(s[0]);
+  const a = {};
+  for (let i = 0; i < n.length; i++) {
+    const s = n[i].getAttribute("xlink:href");
+    if (s) {
+      const u = e.querySelector(s), m = document.querySelector(s);
+      !u && m && !a[s] && (a[s] = await X(m, t, !0));
+    }
   }
-  r = r.replace(a, "");
-  const o = /@import[\s\S]*?url\([^)]*\)[\s\S]*?;/gi, l = "((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})", c = new RegExp(l, "gi");
-  for (; ; ) {
-    let s = o.exec(r);
-    if (s === null) {
-      if (s = c.exec(r), s === null)
-        break;
-      o.lastIndex = c.lastIndex;
-    } else
-      c.lastIndex = o.lastIndex;
-    e.push(s[0]);
+  const r = Object.values(a);
+  if (r.length) {
+    const i = "http://www.w3.org/1999/xhtml", o = document.createElementNS(i, "svg");
+    o.setAttribute("xmlns", i), o.style.position = "absolute", o.style.width = "0", o.style.height = "0", o.style.overflow = "hidden", o.style.display = "none";
+    const s = document.createElementNS(i, "defs");
+    o.appendChild(s);
+    for (let u = 0; u < r.length; u++)
+      s.appendChild(r[u]);
+    e.appendChild(o);
   }
   return e;
 }
-async function Fe(t, e) {
-  const n = [], r = [];
-  return t.forEach((a) => {
-    if ("cssRules" in a)
+async function X(e, t, n) {
+  return !n && t.filter && !t.filter(e) ? null : Promise.resolve(e).then((a) => Et(a, t)).then((a) => Tt(e, a, t)).then((a) => It(e, a, t)).then((a) => Bt(a, t));
+}
+const ke = /url\((['"]?)([^'"]+?)\1\)/g, Lt = /url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g, Nt = /src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;
+function At(e) {
+  const t = e.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
+  return new RegExp(`(url\\(['"]?)(${t})(['"]?\\))`, "g");
+}
+function $t(e) {
+  const t = [];
+  return e.replace(ke, (n, a, r) => (t.push(r), n)), t.filter((n) => !ne(n));
+}
+async function zt(e, t, n, a, r) {
+  try {
+    const i = n ? rt(t, n) : t, o = re(t);
+    let s;
+    return r || (s = await ce(i, o, a)), e.replace(At(t), `$1${s}$3`);
+  } catch {
+  }
+  return e;
+}
+function Mt(e, { preferredFontFormat: t }) {
+  return t ? e.replace(Nt, (n) => {
+    for (; ; ) {
+      const [a, , r] = Lt.exec(n) || [];
+      if (!r)
+        return "";
+      if (r === t)
+        return `src: ${a};`;
+    }
+  }) : e;
+}
+function Te(e) {
+  return e.search(ke) !== -1;
+}
+async function Fe(e, t, n) {
+  if (!Te(e))
+    return e;
+  const a = Mt(e, n);
+  return $t(a).reduce((i, o) => i.then((s) => zt(s, o, t, n)), Promise.resolve(a));
+}
+async function z(e, t, n) {
+  var a;
+  const r = (a = t.style) === null || a === void 0 ? void 0 : a.getPropertyValue(e);
+  if (r) {
+    const i = await Fe(r, null, n);
+    return t.style.setProperty(e, i, t.style.getPropertyPriority(e)), !0;
+  }
+  return !1;
+}
+async function Ut(e, t) {
+  await z("background", e, t) || await z("background-image", e, t), await z("mask", e, t) || await z("-webkit-mask", e, t) || await z("mask-image", e, t) || await z("-webkit-mask-image", e, t);
+}
+async function Ht(e, t) {
+  const n = E(e, HTMLImageElement);
+  if (!(n && !ne(e.src)) && !(E(e, SVGImageElement) && !ne(e.href.baseVal)))
+    return;
+  const a = n ? e.src : e.href.baseVal, r = await ce(a, re(a), t);
+  await new Promise((i, o) => {
+    e.onload = i, e.onerror = t.onImageErrorHandler ? (...u) => {
       try {
-        C(a.cssRules || []).forEach((o, l) => {
-          if (o.type === CSSRule.IMPORT_RULE) {
-            let c = l + 1;
-            const s = o.href, u = rt(s).then((h) => at(h, e)).then((h) => it(h).forEach((m) => {
+        i(t.onImageErrorHandler(...u));
+      } catch (m) {
+        o(m);
+      }
+    } : o;
+    const s = e;
+    s.decode && (s.decode = i), s.loading === "lazy" && (s.loading = "eager"), n ? (e.srcset = "", e.src = r) : e.href.baseVal = r;
+  });
+}
+async function Vt(e, t) {
+  const a = L(e.childNodes).map((r) => Pe(r, t));
+  await Promise.all(a).then(() => e);
+}
+async function Pe(e, t) {
+  E(e, Element) && (await Ut(e, t), await Ht(e, t), await Vt(e, t));
+}
+function Ot(e, t) {
+  const { style: n } = e;
+  t.backgroundColor && (n.backgroundColor = t.backgroundColor), t.width && (n.width = `${t.width}px`), t.height && (n.height = `${t.height}px`);
+  const a = t.style;
+  return a != null && Object.keys(a).forEach((r) => {
+    n[r] = a[r];
+  }), e;
+}
+const fe = {};
+async function ge(e) {
+  let t = fe[e];
+  if (t != null)
+    return t;
+  const a = await (await fetch(e)).text();
+  return t = { url: e, cssText: a }, fe[e] = t, t;
+}
+async function ye(e, t) {
+  let n = e.cssText;
+  const a = /url\(["']?([^"')]+)["']?\)/g, i = (n.match(/url\([^)]+\)/g) || []).map(async (o) => {
+    let s = o.replace(a, "$1");
+    return s.startsWith("https://") || (s = new URL(s, e.url).href), De(s, t.fetchRequestInit, ({ result: u }) => (n = n.replace(o, `url(${u})`), [o, u]));
+  });
+  return Promise.all(i).then(() => n);
+}
+function pe(e) {
+  if (e == null)
+    return [];
+  const t = [], n = /(\/\*[\s\S]*?\*\/)/gi;
+  let a = e.replace(n, "");
+  const r = new RegExp("((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})", "gi");
+  for (; ; ) {
+    const u = r.exec(a);
+    if (u === null)
+      break;
+    t.push(u[0]);
+  }
+  a = a.replace(r, "");
+  const i = /@import[\s\S]*?url\([^)]*\)[\s\S]*?;/gi, o = "((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})", s = new RegExp(o, "gi");
+  for (; ; ) {
+    let u = i.exec(a);
+    if (u === null) {
+      if (u = s.exec(a), u === null)
+        break;
+      i.lastIndex = s.lastIndex;
+    } else
+      s.lastIndex = i.lastIndex;
+    t.push(u[0]);
+  }
+  return t;
+}
+async function Wt(e, t) {
+  const n = [], a = [];
+  return e.forEach((r) => {
+    if ("cssRules" in r)
+      try {
+        L(r.cssRules || []).forEach((i, o) => {
+          if (i.type === CSSRule.IMPORT_RULE) {
+            let s = o + 1;
+            const u = i.href, m = ge(u).then((l) => ye(l, t)).then((l) => pe(l).forEach((h) => {
               try {
-                a.insertRule(m, m.startsWith("@import") ? c += 1 : a.cssRules.length);
-              } catch (D) {
+                r.insertRule(h, h.startsWith("@import") ? s += 1 : r.cssRules.length);
+              } catch (b) {
                 console.error("Error inserting rule from remote css", {
-                  rule: m,
-                  error: D
+                  rule: h,
+                  error: b
                 });
               }
-            })).catch((h) => {
-              console.error("Error loading remote css", h.toString());
+            })).catch((l) => {
+              console.error("Error loading remote css", l.toString());
             });
-            r.push(u);
+            a.push(m);
           }
         });
-      } catch (o) {
-        const l = t.find((c) => c.href == null) || document.styleSheets[0];
-        a.href != null && r.push(rt(a.href).then((c) => at(c, e)).then((c) => it(c).forEach((s) => {
-          l.insertRule(s, l.cssRules.length);
-        })).catch((c) => {
-          console.error("Error loading remote stylesheet", c);
-        })), console.error("Error inlining remote css file", o);
+      } catch (i) {
+        const o = e.find((s) => s.href == null) || document.styleSheets[0];
+        r.href != null && a.push(ge(r.href).then((s) => ye(s, t)).then((s) => pe(s).forEach((u) => {
+          o.insertRule(u, o.cssRules.length);
+        })).catch((s) => {
+          console.error("Error loading remote stylesheet", s);
+        })), console.error("Error inlining remote css file", i);
       }
-  }), Promise.all(r).then(() => (t.forEach((a) => {
-    if ("cssRules" in a)
+  }), Promise.all(a).then(() => (e.forEach((r) => {
+    if ("cssRules" in r)
       try {
-        C(a.cssRules || []).forEach((o) => {
-          n.push(o);
+        L(r.cssRules || []).forEach((i) => {
+          n.push(i);
         });
-      } catch (o) {
-        console.error(`Error while reading CSS rules from ${a.href}`, o);
+      } catch (i) {
+        console.error(`Error while reading CSS rules from ${r.href}`, i);
       }
   }), n));
 }
-function Te(t) {
-  return t.filter((e) => e.type === CSSRule.FONT_FACE_RULE).filter((e) => mt(e.style.getPropertyValue("src")));
+function _t(e) {
+  return e.filter((t) => t.type === CSSRule.FONT_FACE_RULE).filter((t) => Te(t.style.getPropertyValue("src")));
 }
-async function Pe(t, e) {
-  if (t.ownerDocument == null)
+async function jt(e, t) {
+  if (e.ownerDocument == null)
     throw new Error("Provided element is not within a Document");
-  const n = C(t.ownerDocument.styleSheets), r = await Fe(n, e);
-  return Te(r);
+  const n = L(e.ownerDocument.styleSheets), a = await Wt(n, t);
+  return _t(a);
 }
-function yt(t) {
-  return t.trim().replace(/["']/g, "");
+function Re(e) {
+  return e.trim().replace(/["']/g, "");
 }
-function Ie(t) {
-  const e = /* @__PURE__ */ new Set();
-  function n(r) {
-    (r.style.fontFamily || getComputedStyle(r).fontFamily).split(",").forEach((o) => {
-      e.add(yt(o));
-    }), Array.from(r.children).forEach((o) => {
-      o instanceof HTMLElement && n(o);
+function Gt(e) {
+  const t = /* @__PURE__ */ new Set();
+  function n(a) {
+    (a.style.fontFamily || getComputedStyle(a).fontFamily).split(",").forEach((i) => {
+      t.add(Re(i));
+    }), Array.from(a.children).forEach((i) => {
+      i instanceof HTMLElement && n(i);
     });
   }
-  return n(t), e;
+  return n(e), t;
 }
-async function xt(t, e) {
-  const n = await Pe(t, e), r = Ie(t);
-  return (await Promise.all(n.filter((o) => r.has(yt(o.style.fontFamily))).map((o) => {
-    const l = o.parentStyleSheet ? o.parentStyleSheet.href : null;
-    return ft(o.cssText, l, e);
+async function Ie(e, t) {
+  const n = await jt(e, t), a = Gt(e);
+  return (await Promise.all(n.filter((i) => a.has(Re(i.style.fontFamily))).map((i) => {
+    const o = i.parentStyleSheet ? i.parentStyleSheet.href : null;
+    return Fe(i.cssText, o, t);
   }))).join(`
 `);
 }
-async function Be(t, e) {
-  const n = e.fontEmbedCSS != null ? e.fontEmbedCSS : e.skipFonts ? null : await xt(t, e);
+async function qt(e, t) {
+  const n = t.fontEmbedCSS != null ? t.fontEmbedCSS : t.skipFonts ? null : await Ie(e, t);
   if (n) {
-    const r = document.createElement("style"), a = document.createTextNode(n);
-    r.appendChild(a), t.firstChild ? t.insertBefore(r, t.firstChild) : t.appendChild(r);
+    const a = document.createElement("style"), r = document.createTextNode(n);
+    a.appendChild(r), e.firstChild ? e.insertBefore(a, e.firstChild) : e.appendChild(a);
   }
 }
-async function pt(t, e = {}) {
-  const { width: n, height: r } = q(t, e), a = await V(t, e, !0);
-  return await Be(a, e), await gt(a, e), Re(a, e), await Kt(a, n, r);
+async function Be(e, t = {}) {
+  const { width: n, height: a } = ae(e, t), r = await X(e, t, !0);
+  return await qt(r, t), await Pe(r, t), Ot(r, t), await ht(r, n, a);
 }
-async function L(t, e = {}) {
-  const { width: n, height: r } = q(t, e), a = await pt(t, e), o = await H(a), l = document.createElement("canvas"), c = l.getContext("2d"), s = e.pixelRatio || Gt(), u = e.canvasWidth || n, h = e.canvasHeight || r;
-  return l.width = u * s, l.height = h * s, e.skipAutoScale || Jt(l), l.style.width = `${u}`, l.style.height = `${h}`, e.backgroundColor && (c.fillStyle = e.backgroundColor, c.fillRect(0, 0, l.width, l.height)), c.drawImage(o, 0, 0, l.width, l.height), l;
+async function H(e, t = {}) {
+  const { width: n, height: a } = ae(e, t), r = await Be(e, t), i = await J(r), o = document.createElement("canvas"), s = o.getContext("2d"), u = t.pixelRatio || lt(), m = t.canvasWidth || n, l = t.canvasHeight || a;
+  return o.width = m * u, o.height = l * u, t.skipAutoScale || st(o), o.style.width = `${m}`, o.style.height = `${l}`, t.backgroundColor && (s.fillStyle = t.backgroundColor, s.fillRect(0, 0, o.width, o.height)), s.drawImage(i, 0, 0, o.width, o.height), o;
 }
-async function Le(t, e = {}) {
-  const { width: n, height: r } = q(t, e);
-  return (await L(t, e)).getContext("2d").getImageData(0, 0, n, r).data;
+async function Jt(e, t = {}) {
+  const { width: n, height: a } = ae(e, t);
+  return (await H(e, t)).getContext("2d").getImageData(0, 0, n, a).data;
 }
-async function Ae(t, e = {}) {
-  return (await L(t, e)).toDataURL();
+async function Xt(e, t = {}) {
+  return (await H(e, t)).toDataURL();
 }
-async function $e(t, e = {}) {
-  return (await L(t, e)).toDataURL("image/jpeg", e.quality || 1);
+async function Kt(e, t = {}) {
+  return (await H(e, t)).toDataURL("image/jpeg", t.quality || 1);
 }
-async function Ne(t, e = {}) {
-  const n = await L(t, e);
-  return await Xt(n);
+async function Yt(e, t = {}) {
+  const n = await H(e, t);
+  return await dt(n);
 }
-async function Ue(t, e = {}) {
-  return xt(t, e);
+async function Qt(e, t = {}) {
+  return Ie(e, t);
 }
-const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Zt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  getFontEmbedCSS: Ue,
-  toBlob: Ne,
-  toCanvas: L,
-  toJpeg: $e,
-  toPixelData: Le,
-  toPng: Ae,
-  toSvg: pt
-}, Symbol.toStringTag, { value: "Module" })), ze = (t, e) => t.reduce((n, r) => {
-  const a = String(r[e]);
-  return n[a] || (n[a] = []), n[a].push(r), n;
-}, {}), Me = (t, e, n = "asc") => [...t].sort((r, a) => {
-  const o = r[e], l = a[e], c = o > l ? 1 : o < l ? -1 : 0;
-  return n === "asc" ? c : -c;
-}), Ve = (t) => {
-  const { value: e } = t, n = M(B);
+  getFontEmbedCSS: Qt,
+  toBlob: Yt,
+  toCanvas: H,
+  toJpeg: Kt,
+  toPixelData: Jt,
+  toPng: Xt,
+  toSvg: Be
+}, Symbol.toStringTag, { value: "Module" })), en = (e, t) => e.reduce((n, a) => {
+  const r = String(a[t]);
+  return n[r] || (n[r] = []), n[r].push(a), n;
+}, {}), tn = (e, t, n = "asc") => [...e].sort((a, r) => {
+  const i = a[t], o = r[t], s = i > o ? 1 : i < o ? -1 : 0;
+  return n === "asc" ? s : -s;
+}), nn = (e) => {
+  const { value: t } = e, n = A(N), [a, r] = U(!1), i = we(null);
   if (!n) return null;
-  const { updateState: r } = n, { width: a, ...o } = t.account || {}, { width: l, ...c } = t.amount || {}, s = () => {
-    r({ editingTransaction: e });
+  const { state: o, labels: s, updateState: u, onDelete: m } = n, { width: l, ...h } = e.account || {}, { width: b, ...v } = e.amount || {};
+  G(() => {
+    const g = (w) => {
+      i.current && !i.current.contains(w.target) && r(!1);
+    };
+    return a && document.addEventListener("mousedown", g), () => document.removeEventListener("mousedown", g);
+  }, [a]);
+  const f = () => {
+    u({ editingTransaction: t }), r(!1);
+  }, p = () => {
+    const g = (o.data || []).filter((w) => w !== t);
+    m?.(t), u({ data: g }), r(!1);
   };
-  return /* @__PURE__ */ d("div", { className: "insertion", children: [
-    /* @__PURE__ */ i("div", { className: "debit flex-col", style: o, title: e.isDebit ? e.account : "", children: /* @__PURE__ */ i("div", { children: e.isDebit ? e.account : "" }) }),
-    /* @__PURE__ */ i("div", { className: "credit flex-col", style: o, title: e.isDebit ? "" : e.account, children: /* @__PURE__ */ i("div", { children: e.isDebit ? "" : e.account }) }),
-    /* @__PURE__ */ i("div", { className: "flex-col description", children: /* @__PURE__ */ i(
-      "div",
-      {
-        className: "transaction-content",
-        style: { marginLeft: e.isDebit ? 0 : 72 },
-        children: e.text
-      }
-    ) }),
-    /* @__PURE__ */ i("div", { className: "amount-debit flex-col", style: c, children: /* @__PURE__ */ i("div", { children: e.isDebit ? I.currency(e.amount, e.currency, e.local) : "" }) }),
-    /* @__PURE__ */ i("div", { className: "amount-credit flex-col", style: c, children: /* @__PURE__ */ i("div", { children: e.isDebit ? "" : I.currency(e.amount, e.currency, e.local) }) }),
-    t.showEdit !== !1 && /* @__PURE__ */ i("div", { className: "edit-action", style: { width: 32, textAlign: "center" }, children: /* @__PURE__ */ i(
-      "button",
-      {
-        onClick: s,
-        style: {
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "4px",
-          borderRadius: "4px",
-          opacity: 0.6
-        },
-        title: "Edit transaction",
-        children: /* @__PURE__ */ i(At, { size: 14 })
-      }
-    ) })
-  ] });
-}, O = {
+  return /* @__PURE__ */ d(
+    "div",
+    {
+      className: "insertion",
+      role: "row",
+      tabIndex: 0,
+      onKeyDown: (g) => {
+        g.key === "Enter" || g.key === " " ? (g.preventDefault(), r(!a)) : g.key === "Escape" && r(!1);
+      },
+      children: [
+        /* @__PURE__ */ c("div", { className: "debit flex-col", style: h, title: t.isDebit ? t.account : "", role: "cell", children: /* @__PURE__ */ c("div", { children: t.isDebit ? t.account : "" }) }),
+        /* @__PURE__ */ c("div", { className: "credit flex-col", style: h, title: t.isDebit ? "" : t.account, role: "cell", children: /* @__PURE__ */ c("div", { children: t.isDebit ? "" : t.account }) }),
+        /* @__PURE__ */ c("div", { className: "flex-col description", role: "cell", children: /* @__PURE__ */ c(
+          "div",
+          {
+            className: "transaction-content",
+            style: { marginLeft: t.isDebit ? 0 : 72 },
+            children: t.text
+          }
+        ) }),
+        /* @__PURE__ */ c("div", { className: "amount-debit flex-col", style: v, role: "cell", children: /* @__PURE__ */ c("div", { children: t.isDebit ? B.currency(t.amount, t.currency, t.local) : "" }) }),
+        /* @__PURE__ */ c("div", { className: "amount-credit flex-col", style: v, role: "cell", children: /* @__PURE__ */ c("div", { children: t.isDebit ? "" : B.currency(t.amount, t.currency, t.local) }) }),
+        e.showEdit !== !1 && /* @__PURE__ */ d("div", { className: "row-actions", ref: i, children: [
+          /* @__PURE__ */ c(
+            "button",
+            {
+              className: "row-actions-trigger",
+              onClick: () => r(!a),
+              title: s.actions,
+              "aria-haspopup": "true",
+              "aria-expanded": a,
+              children: /* @__PURE__ */ c(tt, { size: 14 })
+            }
+          ),
+          a && /* @__PURE__ */ d("div", { className: "row-actions-menu", role: "menu", children: [
+            /* @__PURE__ */ d("button", { role: "menuitem", onClick: f, onKeyDown: (g) => g.key === "Enter" && f(), children: [
+              /* @__PURE__ */ c(Ke, { size: 13 }),
+              " ",
+              s.edit
+            ] }),
+            /* @__PURE__ */ d("button", { role: "menuitem", className: "danger", onClick: p, onKeyDown: (g) => g.key === "Enter" && p(), children: [
+              /* @__PURE__ */ c(Se, { size: 13 }),
+              " ",
+              s.delete
+            ] })
+          ] })
+        ] })
+      ]
+    }
+  );
+}, te = {
   padding: "8px 10px",
   border: "1px solid hsl(220, 13%, 91%)",
   borderRadius: "6px",
@@ -1078,53 +1204,53 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
   background: "white",
   color: "hsl(224, 71%, 4%)"
-}, We = () => {
-  const t = M(B);
-  if (!t) return null;
-  const { state: e, updateState: n } = t;
+}, an = () => {
+  const e = A(N);
+  if (!e) return null;
+  const { state: t, labels: n, updateState: a } = e;
   return /* @__PURE__ */ d("div", { style: { display: "flex", gap: "8px", alignItems: "center", marginBottom: "16px", flexWrap: "wrap" }, children: [
     /* @__PURE__ */ d("div", { style: { position: "relative" }, children: [
-      /* @__PURE__ */ i($t, { size: 14, style: { position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "hsl(220, 9%, 46%)" } }),
-      /* @__PURE__ */ i(
+      /* @__PURE__ */ c(Ye, { size: 14, style: { position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "hsl(220, 9%, 46%)" } }),
+      /* @__PURE__ */ c(
         "input",
         {
           type: "text",
-          placeholder: "Search...",
-          value: e.searchTerm || "",
-          onChange: (r) => n({ searchTerm: r.target.value }),
-          style: { ...O, paddingLeft: "32px", width: "180px" }
+          placeholder: n.search,
+          value: t.searchTerm || "",
+          onChange: (r) => a({ searchTerm: r.target.value }),
+          style: { ...te, paddingLeft: "32px", width: "180px" }
         }
       )
     ] }),
     /* @__PURE__ */ d("div", { style: { display: "flex", gap: "6px", alignItems: "center" }, children: [
-      /* @__PURE__ */ i(Nt, { size: 14, style: { color: "hsl(220, 9%, 46%)" } }),
-      /* @__PURE__ */ i(
+      /* @__PURE__ */ c(Qe, { size: 14, style: { color: "hsl(220, 9%, 46%)" } }),
+      /* @__PURE__ */ c(
         "input",
         {
           type: "date",
-          value: e.dateFilter?.start || "",
-          onChange: (r) => n({
-            dateFilter: { ...e.dateFilter, start: r.target.value }
+          value: t.dateFilter?.start || "",
+          onChange: (r) => a({
+            dateFilter: { ...t.dateFilter, start: r.target.value }
           }),
-          style: O
+          style: te
         }
       ),
-      /* @__PURE__ */ i("span", { style: { color: "hsl(220, 9%, 46%)", fontSize: "12px" }, children: "to" }),
-      /* @__PURE__ */ i(
+      /* @__PURE__ */ c("span", { style: { color: "hsl(220, 9%, 46%)", fontSize: "12px" }, children: n.to }),
+      /* @__PURE__ */ c(
         "input",
         {
           type: "date",
-          value: e.dateFilter?.end || "",
-          onChange: (r) => n({
-            dateFilter: { ...e.dateFilter, end: r.target.value }
+          value: t.dateFilter?.end || "",
+          onChange: (r) => a({
+            dateFilter: { ...t.dateFilter, end: r.target.value }
           }),
-          style: O
+          style: te
         }
       ),
-      (e.searchTerm || e.dateFilter?.start || e.dateFilter?.end) && /* @__PURE__ */ i(
+      (t.searchTerm || t.dateFilter?.start || t.dateFilter?.end) && /* @__PURE__ */ c(
         "button",
         {
-          onClick: () => n({ searchTerm: "", dateFilter: {} }),
+          onClick: () => a({ searchTerm: "", dateFilter: {} }),
           style: {
             padding: "8px 12px",
             background: "white",
@@ -1136,12 +1262,12 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
             color: "hsl(220, 9%, 46%)",
             transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)"
           },
-          children: "Clear"
+          children: n.clear
         }
       )
     ] })
   ] });
-}, ct = [
+}, xe = [
   {
     date: "2021-01-01",
     text: "Received Capital worth",
@@ -1174,74 +1300,72 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     currency: "JPY",
     local: "en-US"
   }
-], _e = (t) => new Promise((e, n) => {
-  const r = new FileReader();
-  r.onload = (a) => {
+], rn = (e) => new Promise((t, n) => {
+  const a = new FileReader();
+  a.onload = (r) => {
     try {
-      const c = (a.target?.result).split(`
-`).slice(1).filter((s) => s.trim()).map((s) => {
-        const u = s.split(","), h = parseFloat(u[3]) || 0, m = parseFloat(u[4]) || 0;
+      const s = (r.target?.result).split(`
+`).slice(1).filter((u) => u.trim()).map((u) => {
+        const m = u.split(","), l = parseFloat(m[3]) || 0, h = parseFloat(m[4]) || 0;
         return {
-          date: u[0],
-          account: u[1].replace(/"/g, ""),
-          text: u[2].replace(/"/g, ""),
-          amount: h || m,
-          isDebit: h > 0,
-          currency: (u[5] || "USD").trim()
+          date: m[0],
+          account: m[1].replace(/"/g, ""),
+          text: m[2].replace(/"/g, ""),
+          amount: l || h,
+          isDebit: l > 0,
+          currency: (m[5] || "USD").trim()
         };
       });
-      e(c);
-    } catch (o) {
-      n(o);
+      t(s);
+    } catch (i) {
+      n(i);
     }
-  }, r.readAsText(t);
-}), Oe = (t) => {
-  if (!t || t.length === 0) return [];
-  const e = ze(t, "date");
-  return Object.entries(e).map(([n, r]) => ({ date: n, content: r }));
-}, je = (t) => {
-  const [e, n] = z("toPng"), r = M(B);
-  if (!r) return null;
-  const { state: a, undo: o, redo: l, updateState: c } = r, u = a.history.length > 1 ? a.data || [] : t.data && t.data.length > 0 ? t.data : a.data && a.data.length > 0 ? a.data : ct, h = wt(() => {
-    let f = u;
-    if (a.searchTerm) {
-      const g = a.searchTerm.toLowerCase();
-      f = f.filter(
-        (S) => S.text.toLowerCase().includes(g) || S.account.toLowerCase().includes(g)
+  }, a.readAsText(e);
+}), cn = (e) => {
+  if (!e || e.length === 0) return [];
+  const t = en(e, "date");
+  return Object.entries(t).map(([n, a]) => ({ date: n, content: a }));
+}, on = (e) => {
+  const [t, n] = U("toPng"), a = A(N);
+  if (!a) return null;
+  const { state: r, labels: i, pageSize: o, undo: s, redo: u, updateState: m } = a, h = r.history.length > 1 ? r.data || [] : e.data && e.data.length > 0 ? e.data : r.data && r.data.length > 0 ? r.data : xe, b = le(() => {
+    let y = h;
+    if (r.searchTerm) {
+      const x = r.searchTerm.toLowerCase();
+      y = y.filter(
+        (C) => C.text.toLowerCase().includes(x) || C.account.toLowerCase().includes(x)
       );
     }
-    return a.dateFilter?.start && (f = f.filter((g) => g.date >= a.dateFilter.start)), a.dateFilter?.end && (f = f.filter((g) => g.date <= a.dateFilter.end)), f;
-  }, [u, a.searchTerm, a.dateFilter]), m = vt(null), D = async (f) => {
-    const g = f.target.files?.[0];
-    if (g) {
+    return r.dateFilter?.start && (y = y.filter((x) => x.date >= r.dateFilter.start)), r.dateFilter?.end && (y = y.filter((x) => x.date <= r.dateFilter.end)), y;
+  }, [h, r.searchTerm, r.dateFilter]), v = le(() => r.sortField ? [...b].sort((y, x) => {
+    let C, D;
+    r.sortField === "date" ? (C = y.date, D = x.date) : r.sortField === "account" ? (C = y.account, D = x.account) : (C = y.amount, D = x.amount);
+    const P = C > D ? 1 : C < D ? -1 : 0;
+    return r.sortOrder === "desc" ? -P : P;
+  }) : b, [b, r.sortField, r.sortOrder]), f = o ? Math.max(1, Math.ceil(v.length / o)) : 1, p = Math.min(r.currentPage, f), g = o ? v.slice((p - 1) * o, p * o) : v, w = b.filter((y) => y.isDebit).reduce((y, x) => y + x.amount, 0), I = b.filter((y) => !y.isDebit).reduce((y, x) => y + x.amount, 0), V = Math.abs(w - I) < 0.01, K = b[0]?.currency || "USD", Y = b[0]?.local, O = we(null), Le = async (y) => {
+    const x = y.target.files?.[0];
+    if (x) {
       try {
-        const E = (await _e(g)).map((k) => ({ ...k, id: k.id || lt() }));
-        c({ data: [...a.data || [], ...E] });
+        const D = (await rn(x)).map((P) => ({ ...P, id: P.id || ve() }));
+        m({ data: [...r.data || [], ...D] });
       } catch {
       }
-      m.current && (m.current.value = "");
+      O.current && (O.current.value = "");
     }
-  }, T = () => {
-    const f = document.getElementById("diary");
-    f && He[e === "toPdf" ? "toPng" : e](f, {
-      backgroundColor: "#fff",
-      quality: 1,
-      pixelRatio: 10
-    }).then((g) => {
-      let S = g.split(","), E = S[0].match(/:(.*?);/)?.[1], k = atob(S[1]), A = k.length, X = new Uint8Array(A);
-      for (; A--; ) X[A] = k.charCodeAt(A);
-      const bt = new File([X], "filename", {
-        type: E
-      });
-      if (e === "toPdf")
-        I.extractDoc(g);
-      else if (E) {
-        const $ = document.createElement("a");
-        $.href = URL.createObjectURL(bt), $.download = "export." + E.split("/")[1], $.click(), URL.revokeObjectURL($.href);
+  }, Ne = () => {
+    const y = document.getElementById("diary");
+    y && Zt[t === "toPdf" ? "toPng" : t](y, { backgroundColor: "#fff", quality: 1, pixelRatio: 10 }).then((x) => {
+      let C = x.split(","), D = C[0].match(/:(.*?);/)?.[1], P = atob(C[1]), W = P.length, oe = new Uint8Array(W);
+      for (; W--; ) oe[W] = P.charCodeAt(W);
+      const Ae = new File([oe], "filename", { type: D });
+      if (t === "toPdf") B.extractDoc(x);
+      else if (D) {
+        const _ = document.createElement("a");
+        _.href = URL.createObjectURL(Ae), _.download = "export." + D.split("/")[1], _.click(), URL.revokeObjectURL(_.href);
       }
-    }).catch(function(g) {
-      console.error("oops, something went wrong!", g);
-    });
+    }).catch((x) => console.error("Export failed:", x));
+  }, ie = (y) => {
+    m({ currentPage: Math.max(1, Math.min(y, f)) });
   };
   return /* @__PURE__ */ d(
     "div",
@@ -1249,8 +1373,8 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
       style: {
         border: "1px solid hsl(220, 13%, 91%)",
         minHeight: "650px",
-        height: t.height,
-        width: t.width,
+        height: e.height,
+        width: e.width,
         position: "relative",
         padding: 24,
         borderRadius: 12,
@@ -1260,29 +1384,29 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
         fontFamily: "var(--rad-font)"
       },
       children: [
-        /* @__PURE__ */ d("div", { style: { display: "flex", marginBottom: 16, gap: t.compactButtons ? 4 : 12, alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }, children: [
-          /* @__PURE__ */ d("div", { style: { display: "flex", gap: t.compactButtons ? 4 : 12, alignItems: "center", flexWrap: "wrap" }, children: [
-            t.showExport !== !1 && /* @__PURE__ */ d("div", { className: "export", children: [
+        /* @__PURE__ */ d("div", { style: { display: "flex", marginBottom: 16, gap: e.compactButtons ? 4 : 12, alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" }, children: [
+          /* @__PURE__ */ d("div", { style: { display: "flex", gap: e.compactButtons ? 4 : 12, alignItems: "center", flexWrap: "wrap" }, children: [
+            e.showExport !== !1 && /* @__PURE__ */ d("div", { className: "export", children: [
               /* @__PURE__ */ d(
                 "button",
                 {
-                  id: e === "toJpeg" ? "active" : "",
+                  id: t === "toJpeg" ? "active" : "",
                   onClick: () => n("toJpeg"),
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ i(K, { size: t.compactButtons ? 10 : 12 }),
-                    t.compactButtons ? "JPG" : "JPEG"
+                    /* @__PURE__ */ c(se, { size: e.compactButtons ? 10 : 12 }),
+                    e.compactButtons ? "JPG" : "JPEG"
                   ]
                 }
               ),
               /* @__PURE__ */ d(
                 "button",
                 {
-                  id: e === "toPng" ? "active" : "",
+                  id: t === "toPng" ? "active" : "",
                   onClick: () => n("toPng"),
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ i(K, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(se, { size: e.compactButtons ? 10 : 12 }),
                     "PNG"
                   ]
                 }
@@ -1290,64 +1414,64 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
               /* @__PURE__ */ d(
                 "button",
                 {
-                  id: e === "toPdf" ? "active" : "",
+                  id: t === "toPdf" ? "active" : "",
                   onClick: () => n("toPdf"),
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ i(Ut, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(Ze, { size: e.compactButtons ? 10 : 12 }),
                     "PDF"
                   ]
                 }
               )
             ] }),
-            /* @__PURE__ */ d("div", { className: "global-action", style: { display: "flex", gap: t.compactButtons ? 2 : 8 }, children: [
-              t.showUndo !== !1 && /* @__PURE__ */ d(y, { children: [
-                /* @__PURE__ */ i(
+            /* @__PURE__ */ d("div", { className: "global-action", style: { display: "flex", gap: e.compactButtons ? 2 : 8 }, children: [
+              e.showUndo !== !1 && /* @__PURE__ */ d(S, { children: [
+                /* @__PURE__ */ c(
                   "button",
                   {
                     className: "sample doer",
-                    disabled: !(a.history.length > 1 && a.doIndex > 0),
-                    onClick: () => o(),
+                    disabled: !(r.history.length > 1 && r.doIndex > 0),
+                    onClick: () => s(),
                     title: "Undo",
-                    style: { padding: t.compactButtons ? "4px" : "8px" },
-                    children: /* @__PURE__ */ i(Ft, { strokeWidth: 2.5, size: t.compactButtons ? 12 : 14 })
+                    style: { padding: e.compactButtons ? "4px" : "8px" },
+                    children: /* @__PURE__ */ c(_e, { strokeWidth: 2.5, size: e.compactButtons ? 12 : 14 })
                   }
                 ),
-                /* @__PURE__ */ i(
+                /* @__PURE__ */ c(
                   "button",
                   {
                     className: "sample doer",
-                    onClick: () => l(),
-                    disabled: !(a.doIndex + 1 < a.history.length),
+                    onClick: () => u(),
+                    disabled: !(r.doIndex + 1 < r.history.length),
                     title: "Redo",
-                    style: { padding: t.compactButtons ? "4px" : "8px" },
-                    children: /* @__PURE__ */ i(Tt, { strokeWidth: 2.5, size: t.compactButtons ? 12 : 14 })
+                    style: { padding: e.compactButtons ? "4px" : "8px" },
+                    children: /* @__PURE__ */ c(je, { strokeWidth: 2.5, size: e.compactButtons ? 12 : 14 })
                   }
                 )
               ] }),
-              t.showSample !== !1 && /* @__PURE__ */ d(
+              e.showSample !== !1 && /* @__PURE__ */ d(
                 "button",
                 {
                   className: "sample",
-                  onClick: () => c({ data: ct }),
-                  title: "Load sample data",
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
+                  onClick: () => m({ data: xe }),
+                  title: i.sample,
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ i(zt, { size: t.compactButtons ? 10 : 12 }),
-                    t.compactButtons ? "Sample" : "Data Sample"
+                    /* @__PURE__ */ c(et, { size: e.compactButtons ? 10 : 12 }),
+                    e.compactButtons ? "Sample" : i.sample
                   ]
                 }
               ),
-              t.showClear !== !1 && /* @__PURE__ */ d(
+              e.showClear !== !1 && /* @__PURE__ */ d(
                 "button",
                 {
                   className: "reset",
-                  onClick: () => c({ data: [] }),
-                  title: "Clear all transactions",
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
+                  onClick: () => m({ data: [] }),
+                  title: i.clear,
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ i(Ht, { size: t.compactButtons ? 10 : 12 }),
-                    "Clear"
+                    /* @__PURE__ */ c(Se, { size: e.compactButtons ? 10 : 12 }),
+                    i.clear
                   ]
                 }
               ),
@@ -1355,52 +1479,52 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
                 "button",
                 {
                   className: "sample",
-                  onClick: () => m.current?.click(),
+                  onClick: () => O.current?.click(),
                   title: "Import CSV",
-                  style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px" },
+                  style: { padding: e.compactButtons ? "4px 8px" : "8px 12px", fontSize: e.compactButtons ? "12px" : "14px" },
                   children: [
-                    /* @__PURE__ */ i(It, { size: t.compactButtons ? 10 : 12 }),
-                    !t.compactButtons && /* @__PURE__ */ i("span", { style: { marginLeft: 4 }, children: "CSV" })
+                    /* @__PURE__ */ c(qe, { size: e.compactButtons ? 10 : 12 }),
+                    !e.compactButtons && /* @__PURE__ */ c("span", { style: { marginLeft: 4 }, children: "CSV" })
                   ]
                 }
               ),
-              /* @__PURE__ */ i(
+              /* @__PURE__ */ c(
                 "input",
                 {
-                  ref: m,
+                  ref: O,
                   type: "file",
                   accept: ".csv",
                   style: { display: "none" },
-                  onChange: D
+                  onChange: Le
                 }
               )
             ] })
           ] }),
-          /* @__PURE__ */ d("div", { style: { display: "flex", gap: t.compactButtons ? 4 : 12, alignItems: "center" }, children: [
-            t.showExport !== !1 && /* @__PURE__ */ d(
+          /* @__PURE__ */ d("div", { style: { display: "flex", gap: e.compactButtons ? 4 : 12, alignItems: "center" }, children: [
+            e.showExport !== !1 && /* @__PURE__ */ d(
               "button",
               {
                 className: "btn-export",
                 style: {
-                  backgroundColor: t.saveColor,
-                  padding: t.compactButtons ? "6px 12px" : "8px 16px",
-                  fontSize: t.compactButtons ? "12px" : "14px"
+                  backgroundColor: e.saveColor,
+                  padding: e.compactButtons ? "6px 12px" : "8px 16px",
+                  fontSize: e.compactButtons ? "12px" : "14px"
                 },
-                title: "Export diary",
-                onClick: T,
+                title: i.export,
+                onClick: Ne,
                 "aria-label": "Export accounting diary",
                 role: "button",
                 tabIndex: 0,
                 children: [
-                  /* @__PURE__ */ i(Pt, { size: t.compactButtons ? 16 : 20, "aria-hidden": "true" }),
-                  /* @__PURE__ */ i("span", { children: t.compactButtons ? "" : "Export" })
+                  /* @__PURE__ */ c(Ge, { size: e.compactButtons ? 16 : 20, "aria-hidden": "true" }),
+                  /* @__PURE__ */ c("span", { children: e.compactButtons ? "" : i.export })
                 ]
               }
             ),
-            t.showAdd !== !1 && /* @__PURE__ */ i(Wt, {})
+            e.showAdd !== !1 && /* @__PURE__ */ c(at, {})
           ] })
         ] }),
-        t.showSearch !== !1 && /* @__PURE__ */ i(We, {}),
+        e.showSearch !== !1 && /* @__PURE__ */ c(an, {}),
         /* @__PURE__ */ d(
           "div",
           {
@@ -1419,65 +1543,116 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
                     padding: 12,
                     fontSize: 18,
                     fontFamily: "var(--rad-font)",
-                    color: t.titleColor || "#000",
-                    border: `${t.titleBorder ? "2px" : "0"} solid rgba(0,0,0,.1)`,
-                    background: t.titleBg,
-                    textTransform: t.titleAllCaps ? "uppercase" : "none",
-                    borderRadius: t.titleCorner || 8
+                    color: e.titleColor || "#000",
+                    border: `${e.titleBorder ? "2px" : "0"} solid rgba(0,0,0,.1)`,
+                    background: e.titleBg,
+                    textTransform: e.titleAllCaps ? "uppercase" : "none",
+                    borderRadius: e.titleCorner || 8
                   },
                   role: "heading",
                   "aria-level": 1,
                   children: [
                     "Accounting diary for ",
-                    t.title || "Test Model"
+                    e.title || "Test Model"
                   ]
                 }
               ),
-              Oe(h || []).map((f, g, S) => /* @__PURE__ */ d(ot.Fragment, { children: [
-                /* @__PURE__ */ i(
-                  Ct,
+              g.length === 0 ? /* @__PURE__ */ d("div", { className: "empty-state", children: [
+                /* @__PURE__ */ c("div", { className: "empty-state-icon", children: /* @__PURE__ */ d("svg", { width: "48", height: "48", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round", children: [
+                  /* @__PURE__ */ c("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
+                  /* @__PURE__ */ c("polyline", { points: "14 2 14 8 20 8" }),
+                  /* @__PURE__ */ c("line", { x1: "12", y1: "18", x2: "12", y2: "12" }),
+                  /* @__PURE__ */ c("line", { x1: "9", y1: "15", x2: "15", y2: "15" })
+                ] }) }),
+                /* @__PURE__ */ c("p", { className: "empty-state-text", children: i.noData }),
+                e.showAdd !== !1 && /* @__PURE__ */ c(
+                  "button",
                   {
-                    date: f.date,
-                    columnHeader: t.columnHeader,
-                    columnHeaderColor: t.columnHeaderColor,
-                    columnHeaderBgColor: t.columnHeaderBgColor,
-                    index: g,
-                    account: t.account,
-                    amount: t.amount,
-                    showEdit: t.showEdit
-                  }
-                ),
-                Me(f.content, "isDebit", "asc").map((E, k) => /* @__PURE__ */ i(
-                  Ve,
-                  {
-                    value: E,
-                    length: S.length,
-                    account: t.account,
-                    amount: t.amount,
-                    showEdit: t.showEdit
-                  },
-                  k
-                )),
-                /* @__PURE__ */ i(
-                  Dt,
-                  {
-                    account: t.account,
-                    columnHeader: t.columnHeader,
-                    index: g,
-                    footer: t.footer,
-                    amount: t.amount,
-                    data: f.content,
-                    showEdit: t.showEdit
+                    className: "empty-state-cta",
+                    onClick: () => m({ openAddDialog: !0 }),
+                    "aria-label": i.addTransaction,
+                    children: i.addTransaction
                   }
                 )
-              ] }, f.date))
+              ] }) : cn(g).map((y, x, C) => /* @__PURE__ */ d(be.Fragment, { children: [
+                /* @__PURE__ */ c(
+                  He,
+                  {
+                    date: y.date,
+                    columnHeader: e.columnHeader,
+                    columnHeaderColor: e.columnHeaderColor,
+                    columnHeaderBgColor: e.columnHeaderBgColor,
+                    index: x,
+                    account: e.account,
+                    amount: e.amount,
+                    showEdit: e.showEdit
+                  }
+                ),
+                tn(y.content, "isDebit", "asc").map((D, P) => /* @__PURE__ */ c(
+                  nn,
+                  {
+                    value: D,
+                    length: C.length,
+                    account: e.account,
+                    amount: e.amount,
+                    showEdit: e.showEdit
+                  },
+                  D.id || P
+                )),
+                /* @__PURE__ */ c(
+                  We,
+                  {
+                    account: e.account,
+                    columnHeader: e.columnHeader,
+                    index: x,
+                    footer: e.footer,
+                    amount: e.amount,
+                    data: y.content,
+                    showEdit: e.showEdit
+                  }
+                )
+              ] }, y.date)),
+              e.showGrandTotal !== !1 && b.length > 0 && /* @__PURE__ */ d("div", { className: "grand-total", children: [
+                /* @__PURE__ */ d("div", { className: "grand-total-row", children: [
+                  /* @__PURE__ */ c("span", { className: "grand-total-label", children: i.grandTotal }),
+                  /* @__PURE__ */ d("span", { className: "grand-total-amounts", children: [
+                    /* @__PURE__ */ d("span", { className: "grand-total-debit", children: [
+                      i.debit,
+                      ": ",
+                      B.currency(w, K, Y)
+                    ] }),
+                    /* @__PURE__ */ d("span", { className: "grand-total-credit", children: [
+                      i.credit,
+                      ": ",
+                      B.currency(I, K, Y)
+                    ] })
+                  ] })
+                ] }),
+                /* @__PURE__ */ d("div", { className: "grand-total-row", children: [
+                  /* @__PURE__ */ c("span", { className: "grand-total-label", children: i.balance }),
+                  /* @__PURE__ */ c("span", { className: `balance-badge ${V ? "balanced" : "unbalanced"}`, children: V ? `✓ ${i.balanced}` : `⚠ ${i.unbalanced} (${B.currency(Math.abs(w - I), K, Y)})` })
+                ] })
+              ] })
             ]
           }
-        )
+        ),
+        o && f > 1 && /* @__PURE__ */ d("div", { className: "pagination", children: [
+          /* @__PURE__ */ c("button", { disabled: p <= 1, onClick: () => ie(p - 1), children: "←" }),
+          /* @__PURE__ */ d("span", { children: [
+            i.page,
+            " ",
+            p,
+            " ",
+            i.of,
+            " ",
+            f
+          ] }),
+          /* @__PURE__ */ c("button", { disabled: p >= f, onClick: () => ie(p + 1), children: "→" })
+        ] })
       ]
     }
   );
-}, qe = {
+}, ln = {
   mode: "light",
   colors: {
     background: "#ffffff",
@@ -1489,7 +1664,7 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     success: "#198754",
     error: "#dc3545"
   }
-}, Ge = {
+}, sn = {
   mode: "dark",
   colors: {
     background: "#1a1a1a",
@@ -1501,16 +1676,28 @@ const He = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     success: "#198754",
     error: "#dc3545"
   }
-}, Je = St(void 0), Xe = ({ children: t }) => {
-  const [e, n] = z(!1), r = e ? Ge : qe, a = () => n(!e);
-  return /* @__PURE__ */ i(Je.Provider, { value: { theme: r, toggleTheme: a }, children: t });
-}, Qe = (t) => /* @__PURE__ */ i(Xe, { children: /* @__PURE__ */ i(Rt, { children: /* @__PURE__ */ i(je, { ...t }) }) });
+}, dn = $e(void 0), un = ({ children: e }) => {
+  const [t, n] = U(!1), a = t ? sn : ln, r = () => n(!t);
+  return /* @__PURE__ */ c(dn.Provider, { value: { theme: a, toggleTheme: r }, children: e });
+}, fn = (e) => /* @__PURE__ */ c(un, { children: /* @__PURE__ */ c(
+  Ue,
+  {
+    labels: e.labels,
+    pageSize: e.pageSize,
+    onAdd: e.onAdd,
+    onDelete: e.onDelete,
+    onEdit: e.onEdit,
+    onChange: e.onChange,
+    children: /* @__PURE__ */ c(on, { ...e })
+  }
+) });
 export {
-  je as AccountingDiary,
-  Qe as AccountingDiaryWrapper,
-  Wt as DialogOperation,
-  Dt as Footer,
-  Rt as GlobalProvider,
-  Ct as Header,
-  Qe as default
+  on as AccountingDiary,
+  fn as AccountingDiaryWrapper,
+  at as DialogOperation,
+  We as Footer,
+  Ue as GlobalProvider,
+  He as Header,
+  fn as default,
+  Me as defaultLabels
 };

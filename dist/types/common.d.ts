@@ -16,3 +16,39 @@ export interface IStyleConfig {
     color?: string;
     background?: string;
 }
+export interface ILabels {
+    debit?: string;
+    credit?: string;
+    description?: string;
+    transactionEntries?: string;
+    addTransaction?: string;
+    editTransaction?: string;
+    modifyDescription?: string;
+    addDescription?: string;
+    amount?: string;
+    currency?: string;
+    account?: string;
+    date?: string;
+    debitTransaction?: string;
+    save?: string;
+    update?: string;
+    cancel?: string;
+    export?: string;
+    clear?: string;
+    sample?: string;
+    search?: string;
+    to?: string;
+    noData?: string;
+    grandTotal?: string;
+    balance?: string;
+    balanced?: string;
+    unbalanced?: string;
+    page?: string;
+    of?: string;
+    edit?: string;
+    delete?: string;
+    actions?: string;
+}
+export declare const defaultLabels: Required<ILabels>;
+export type SortField = 'date' | 'account' | 'amount';
+export type SortOrder = 'asc' | 'desc';

@@ -46,6 +46,13 @@ const DialogOperation: React.FC = () => {
   }, [context?.state.editingTransaction]);
 
   useEffect(() => {
+    if (context?.state.openAddDialog) {
+      setState((prev) => ({ ...prev, open: true }));
+      context.updateState({ openAddDialog: false } as any);
+    }
+  }, [context?.state.openAddDialog]);
+
+  useEffect(() => {
     if (!state.open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleClose();
@@ -67,6 +74,8 @@ const DialogOperation: React.FC = () => {
 
   if (!context) return null;
 
+  const { labels, onAdd, onEdit } = context;
+
   const handleSave = () => {
     const amount = Number(state.amount);
     const account = state.account.trim();
@@ -81,11 +90,15 @@ const DialogOperation: React.FC = () => {
     if (editing) {
       const index = value.findIndex(item => item.id === editing.id);
       if (index !== -1) {
-        value[index] = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
+        const newItem = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
+        onEdit?.(value[index], newItem);
+        value[index] = newItem;
       }
       context.updateState({ data: value, editingTransaction: undefined });
     } else {
-      value.push({ id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency });
+      const newItem: IDataItem = { id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
+      onAdd?.(newItem);
+      value.push(newItem);
       context.updateState({ data: value });
     }
     handleClose();
@@ -95,7 +108,7 @@ const DialogOperation: React.FC = () => {
 
   return (
     <>
-      <button onClick={handleClickOpen} className="btn-add-accounting" title="Add transaction">
+      <button onClick={handleClickOpen} className="btn-add-accounting" title={labels.addTransaction}>
         <Plus size={20} />
       </button>
 
@@ -104,8 +117,8 @@ const DialogOperation: React.FC = () => {
           <div className="dialog-modal" onClick={(e) => e.stopPropagation()}>
             <div className="dialog-header">
               <div>
-                <h3 className="dialog-title">{isEditing ? 'Edit Transaction' : 'Add Transaction'}</h3>
-                <p className="dialog-description">{isEditing ? 'Modify the transaction details.' : 'Add a new entry to your accounting diary.'}</p>
+                <h3 className="dialog-title">{isEditing ? labels.editTransaction : labels.addTransaction}</h3>
+                <p className="dialog-description">{isEditing ? labels.modifyDescription : labels.addDescription}</p>
               </div>
               <button onClick={handleClose} className="dialog-close">
                 <X size={16} />
@@ -115,7 +128,7 @@ const DialogOperation: React.FC = () => {
             <div className="dialog-body">
               <div className="dialog-grid-2">
                 <div className="control">
-                  <label htmlFor="rad-amount">Amount</label>
+                  <label htmlFor="rad-amount">{labels.amount}</label>
                   <input
                     id="rad-amount"
                     placeholder="0.00"
@@ -127,7 +140,7 @@ const DialogOperation: React.FC = () => {
                   />
                 </div>
                 <div className="control">
-                  <label htmlFor="rad-currency">Currency</label>
+                  <label htmlFor="rad-currency">{labels.currency}</label>
                   <select
                     id="rad-currency"
                     value={state.currency}
@@ -142,7 +155,7 @@ const DialogOperation: React.FC = () => {
 
               <div className="dialog-grid-2">
                 <div className="control">
-                  <label htmlFor="rad-account">Account</label>
+                  <label htmlFor="rad-account">{labels.account}</label>
                   <input
                     autoFocus
                     id="rad-account"
@@ -152,7 +165,7 @@ const DialogOperation: React.FC = () => {
                   />
                 </div>
                 <div className="control">
-                  <label htmlFor="rad-date">Date</label>
+                  <label htmlFor="rad-date">{labels.date}</label>
                   <input
                     id="rad-date"
                     type="date"
@@ -169,11 +182,11 @@ const DialogOperation: React.FC = () => {
                   checked={state.isDebit}
                   onChange={(e) => setState((prev) => ({ ...prev, isDebit: e.target.checked }))}
                 />
-                <label htmlFor="rad-isDebit">Debit transaction</label>
+                <label htmlFor="rad-isDebit">{labels.debitTransaction}</label>
               </div>
 
               <div className="control">
-                <label htmlFor="rad-description">Description</label>
+                <label htmlFor="rad-description">{labels.description}</label>
                 <textarea
                   id="rad-description"
                   rows={2}
@@ -185,9 +198,9 @@ const DialogOperation: React.FC = () => {
             </div>
 
             <div className="dialog-footer">
-              <button onClick={handleClose} className="btn-cancel">Cancel</button>
+              <button onClick={handleClose} className="btn-cancel">{labels.cancel}</button>
               <button onClick={handleSave} className="btn-confirm">
-                {isEditing ? 'Update' : 'Save'}
+                {isEditing ? labels.update : labels.save}
               </button>
             </div>
           </div>

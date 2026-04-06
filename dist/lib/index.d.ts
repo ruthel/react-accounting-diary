@@ -5,4 +5,6 @@ import { default as AccountingDiary } from './AccountingDiary.tsx';
 import { default as AccountingDiaryWrapper } from './AccountingDiaryWrapper.tsx';
 import { GlobalProvider } from './context.tsx';
 export { Header, Footer, DialogOperation, AccountingDiary, AccountingDiaryWrapper, GlobalProvider };
+export type { IDataItem, IStyleConfig, ILabels, SortField, SortOrder } from '../types/common';
+export { defaultLabels } from '../types/common';
 export default AccountingDiaryWrapper;

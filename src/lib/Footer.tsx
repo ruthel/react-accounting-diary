@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IDataItem, IStyleConfig } from '../types/common';
 import Func from './helpers/func.ts';
+import { GlobalContext } from './context';
 
 interface IFooterProps {
   account?: IStyleConfig;
@@ -15,6 +16,10 @@ interface IFooterProps {
 const borderBottom = 'var(--rad-border) solid var(--rad-border-color)';
 
 const Footer: React.FC<IFooterProps> = (props) => {
+  const context = useContext(GlobalContext);
+  if (!context) return null;
+  const { labels } = context;
+
   const totalDebit = (props.data || []).filter(d => d.isDebit).reduce((sum, d) => sum + d.amount, 0);
   const totalCredit = (props.data || []).filter(d => !d.isDebit).reduce((sum, d) => sum + d.amount, 0);
   const currency = props.data?.[0]?.currency || 'USD';
@@ -24,7 +29,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
   const { width: _mw, ...amountStyle } = props.amount || {};
 
   return (
-    <div className="insertion">
+    <div className="insertion" role="row">
       <div
         className="debit flex-col"
         style={{
@@ -56,7 +61,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
             textTransform: 'uppercase',
           }}
         >
-          transactions entries
+          {labels.transactionEntries}
         </div>
       </div>
       <div
