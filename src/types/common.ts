@@ -1,4 +1,5 @@
 export interface IDataItem {
+  id?: string;
   date: string;
   text: string;
   isDebit?: boolean;
@@ -7,6 +8,10 @@ export interface IDataItem {
   currency: string;
   local?: string;
 }
+
+let _counter = 0;
+export const generateId = (): string =>
+  `txn_${Date.now()}_${++_counter}`;
 
 export interface IStyleConfig {
   width?: number;

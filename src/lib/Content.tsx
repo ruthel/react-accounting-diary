@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Edit2 } from 'react-feather';
+import { Edit2 } from './icons';
 import Func from './helpers/func.ts';
 import { IDataItem, IStyleConfig } from '../types/common';
 import { GlobalContext } from './context';
@@ -18,18 +18,19 @@ const Content: React.FC<IContentProps> = (props) => {
   if (!context) return null;
   const { updateState } = context;
 
+  const { width: _aw, ...accountStyle } = props.account || {};
+  const { width: _mw, ...amountStyle } = props.amount || {};
+
   const handleEdit = () => {
     updateState({ editingTransaction: value });
   };
   return (
     <div className="insertion">
-      <div className="debit" style={props.account}>
+      <div className="debit flex-col" style={accountStyle} title={value.isDebit ? value.account : ''}>
         <div>{value.isDebit ? value.account : ''}</div>
       </div>
-      <div className="credit flex-col" style={props.account}>
-        <div className="transaction-content">
-          <div>{!value.isDebit ? value.account : ''}</div>
-        </div>
+      <div className="credit flex-col" style={accountStyle} title={!value.isDebit ? value.account : ''}>
+        <div>{!value.isDebit ? value.account : ''}</div>
       </div>
       <div className="flex-col description">
         <div
@@ -39,14 +40,14 @@ const Content: React.FC<IContentProps> = (props) => {
           {value.text}
         </div>
       </div>
-      <div className="amount-debit flex-col" style={props.amount}>
+      <div className="amount-debit flex-col" style={amountStyle}>
         <div>
           {value.isDebit
             ? Func.currency(value.amount, value.currency, value.local)
             : ''}
         </div>
       </div>
-      <div className="amount-credit flex-col" style={props.amount}>
+      <div className="amount-credit flex-col" style={amountStyle}>
         <div>
           {!value.isDebit
             ? Func.currency(value.amount, value.currency, value.local)

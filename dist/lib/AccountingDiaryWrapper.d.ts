@@ -28,6 +28,7 @@ interface IAccountingDiaryWrapperProps {
     compactButtons?: boolean;
     enableCSVExport?: boolean;
     enableExcelExport?: boolean;
+    theme?: 'light' | 'dark';
 }
 declare const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps>;
 export default AccountingDiaryWrapper;

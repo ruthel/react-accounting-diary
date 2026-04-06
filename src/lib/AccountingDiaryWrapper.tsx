@@ -1,6 +1,7 @@
 import React from 'react';
 import AccountingDiary from './AccountingDiary.tsx';
 import { GlobalProvider } from './context.tsx';
+import { ThemeProvider } from './ThemeProvider.tsx';
 import { IDataItem, IStyleConfig } from '../types/common';
 
 interface IAccountingDiaryWrapperProps {
@@ -31,13 +32,16 @@ interface IAccountingDiaryWrapperProps {
   compactButtons?: boolean;
   enableCSVExport?: boolean;
   enableExcelExport?: boolean;
+  theme?: 'light' | 'dark';
 }
 
 const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps> = (props) => {
   return (
-    <GlobalProvider>
-      <AccountingDiary {...props} />
-    </GlobalProvider>
+    <ThemeProvider>
+      <GlobalProvider>
+        <AccountingDiary {...props} />
+      </GlobalProvider>
+    </ThemeProvider>
   );
 };
 

@@ -8,6 +8,7 @@ interface IHeaderProps {
     columnHeaderBgColor?: string;
     account?: IStyleConfig;
     amount?: IStyleConfig;
+    showEdit?: boolean;
 }
 declare const Header: React.FC<IHeaderProps>;
 export default Header;

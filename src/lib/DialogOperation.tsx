@@ -1,17 +1,13 @@
 import * as React from 'react';
-import { useState, useCallback, useContext } from 'react';
+import { useState, useCallback, useContext, useEffect } from 'react';
 import './styles/DialogOperation.scss';
-import './styles/styles.scss';
 import { GlobalContext } from './context.tsx';
-import { Plus, X } from 'react-feather';
+import { Plus, X } from './icons';
 import currencies from './data/currencies.json';
-import { IDataItem } from '../types/common';
-
-interface IDialogOperationProps {}
+import { IDataItem, generateId } from '../types/common';
 
 interface IDialogOperationState {
   open: boolean;
-  visibility: 'show' | 'hide';
   isDebit: boolean;
   amount: number | string;
   account: string;
@@ -20,226 +16,184 @@ interface IDialogOperationState {
   currency: string;
 }
 
-const DialogOperation: React.FC<IDialogOperationProps> = (props) => {
+const initialState: IDialogOperationState = {
+  open: false,
+  isDebit: false,
+  amount: '',
+  account: '',
+  text: '',
+  date: new Date().toISOString().split('T')[0],
+  currency: 'USD',
+};
+
+const DialogOperation: React.FC = () => {
   const context = useContext(GlobalContext);
-  
-  const [state, setState] = useState<IDialogOperationState>({
-    open: false,
-    visibility: 'hide',
-    isDebit: false,
-    amount: '',
-    account: '',
-    text: '',
-    date: new Date().toISOString().split('T')[0],
-    currency: 'USD',
-  });
+  const [state, setState] = useState<IDialogOperationState>(initialState);
 
-  // Auto-open dialog when editing transaction
-  React.useEffect(() => {
-    if (context?.state.editingTransaction && !state.open) {
-      handleClickOpen();
-    }
-  }, [context?.state.editingTransaction]);
-
-  const handleClickOpen = useCallback(() => {
-    const editingTransaction = context?.state.editingTransaction;
-    if (editingTransaction) {
+  useEffect(() => {
+    const editing = context?.state.editingTransaction;
+    if (editing) {
       setState({
         open: true,
-        visibility: 'show',
-        isDebit: editingTransaction.isDebit,
-        amount: editingTransaction.amount,
-        account: editingTransaction.account,
-        text: editingTransaction.text,
-        date: editingTransaction.date,
-        currency: editingTransaction.currency || 'USD',
+        isDebit: editing.isDebit ?? false,
+        amount: editing.amount,
+        account: editing.account,
+        text: editing.text,
+        date: editing.date,
+        currency: editing.currency || 'USD',
       });
-    } else {
-      setState((prevState) => ({ ...prevState, visibility: 'show', open: true }));
     }
   }, [context?.state.editingTransaction]);
 
-  const handleClose = useCallback(() => {
-    setState((prevState) => ({ ...prevState, visibility: 'hide' }));
-    setTimeout(() => {
-      setState({
-        open: false,
-        visibility: 'hide',
-        isDebit: false,
-        amount: '',
-        account: '',
-        text: '',
-        date: new Date().toISOString().split('T')[0],
-        currency: 'USD',
-      });
-    }, 300);
+  useEffect(() => {
+    if (!state.open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [state.open]);
+
+  const handleClickOpen = useCallback(() => {
+    setState((prev) => ({ ...prev, open: true }));
   }, []);
+
+  const handleClose = useCallback(() => {
+    setState(initialState);
+    if (context?.state.editingTransaction) {
+      context.updateState({ editingTransaction: undefined });
+    }
+  }, [context]);
 
   if (!context) return null;
 
-  const handleSave = useCallback(() => {
-    if (state.amount && state.account && state.text && state.date) {
-      const value: IDataItem[] = [...(context.state.data || [])];
-      const editingTransaction = context.state.editingTransaction;
-      
-      if (editingTransaction) {
-        // Edit existing transaction
-        const index = value.findIndex(item => 
-          item.date === editingTransaction.date && 
-          item.account === editingTransaction.account && 
-          item.text === editingTransaction.text &&
-          item.amount === editingTransaction.amount
-        );
-        if (index !== -1) {
-          value[index] = {
-            amount: Number(state.amount),
-            account: state.account,
-            isDebit: state.isDebit,
-            text: state.text,
-            date: state.date,
-            currency: state.currency,
-          };
-        }
-        context.updateState({ data: value, editingTransaction: undefined });
-      } else {
-        // Add new transaction
-        value.push({
-          amount: Number(state.amount),
-          account: state.account,
-          isDebit: state.isDebit,
-          text: state.text,
-          date: state.date,
-          currency: state.currency,
-        });
-        context.updateState({ data: value });
+  const handleSave = () => {
+    const amount = Number(state.amount);
+    const account = state.account.trim();
+    const text = state.text.trim();
+    const date = state.date;
+
+    if (!amount || amount <= 0 || !account || !text || !date || isNaN(new Date(date).getTime())) return;
+
+    const value: IDataItem[] = [...(context.state.data || [])];
+    const editing = context.state.editingTransaction;
+
+    if (editing) {
+      const index = value.findIndex(item => item.id === editing.id);
+      if (index !== -1) {
+        value[index] = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
       }
-      handleClose();
+      context.updateState({ data: value, editingTransaction: undefined });
+    } else {
+      value.push({ id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency });
+      context.updateState({ data: value });
     }
-  }, [state, context, handleClose]);
+    handleClose();
+  };
+
+  const isEditing = !!context.state.editingTransaction;
 
   return (
-    <div>
-      {!state.open && (
-        <button onClick={handleClickOpen} className="btn-add-accounting" title="Add transaction">
-          <Plus size={24} />
-        </button>
-      )}
+    <>
+      <button onClick={handleClickOpen} className="btn-add-accounting" title="Add transaction">
+        <Plus size={20} />
+      </button>
+
       {state.open && (
-        <div className={`dialog-container ${state.visibility}`}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 className="dialog-title">{context?.state.editingTransaction ? 'Edit Transaction' : 'Add Transaction'}</h3>
-            <button
-              onClick={handleClose}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                color: '#999',
-              }}
-            >
-              <X size={20} />
-            </button>
-          </div>
-          <div>{context?.state.editingTransaction ? 'Modify the transaction details' : 'Insert a new transaction to your accounting diary'}</div>
-          <div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 120px',
-                columnGap: 12,
-              }}
-            >
-              <div className="control">
-                <label htmlFor="amount">Amount</label>
+        <div className="dialog-overlay" onClick={handleClose}>
+          <div className="dialog-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="dialog-header">
+              <div>
+                <h3 className="dialog-title">{isEditing ? 'Edit Transaction' : 'Add Transaction'}</h3>
+                <p className="dialog-description">{isEditing ? 'Modify the transaction details.' : 'Add a new entry to your accounting diary.'}</p>
+              </div>
+              <button onClick={handleClose} className="dialog-close">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="dialog-body">
+              <div className="dialog-grid-2">
+                <div className="control">
+                  <label htmlFor="rad-amount">Amount</label>
+                  <input
+                    id="rad-amount"
+                    placeholder="0.00"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={state.amount || ''}
+                    onChange={(e) => setState((prev) => ({ ...prev, amount: e.target.value }))}
+                  />
+                </div>
+                <div className="control">
+                  <label htmlFor="rad-currency">Currency</label>
+                  <select
+                    id="rad-currency"
+                    value={state.currency}
+                    onChange={(e) => setState((prev) => ({ ...prev, currency: e.target.value }))}
+                  >
+                    {(currencies as [string, string][]).map((c) => (
+                      <option key={c[1]} value={c[1]}>{c[0]}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="dialog-grid-2">
+                <div className="control">
+                  <label htmlFor="rad-account">Account</label>
+                  <input
+                    autoFocus
+                    id="rad-account"
+                    placeholder="e.g., Cash, Bank, Rent"
+                    value={state.account}
+                    onChange={(e) => setState((prev) => ({ ...prev, account: e.target.value }))}
+                  />
+                </div>
+                <div className="control">
+                  <label htmlFor="rad-date">Date</label>
+                  <input
+                    id="rad-date"
+                    type="date"
+                    value={state.date}
+                    onChange={(e) => setState((prev) => ({ ...prev, date: e.target.value }))}
+                  />
+                </div>
+              </div>
+
+              <div className="control-check">
                 <input
-                  id="amount"
-                  placeholder="0.00"
-                  type="number"
-                  step="0.01"
-                  value={state.amount || ''}
-                  onChange={(e) =>
-                    setState((prevState) => ({ ...prevState, amount: e.target.value }))
-                  }
+                  id="rad-isDebit"
+                  type="checkbox"
+                  checked={state.isDebit}
+                  onChange={(e) => setState((prev) => ({ ...prev, isDebit: e.target.checked }))}
+                />
+                <label htmlFor="rad-isDebit">Debit transaction</label>
+              </div>
+
+              <div className="control">
+                <label htmlFor="rad-description">Description</label>
+                <textarea
+                  id="rad-description"
+                  rows={2}
+                  placeholder="Describe the transaction..."
+                  value={state.text}
+                  onChange={(e) => setState((prev) => ({ ...prev, text: e.target.value }))}
                 />
               </div>
-              <div className="control">
-                <label htmlFor="currency">Currency</label>
-                <select
-                  id="currency"
-                  value={state.currency || 'USD'}
-                  onChange={(e) =>
-                    setState((prevState) => ({ ...prevState, currency: e.target.value }))
-                  }
-                >
-                  {(currencies as [string, string][]).map((c) => (
-                    <option key={c[1]} value={c[1]}>
-                      {c[0]}
-                    </option>
-                  ))}
-                </select>
-              </div>
             </div>
-            <div className="control">
-              <label htmlFor="account">Account</label>
-              <input
-                autoFocus
-                id="account"
-                placeholder="e.g., Cash, Bank, Rent"
-                value={state.account || ''}
-                onChange={(e) =>
-                  setState((prevState) => ({ ...prevState, account: e.target.value }))
-                }
-              />
+
+            <div className="dialog-footer">
+              <button onClick={handleClose} className="btn-cancel">Cancel</button>
+              <button onClick={handleSave} className="btn-confirm">
+                {isEditing ? 'Update' : 'Save'}
+              </button>
             </div>
-            <div className="control">
-              <label htmlFor="date">Date</label>
-              <input
-                id="date"
-                type="date"
-                value={state.date}
-                onChange={(e) =>
-                  setState((prevState) => ({ ...prevState, date: e.target.value }))
-                }
-              />
-            </div>
-            <div className="control-check">
-              <input
-                id="isDebit"
-                type="checkbox"
-                checked={state.isDebit || false}
-                onChange={(e) =>
-                  setState((prevState) => ({ ...prevState, isDebit: e.target.checked }))
-                }
-              />
-              <label htmlFor="isDebit">Debit transaction</label>
-            </div>
-            <div className="control">
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                rows={2}
-                placeholder="Describe the transaction..."
-                value={state.text || ''}
-                onChange={(e) =>
-                  setState((prevState) => ({ ...prevState, text: e.target.value }))
-                }
-              />
-            </div>
-          </div>
-          <div className="btn-action">
-            <button onClick={handleClose} className="error">
-              Cancel
-            </button>
-            <button onClick={handleSave} className="success">
-              {context?.state.editingTransaction ? 'Update Transaction' : 'Save Transaction'}
-            </button>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

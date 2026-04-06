@@ -1,0 +1,11 @@
+src/dev
+src/test
+*.test.tsx
+*.test.ts
+vitest.config.ts
+vite.dev.config.ts
+index.html
+.github
+.vscode
+dev-to-article.md
+IMPLEMENTATION.md

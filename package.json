@@ -13,14 +13,23 @@
     "react",
     "accounting",
     "diary",
+    "ledger",
+    "bookkeeping",
+    "journal",
     "component",
     "financial",
+    "finance",
     "export",
     "csv",
     "excel",
     "pdf",
+    "png",
+    "jpeg",
     "dark-mode",
-    "typescript"
+    "typescript",
+    "react-component",
+    "accounting-software",
+    "double-entry"
   ],
   "description": "Lightweight React component for accounting diaries with export to PNG, JPEG, PDF, CSV, Excel. Features dark mode, search, edit transactions.",
   "main": "dist/react-accounting-diary.umd.js",
@@ -46,14 +55,12 @@
     "url": "https://github.com/ruthel/react-accounting-diary.git"
   },
   "bugs": {
-    "type": "git",
     "url": "https://github.com/ruthel/react-accounting-diary/issues"
   },
+  "homepage": "https://github.com/ruthel/react-accounting-diary#readme",
   "scripts": {
     "build": "vite build",
-    "test": "vitest",
-    "lint": "eslint src/lib/**/*.{ts,tsx}",
-    "format": "prettier --write src/lib/**/*.{ts,tsx}",
+    "lint": "eslint src/lib/",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
@@ -61,33 +68,26 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
-    "@progress/kendo-file-saver": "^1.1.2",
     "html-to-image": "^1.11.13",
-    "pdfmake": "^0.2.20",
-    "react-feather": "^2.0.10",
-    "xlsx": "^0.18.5"
+    "pdfmake": "^0.2.20"
   },
   "devDependencies": {
     "@types/node": "^24.0.12",
     "@types/pdfmake": "^0.2.11",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "@vitejs/plugin-react": "^4.6.0",
-    "eslint": "^8.0.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
-    "eslint-plugin-react": "^7.33.0",
-    "prettier": "^3.6.2",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react": "^7.37.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass": "^1.89.2",
-    "terser": "^5.31.0",
     "typescript": "^5.8.3",
     "vite": "^7.0.3",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.2.4"
+    "vite-plugin-css-injected-by-js": "^4.0.1",
+    "vite-plugin-dts": "^4.5.4"
   },
   "license": "MIT",
   "contributors": [

@@ -1,8 +1,14 @@
 # react-accounting-diary
 
 [![npm version](https://badge.fury.io/js/react-accounting-diary.svg)](https://www.npmjs.com/package/react-accounting-diary)
+[![npm downloads](https://img.shields.io/npm/dw/react-accounting-diary)](https://www.npmjs.com/package/react-accounting-diary)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+[![CI](https://github.com/ruthel/react-accounting-diary/actions/workflows/ci.yml/badge.svg)](https://github.com/ruthel/react-accounting-diary/actions)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+
+<!-- TODO: Replace with actual screenshot/GIF -->
+<!-- ![Demo](https://raw.githubusercontent.com/ruthel/react-accounting-diary/main/demo.gif) -->
 
 Lightweight React component to generate accounting diaries with export to PNG, JPEG, or PDF.
 

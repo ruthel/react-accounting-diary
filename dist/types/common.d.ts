@@ -1,4 +1,5 @@
 export interface IDataItem {
+    id?: string;
     date: string;
     text: string;
     isDebit?: boolean;
@@ -7,6 +8,7 @@ export interface IDataItem {
     currency: string;
     local?: string;
 }
+export declare const generateId: () => string;
 export interface IStyleConfig {
     width?: number;
     backgroundColor?: string;

@@ -1,5 +1,3 @@
 import * as React from 'react';
-interface IDialogOperationProps {
-}
-declare const DialogOperation: React.FC<IDialogOperationProps>;
+declare const DialogOperation: React.FC;
 export default DialogOperation;
