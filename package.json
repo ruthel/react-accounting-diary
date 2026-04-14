@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": false,
   "engines": {
     "node": ">=18.0.0"
@@ -25,13 +25,19 @@
     "pdf",
     "png",
     "jpeg",
+    "json",
     "dark-mode",
     "typescript",
     "react-component",
     "accounting-software",
-    "double-entry"
+    "double-entry",
+    "headless",
+    "hook",
+    "validation",
+    "i18n",
+    "ledger-view"
   ],
-  "description": "Lightweight React component for accounting diaries with export to PNG, JPEG, PDF, CSV, Excel. Features dark mode, search, edit transactions.",
+  "description": "Lightweight React component for accounting diaries with export to PNG, JPEG, PDF, CSV, Excel, JSON. Features headless hook, ref API, ledger view, validation callbacks, i18n, dark mode, search, edit transactions.",
   "main": "dist/react-accounting-diary.umd.js",
   "module": "dist/react-accounting-diary.es.js",
   "types": "dist/react-accounting-diary.d.ts",

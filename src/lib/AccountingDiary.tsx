@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useMemo } from 'react';
+import React, { useState, useContext, useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import './styles/styles.scss';
 import DialogOperation from "./DialogOperation.tsx";
 import * as htmlToImage from 'html-to-image';
@@ -9,10 +9,11 @@ import Header from "./Header.tsx";
 import { GlobalContext } from "./context.tsx";
 import Content from "./Content.tsx";
 import SearchFilter from "./SearchFilter.tsx";
+import LedgerView from "./LedgerView.tsx";
 import sampleData from './data/sample.json';
 import Func from "./helpers/func.ts";
-import { importFromCSV } from './helpers/exportUtils';
-import { IDataItem, IStyleConfig, generateId } from '../types/common';
+import { importFromCSV, exportToCSV, exportToExcel, exportToJSON, importFromJSON } from './helpers/exportUtils';
+import { IDataItem, IStyleConfig, generateId, AccountingDiaryHandle } from '../types/common';
 
 interface IAccountingDiaryProps {
   height?: number;
@@ -40,6 +41,7 @@ interface IAccountingDiaryProps {
   showEdit?: boolean;
   showSearch?: boolean;
   showGrandTotal?: boolean;
+  showLedgerToggle?: boolean;
   compactButtons?: boolean;
 }
 
@@ -49,7 +51,7 @@ const getArray = (data: IDataItem[]) => {
   return Object.entries(grp).map(([date, content]) => ({ date, content }));
 };
 
-const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
+const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>((props, ref) => {
   const [toFunc, setToFunc] = useState<'toPng' | 'toJpeg' | 'toPdf'>('toPng');
   const context = useContext(GlobalContext);
 
@@ -69,7 +71,9 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
       const term = state.searchTerm.toLowerCase();
       filtered = filtered.filter(item =>
         item.text.toLowerCase().includes(term) ||
-        item.account.toLowerCase().includes(term)
+        item.account.toLowerCase().includes(term) ||
+        (item.category && item.category.toLowerCase().includes(term)) ||
+        (item.tags && item.tags.some(t => t.toLowerCase().includes(term)))
       );
     }
     if (state.dateFilter?.start) {
@@ -109,6 +113,75 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
   const mainLocal = filteredData[0]?.local;
 
   const csvInputRef = useRef<HTMLInputElement>(null);
+  const jsonInputRef = useRef<HTMLInputElement>(null);
+
+  const getAccountSummary = () => {
+    const summary: Record<string, { debit: number; credit: number; balance: number }> = {};
+    for (const item of rawData) {
+      if (!summary[item.account]) summary[item.account] = { debit: 0, credit: 0, balance: 0 };
+      if (item.isDebit) summary[item.account].debit += item.amount;
+      else summary[item.account].credit += item.amount;
+      summary[item.account].balance = summary[item.account].debit - summary[item.account].credit;
+    }
+    return summary;
+  };
+
+  const doExport = (format: 'toPng' | 'toJpeg' | 'toPdf') => {
+    const node = document.getElementById('diary');
+    if (!node) return Promise.resolve();
+    return htmlToImage[
+      format === 'toPdf' ? 'toPng' : format
+    ](node, { backgroundColor: '#fff', quality: 1, pixelRatio: 10 })
+      .then((dataUrl) => {
+        let arr = dataUrl.split(','),
+          mime = arr[0].match(/:(.*?);/)?.[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+        const file = new File([u8arr], 'filename', { type: mime });
+        if (format === 'toPdf') Func.extractDoc(dataUrl);
+        else if (mime) {
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(file);
+          link.download = 'export.' + mime.split('/')[1];
+          link.click();
+          URL.revokeObjectURL(link.href);
+        }
+      })
+      .catch((error) => console.error('Export failed:', error));
+  };
+
+  // Imperative handle for ref API
+  useImperativeHandle(ref, () => ({
+    exportToPNG: () => doExport('toPng').then(() => {}),
+    exportToJPEG: () => doExport('toJpeg').then(() => {}),
+    exportToPDF: () => doExport('toPdf').then(() => {}),
+    exportToCSV: () => exportToCSV(rawData),
+    exportToExcel: () => exportToExcel(rawData),
+    exportToJSON: () => exportToJSON(rawData),
+    importJSON: (json: string) => {
+      try {
+        const parsed = JSON.parse(json) as IDataItem[];
+        const withIds = parsed.map(item => ({ ...item, id: item.id || generateId() }));
+        updateState({ data: [...(state.data || []), ...withIds] });
+      } catch { /* ignore */ }
+    },
+    addTransaction: (item) => {
+      const newItem: IDataItem = { ...item, id: generateId() };
+      updateState({ data: [...(state.data || []), newItem] });
+    },
+    undo,
+    redo,
+    getData: () => rawData,
+    getTotals: () => ({
+      debit: grandTotalDebit,
+      credit: grandTotalCredit,
+      balance: grandTotalDebit - grandTotalCredit,
+      isBalanced,
+    }),
+    getAccountSummary,
+  }));
 
   const handleCSVImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -121,35 +194,25 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
     if (csvInputRef.current) csvInputRef.current.value = '';
   };
 
-  const handleExport = () => {
-    const node = document.getElementById('diary');
-    if (node) {
-      htmlToImage[
-        toFunc === 'toPdf' ? 'toPng' : toFunc
-      ](node, { backgroundColor: '#fff', quality: 1, pixelRatio: 10 })
-        .then((dataUrl) => {
-          let arr = dataUrl.split(','),
-            mime = arr[0].match(/:(.*?);/)?.[1],
-            bstr = atob(arr[1]),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
-          while (n--) u8arr[n] = bstr.charCodeAt(n);
-          const file = new File([u8arr], 'filename', { type: mime });
-          if (toFunc === 'toPdf') Func.extractDoc(dataUrl);
-          else if (mime) {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(file);
-            link.download = 'export.' + mime.split('/')[1];
-            link.click();
-            URL.revokeObjectURL(link.href);
-          }
-        })
-        .catch((error) => console.error('Export failed:', error));
-    }
+  const handleJSONImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const imported = await importFromJSON(file);
+      const withIds = imported.map(item => ({ ...item, id: item.id || generateId() }));
+      updateState({ data: [...(state.data || []), ...withIds] });
+    } catch { /* ignore invalid files */ }
+    if (jsonInputRef.current) jsonInputRef.current.value = '';
   };
+
+  const handleExport = () => doExport(toFunc);
 
   const goToPage = (page: number) => {
     updateState({ currentPage: Math.max(1, Math.min(page, totalPages)) } as any);
+  };
+
+  const toggleView = () => {
+    updateState({ viewMode: state.viewMode === 'diary' ? 'ledger' : 'diary' } as any);
   };
 
   return (
@@ -253,6 +316,15 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
               <Upload size={props.compactButtons ? 10 : 12} />
               {!props.compactButtons && <span style={{ marginLeft: 4 }}>CSV</span>}
             </button>
+            <button
+              className="sample"
+              onClick={() => jsonInputRef.current?.click()}
+              title={labels.importJSON}
+              style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+            >
+              <Upload size={props.compactButtons ? 10 : 12} />
+              {!props.compactButtons && <span style={{ marginLeft: 4 }}>JSON</span>}
+            </button>
             <input
               ref={csvInputRef}
               type="file"
@@ -260,6 +332,23 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
               style={{ display: 'none' }}
               onChange={handleCSVImport}
             />
+            <input
+              ref={jsonInputRef}
+              type="file"
+              accept=".json"
+              style={{ display: 'none' }}
+              onChange={handleJSONImport}
+            />
+            {props.showLedgerToggle !== false && (
+              <button
+                className="sample"
+                onClick={toggleView}
+                title={state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView}
+                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
+              >
+                {state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView}
+              </button>
+            )}
           </div>
         </div>
 
@@ -336,6 +425,8 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
               </button>
             )}
           </div>
+        ) : state.viewMode === 'ledger' ? (
+          <LedgerView data={displayData} />
         ) : (
           getArray(displayData).map((elt, i, array) => (
             <React.Fragment key={elt.date}>
@@ -406,6 +497,8 @@ const AccountingDiary: React.FC<IAccountingDiaryProps> = (props) => {
       )}
     </div>
   );
-};
+});
+
+AccountingDiary.displayName = 'AccountingDiary';
 
 export default AccountingDiary;

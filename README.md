@@ -10,7 +10,7 @@
 <!-- TODO: Replace with actual screenshot/GIF -->
 <!-- ![Demo](https://raw.githubusercontent.com/ruthel/react-accounting-diary/main/demo.gif) -->
 
-Lightweight React component to generate accounting diaries with export to PNG, JPEG, or PDF. Features callbacks for full integration, i18n support, sortable columns, pagination, balance validation, and more.
+Lightweight React component to generate accounting diaries with export to PNG, JPEG, PDF, CSV, Excel, and JSON. Features a headless hook, imperative ref API, ledger view, validation callbacks, i18n support, sortable columns, pagination, balance validation, and more.
 
 ## Installation
 
@@ -56,6 +56,93 @@ function App() {
 }
 ```
 
+## Headless Hook — `useAccountingDiary`
+
+Build your own UI with full control over the data layer:
+
+```jsx
+import { useAccountingDiary } from 'react-accounting-diary';
+
+function CustomDiary() {
+  const {
+    data,
+    addTransaction,
+    editTransaction,
+    deleteTransaction,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    totals,
+    accountSummary,
+    importJSON,
+    exportJSON,
+  } = useAccountingDiary({
+    initialData: [],
+    onChange: (data) => console.log('Changed:', data),
+    onBeforeAdd: (item) => item.amount > 0,       // validate before adding
+    onBeforeEdit: (old, updated) => true,          // validate before editing
+    onBeforeDelete: (item) => confirm('Delete?'),  // confirm before deleting
+  });
+
+  return (
+    <div>
+      <p>Total Debit: {totals.debit} | Credit: {totals.credit}</p>
+      <p>Balanced: {totals.isBalanced ? '✓' : '✗'}</p>
+      <button onClick={() => addTransaction({ date: '2024-01-01', text: 'Rent', isDebit: true, amount: 1000, account: 'Rent', currency: 'USD' })}>
+        Add
+      </button>
+      <button onClick={undo} disabled={!canUndo}>Undo</button>
+      <button onClick={redo} disabled={!canRedo}>Redo</button>
+    </div>
+  );
+}
+```
+
+## Imperative Ref API
+
+Control the component programmatically from a parent:
+
+```jsx
+import AccountingDiary from 'react-accounting-diary';
+import { useRef } from 'react';
+
+function App() {
+  const ref = useRef(null);
+
+  return (
+    <>
+      <button onClick={() => ref.current?.exportToPDF()}>Export PDF</button>
+      <button onClick={() => ref.current?.exportToJSON()}>Export JSON</button>
+      <button onClick={() => ref.current?.addTransaction({ date: '2024-01-01', text: 'Salary', isDebit: true, amount: 5000, account: 'Payroll', currency: 'USD' })}>
+        Add via Ref
+      </button>
+      <button onClick={() => console.log(ref.current?.getTotals())}>Log Totals</button>
+      <button onClick={() => console.log(ref.current?.getAccountSummary())}>Account Summary</button>
+      <AccountingDiary ref={ref} title="My Company" columnHeader={true} />
+    </>
+  );
+}
+```
+
+### Ref API Methods
+
+| Method | Return | Description |
+|---|---|---|
+| `exportToPNG()` | `Promise<void>` | Export diary as PNG |
+| `exportToJPEG()` | `Promise<void>` | Export diary as JPEG |
+| `exportToPDF()` | `Promise<void>` | Export diary as PDF |
+| `exportToCSV()` | `void` | Export data as CSV |
+| `exportToExcel()` | `void` | Export data as Excel |
+| `exportToJSON()` | `void` | Export data as JSON file |
+| `importJSON(json)` | `void` | Import transactions from JSON string |
+| `addTransaction(item)` | `void` | Add a transaction programmatically |
+| `undo()` | `void` | Undo last action |
+| `redo()` | `void` | Redo last undone action |
+| `getData()` | `IDataItem[]` | Get current data |
+| `getTotals()` | `object` | Get debit, credit, balance, isBalanced |
+| `getAccountSummary()` | `object` | Get per-account debit/credit/balance |
+
 ## Controlled Mode
 
 Integrate with your state management (Redux, Zustand, React state, etc.):
@@ -81,6 +168,88 @@ function App() {
 }
 ```
 
+## Validation Callbacks — `onBefore*`
+
+Intercept and validate before any mutation:
+
+```jsx
+<AccountingDiary
+  data={data}
+  onBeforeAdd={(item) => {
+    if (item.amount > 100000) {
+      alert('Amount too high!');
+      return false; // blocks the add
+    }
+    return true;
+  }}
+  onBeforeEdit={(oldItem, newItem) => {
+    return confirm(`Change ${oldItem.account} to ${newItem.account}?`);
+  }}
+  onBeforeDelete={(item) => {
+    return confirm(`Delete "${item.text}"?`);
+  }}
+  onChange={setData}
+/>
+```
+
+Callbacks can be synchronous (`boolean`) or asynchronous (`Promise<boolean>`).
+
+## Ledger View
+
+Toggle between diary view (grouped by date) and ledger view (grouped by account with running balance):
+
+```jsx
+<AccountingDiary
+  data={data}
+  showLedgerToggle={true}  // default: true
+  columnHeader={true}
+/>
+```
+
+The ledger view shows:
+- Transactions grouped by account name
+- Running balance per account
+- Per-account debit/credit totals
+- Color-coded balances (green for debit, red for credit)
+
+## Category & Tags
+
+Classify transactions with optional `category` and `tags` fields:
+
+```jsx
+const data = [
+  {
+    date: '2024-01-01',
+    text: 'Office rent',
+    isDebit: true,
+    amount: 2000,
+    account: 'Rent',
+    currency: 'USD',
+    category: 'Operating',
+    tags: ['monthly', 'fixed'],
+  },
+];
+```
+
+Categories and tags are searchable via the search filter.
+
+## JSON Import/Export
+
+Import and export data as JSON, in addition to CSV and Excel:
+
+```jsx
+// Via toolbar buttons (JSON button in toolbar)
+// Or via ref API:
+const ref = useRef(null);
+ref.current?.exportToJSON();
+ref.current?.importJSON('[{"date":"2024-01-01","text":"Test","amount":100,"account":"Cash","currency":"USD","isDebit":true}]');
+
+// Or via the headless hook:
+const { importJSON, exportJSON } = useAccountingDiary({ initialData: [] });
+const json = exportJSON(); // returns JSON string
+importJSON(json);          // imports from JSON string
+```
+
 ## i18n / Localisation
 
 All labels are customizable via the `labels` prop:
@@ -101,6 +270,12 @@ All labels are customizable via the `labels` prop:
     balance: 'Solde',
     balanced: 'Équilibré',
     unbalanced: 'Déséquilibré',
+    category: 'Catégorie',
+    tags: 'Étiquettes',
+    ledgerView: 'Vue Grand Livre',
+    diaryView: 'Vue Journal',
+    runningBalance: 'Solde Courant',
+    importJSON: 'Importer JSON',
   }}
 />
 ```
@@ -109,10 +284,16 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 
 ## Features
 
+- ✅ **Headless hook** (`useAccountingDiary`) — build your own UI
+- ✅ **Imperative ref API** — programmatic control (export, add, undo, etc.)
+- ✅ **Validation callbacks** (`onBeforeAdd`, `onBeforeEdit`, `onBeforeDelete`)
+- ✅ **Ledger view** — group by account with running balance
+- ✅ **Category & tags** — classify and search transactions
+- ✅ **JSON import/export** — full data backup/restore
 - ✅ Add, edit & delete transactions with interactive dialog
-- ✅ Export to PNG, JPEG, PDF, CSV, Excel
-- ✅ Import from CSV files
-- ✅ Search & filter by date range
+- ✅ Export to PNG, JPEG, PDF, CSV, Excel, JSON
+- ✅ Import from CSV and JSON files
+- ✅ Search & filter by date range (searches category & tags too)
 - ✅ Sortable columns (date, account, amount)
 - ✅ Pagination support
 - ✅ Grand total & balance validation (debit vs credit)
@@ -160,6 +341,9 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 | `onAdd` | `(item: IDataItem) => void` | `undefined` | Called when a transaction is added. |
 | `onEdit` | `(old: IDataItem, new: IDataItem) => void` | `undefined` | Called when a transaction is edited. |
 | `onDelete` | `(item: IDataItem) => void` | `undefined` | Called when a transaction is deleted. |
+| `onBeforeAdd` | `(item: IDataItem) => boolean \| Promise<boolean>` | `undefined` | Validate before adding. Return `false` to block. |
+| `onBeforeEdit` | `(old: IDataItem, new: IDataItem) => boolean \| Promise<boolean>` | `undefined` | Validate before editing. Return `false` to block. |
+| `onBeforeDelete` | `(item: IDataItem) => boolean \| Promise<boolean>` | `undefined` | Validate before deleting. Return `false` to block. |
 
 ### Features Toggle
 
@@ -173,6 +357,7 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 | `showEdit` | `boolean` | `true` | Show edit/delete actions on rows. |
 | `showSearch` | `boolean` | `true` | Show search & date filter. |
 | `showGrandTotal` | `boolean` | `true` | Show grand total & balance check. |
+| `showLedgerToggle` | `boolean` | `true` | Show diary/ledger view toggle button. |
 
 ### Pagination & i18n
 
@@ -194,6 +379,8 @@ interface IDataItem {
   account: string;    // Account name
   currency: string;   // Currency code (USD, EUR, XAF, etc.)
   local?: string;     // Locale for formatting (en-US, fr-FR, de-DE)
+  category?: string;  // Transaction category (Operating, Investing, etc.)
+  tags?: string[];    // Tags for classification (searchable)
 }
 ```
 

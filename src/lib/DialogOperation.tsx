@@ -14,6 +14,8 @@ interface IDialogOperationState {
   text: string;
   date: string;
   currency: string;
+  category: string;
+  tags: string;
 }
 
 const initialState: IDialogOperationState = {
@@ -24,6 +26,8 @@ const initialState: IDialogOperationState = {
   text: '',
   date: new Date().toISOString().split('T')[0],
   currency: 'USD',
+  category: '',
+  tags: '',
 };
 
 const DialogOperation: React.FC = () => {
@@ -41,6 +45,8 @@ const DialogOperation: React.FC = () => {
         text: editing.text,
         date: editing.date,
         currency: editing.currency || 'USD',
+        category: editing.category || '',
+        tags: editing.tags?.join(', ') || '',
       });
     }
   }, [context?.state.editingTransaction]);
@@ -74,13 +80,15 @@ const DialogOperation: React.FC = () => {
 
   if (!context) return null;
 
-  const { labels, onAdd, onEdit } = context;
+  const { labels, onAdd, onEdit, onBeforeAdd, onBeforeEdit } = context;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const amount = Number(state.amount);
     const account = state.account.trim();
     const text = state.text.trim();
     const date = state.date;
+    const category = state.category.trim() || undefined;
+    const tags = state.tags.trim() ? state.tags.split(',').map(t => t.trim()).filter(Boolean) : undefined;
 
     if (!amount || amount <= 0 || !account || !text || !date || isNaN(new Date(date).getTime())) return;
 
@@ -90,13 +98,15 @@ const DialogOperation: React.FC = () => {
     if (editing) {
       const index = value.findIndex(item => item.id === editing.id);
       if (index !== -1) {
-        const newItem = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
+        const newItem = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency, category, tags };
+        if (onBeforeEdit && !(await onBeforeEdit(value[index], newItem))) return;
         onEdit?.(value[index], newItem);
         value[index] = newItem;
       }
       context.updateState({ data: value, editingTransaction: undefined });
     } else {
-      const newItem: IDataItem = { id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency };
+      const newItem: IDataItem = { id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency, category, tags };
+      if (onBeforeAdd && !(await onBeforeAdd(newItem))) return;
       onAdd?.(newItem);
       value.push(newItem);
       context.updateState({ data: value });
@@ -194,6 +204,27 @@ const DialogOperation: React.FC = () => {
                   value={state.text}
                   onChange={(e) => setState((prev) => ({ ...prev, text: e.target.value }))}
                 />
+              </div>
+
+              <div className="dialog-grid-2">
+                <div className="control">
+                  <label htmlFor="rad-category">{labels.category}</label>
+                  <input
+                    id="rad-category"
+                    placeholder="e.g., Operating, Investing"
+                    value={state.category}
+                    onChange={(e) => setState((prev) => ({ ...prev, category: e.target.value }))}
+                  />
+                </div>
+                <div className="control">
+                  <label htmlFor="rad-tags">{labels.tags}</label>
+                  <input
+                    id="rad-tags"
+                    placeholder="e.g., rent, monthly (comma-separated)"
+                    value={state.tags}
+                    onChange={(e) => setState((prev) => ({ ...prev, tags: e.target.value }))}
+                  />
+                </div>
               </div>
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { IDataItem, ILabels, defaultLabels, SortField, SortOrder } from '../types/common';
+import { IDataItem, ILabels, defaultLabels, SortField, SortOrder, ViewMode } from '../types/common';
 
 interface IGlobalState {
   data?: IDataItem[];
@@ -15,6 +15,7 @@ interface IGlobalState {
   sortField?: SortField;
   sortOrder?: SortOrder;
   currentPage: number;
+  viewMode: ViewMode;
 }
 
 interface IGlobalContext {
@@ -28,6 +29,9 @@ interface IGlobalContext {
   onDelete?: (item: IDataItem) => void;
   onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
   onChange?: (data: IDataItem[]) => void;
+  onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
+  onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
+  onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 
 const Context = React.createContext<IGlobalContext | undefined>(undefined);
@@ -39,9 +43,12 @@ interface IGlobalProviderProps extends React.PropsWithChildren {
   onDelete?: (item: IDataItem) => void;
   onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
   onChange?: (data: IDataItem[]) => void;
+  onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
+  onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
+  onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 
-const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, pageSize, onAdd, onDelete, onEdit, onChange }) => {
+const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, pageSize, onAdd, onDelete, onEdit, onChange, onBeforeAdd, onBeforeEdit, onBeforeDelete }) => {
   const mergedLabels = { ...defaultLabels, ...labels } as Required<ILabels>;
 
   const [state, setState] = useState<IGlobalState>({
@@ -58,6 +65,7 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, page
     sortField: undefined,
     sortOrder: 'asc',
     currentPage: 1,
+    viewMode: 'diary',
   });
 
   const undo = useCallback(() => {
@@ -121,6 +129,9 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, page
     onDelete,
     onEdit,
     onChange,
+    onBeforeAdd,
+    onBeforeEdit,
+    onBeforeDelete,
   };
 
   return (

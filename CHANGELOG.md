@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2025-07-15
+
+### 🚀 New Features
+- **Headless Hook** (`useAccountingDiary`): Build your own UI with full data layer control — add, edit, delete, undo/redo, totals, account summary, JSON import/export
+- **Imperative Ref API** (`AccountingDiaryHandle`): Control the component programmatically via `ref` — export (PNG/JPEG/PDF/CSV/Excel/JSON), add transactions, undo/redo, get data/totals/account summary
+- **Validation Callbacks** (`onBeforeAdd`, `onBeforeEdit`, `onBeforeDelete`): Intercept and validate mutations before they happen. Supports sync and async validation
+- **Ledger View**: Toggle between diary view (grouped by date) and ledger view (grouped by account with running balance)
+- **Category & Tags**: New `category` (string) and `tags` (string[]) fields on `IDataItem` for transaction classification. Both are searchable
+- **JSON Import/Export**: Import from JSON files via toolbar button or ref API. Export data as JSON file
+- **`showLedgerToggle` prop**: Toggle the diary/ledger view switch button
+
+### ✨ Enhancements
+- Search filter now searches `category` and `tags` in addition to `text` and `account`
+- Dialog now includes category and tags input fields
+- New label keys: `category`, `tags`, `ledgerView`, `diaryView`, `runningBalance`, `importJSON`
+- Exported utility functions: `exportToCSV`, `exportToExcel`, `exportToJSON`, `importFromCSV`, `importFromJSON`
+- New exported types: `ViewMode`, `AccountingDiaryHandle`, `UseAccountingDiaryOptions`, `UseAccountingDiaryReturn`
+
 ## [2.2.0] - 2025-07-14
 
 ### 🚀 New Features

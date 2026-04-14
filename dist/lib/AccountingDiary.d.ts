@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem, IStyleConfig } from '../types/common';
+import { IDataItem, IStyleConfig, AccountingDiaryHandle } from '../types/common';
 interface IAccountingDiaryProps {
     height?: number;
     width?: number;
@@ -26,7 +26,8 @@ interface IAccountingDiaryProps {
     showEdit?: boolean;
     showSearch?: boolean;
     showGrandTotal?: boolean;
+    showLedgerToggle?: boolean;
     compactButtons?: boolean;
 }
-declare const AccountingDiary: React.FC<IAccountingDiaryProps>;
+declare const AccountingDiary: React.ForwardRefExoticComponent<IAccountingDiaryProps & React.RefAttributes<AccountingDiaryHandle>>;
 export default AccountingDiary;

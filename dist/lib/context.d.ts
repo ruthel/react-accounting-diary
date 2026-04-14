@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem, ILabels, SortField, SortOrder } from '../types/common';
+import { IDataItem, ILabels, SortField, SortOrder, ViewMode } from '../types/common';
 interface IGlobalState {
     data?: IDataItem[];
     doIndex: number;
@@ -17,6 +17,7 @@ interface IGlobalState {
     sortField?: SortField;
     sortOrder?: SortOrder;
     currentPage: number;
+    viewMode: ViewMode;
 }
 interface IGlobalContext {
     state: IGlobalState;
@@ -31,6 +32,9 @@ interface IGlobalContext {
     onDelete?: (item: IDataItem) => void;
     onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
     onChange?: (data: IDataItem[]) => void;
+    onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
+    onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
+    onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 declare const Context: React.Context<IGlobalContext | undefined>;
 interface IGlobalProviderProps extends React.PropsWithChildren {
@@ -40,6 +44,9 @@ interface IGlobalProviderProps extends React.PropsWithChildren {
     onDelete?: (item: IDataItem) => void;
     onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
     onChange?: (data: IDataItem[]) => void;
+    onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
+    onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
+    onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 declare const GlobalProvider: React.FC<IGlobalProviderProps>;
 export { GlobalProvider, Context as GlobalContext };

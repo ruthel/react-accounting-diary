@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import AccountingDiary from './AccountingDiary.tsx';
 import { GlobalProvider } from './context.tsx';
 import { ThemeProvider } from './ThemeProvider.tsx';
-import { IDataItem, IStyleConfig, ILabels } from '../types/common';
+import { IDataItem, IStyleConfig, ILabels, AccountingDiaryHandle } from '../types/common';
 
 interface IAccountingDiaryWrapperProps {
   height?: number;
@@ -30,6 +30,7 @@ interface IAccountingDiaryWrapperProps {
   showEdit?: boolean;
   showSearch?: boolean;
   showGrandTotal?: boolean;
+  showLedgerToggle?: boolean;
   compactButtons?: boolean;
   enableCSVExport?: boolean;
   enableExcelExport?: boolean;
@@ -41,9 +42,12 @@ interface IAccountingDiaryWrapperProps {
   onDelete?: (item: IDataItem) => void;
   onEdit?: (oldItem: IDataItem, newItem: IDataItem) => void;
   onExport?: (format: string, data: IDataItem[]) => void;
+  onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
+  onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
+  onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 
-const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps> = (props) => {
+const AccountingDiaryWrapper = forwardRef<AccountingDiaryHandle, IAccountingDiaryWrapperProps>((props, ref) => {
   return (
     <ThemeProvider>
       <GlobalProvider
@@ -53,11 +57,16 @@ const AccountingDiaryWrapper: React.FC<IAccountingDiaryWrapperProps> = (props) =
         onDelete={props.onDelete}
         onEdit={props.onEdit}
         onChange={props.onChange}
+        onBeforeAdd={props.onBeforeAdd}
+        onBeforeEdit={props.onBeforeEdit}
+        onBeforeDelete={props.onBeforeDelete}
       >
-        <AccountingDiary {...props} />
+        <AccountingDiary ref={ref} {...props} />
       </GlobalProvider>
     </ThemeProvider>
   );
-};
+});
+
+AccountingDiaryWrapper.displayName = 'AccountingDiaryWrapper';
 
 export default AccountingDiaryWrapper;

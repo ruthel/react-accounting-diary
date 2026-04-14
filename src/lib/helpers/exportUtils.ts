@@ -80,6 +80,26 @@ export const importFromCSV = (file: File): Promise<IDataItem[]> => {
   });
 };
 
+export const exportToJSON = (data: IDataItem[], filename = 'accounting-diary.json') => {
+  downloadBlob(JSON.stringify(data, null, 2), filename, 'application/json;charset=utf-8;');
+};
+
+export const importFromJSON = (file: File): Promise<IDataItem[]> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target?.result as string);
+        const items = (Array.isArray(parsed) ? parsed : [parsed]) as IDataItem[];
+        resolve(items);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.readAsText(file);
+  });
+};
+
 function downloadBlob(content: string, filename: string, type: string) {
   const blob = new Blob([content], { type });
   const link = document.createElement('a');

@@ -19,7 +19,7 @@ const Content: React.FC<IContentProps> = (props) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   if (!context) return null;
-  const { state, labels, updateState, onDelete } = context;
+  const { state, labels, updateState, onDelete, onBeforeDelete } = context;
 
   const { width: _aw, ...accountStyle } = props.account || {};
   const { width: _mw, ...amountStyle } = props.amount || {};
@@ -39,7 +39,8 @@ const Content: React.FC<IContentProps> = (props) => {
     setMenuOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (onBeforeDelete && !(await onBeforeDelete(value))) return;
     const newData = (state.data || []).filter((item) => item !== value);
     onDelete?.(value);
     updateState({ data: newData });
