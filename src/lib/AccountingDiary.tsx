@@ -1,5 +1,6 @@
 import React, { useState, useContext, useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import './styles/styles.scss';
+import './styles/print.scss';
 import DialogOperation from "./DialogOperation.tsx";
 import * as htmlToImage from 'html-to-image';
 import { groupBy, orderBy } from './helpers/utils';

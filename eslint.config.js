@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
+
 export default [
   eslint.configs.recommended,
   {
@@ -15,6 +16,24 @@ export default [
       parserOptions: {
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
+      },
+      globals: {
+        document: 'readonly',
+        window: 'readonly',
+        console: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        MouseEvent: 'readonly',
+        KeyboardEvent: 'readonly',
+        Node: 'readonly',
+        File: 'readonly',
+        FileReader: 'readonly',
+        Blob: 'readonly',
+        URL: 'readonly',
+        Uint8Array: 'readonly',
+        atob: 'readonly',
+        setTimeout: 'readonly',
+        Promise: 'readonly',
       },
     },
     settings: {

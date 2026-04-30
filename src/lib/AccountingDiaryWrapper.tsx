@@ -49,7 +49,7 @@ interface IAccountingDiaryWrapperProps {
 
 const AccountingDiaryWrapper = forwardRef<AccountingDiaryHandle, IAccountingDiaryWrapperProps>((props, ref) => {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={props.theme}>
       <GlobalProvider
         labels={props.labels}
         pageSize={props.pageSize}

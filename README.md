@@ -7,19 +7,18 @@
 [![CI](https://github.com/ruthel/react-accounting-diary/actions/workflows/ci.yml/badge.svg)](https://github.com/ruthel/react-accounting-diary/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 
-<!-- TODO: Replace with actual screenshot/GIF -->
-<!-- ![Demo](https://raw.githubusercontent.com/ruthel/react-accounting-diary/main/demo.gif) -->
+> **[Live Demo →](https://react-accounting-diary-demo.vercel.app)**
 
 Lightweight React component to generate accounting diaries with export to PNG, JPEG, PDF, CSV, Excel, and JSON. Features a headless hook, imperative ref API, ledger view, validation callbacks, i18n support, sortable columns, pagination, balance validation, and more.
 
 ## Installation
 
 ```bash
-npm install react-accounting-diary react react-dom
+npm install react-accounting-diary
 # or
-yarn add react-accounting-diary react react-dom
+yarn add react-accounting-diary
 # or
-pnpm add react-accounting-diary react react-dom
+pnpm add react-accounting-diary
 ```
 
 **Requirements:**
@@ -315,7 +314,7 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `height` | `number` | `300` | Height of the component. |
+| `height` | `number` | `undefined` | Height of the component (min 650px). |
 | `width` | `number` | `undefined` | Width of the component. |
 | `title` | `string` | `"Test Model"` | Title of the accounting diary. |
 | `titleColor` | `string` | `"#000"` | Text color of the title. |
@@ -326,9 +325,10 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 | `columnHeader` | `boolean` | `false` | Show column headers. |
 | `columnHeaderColor` | `string` | `undefined` | Column header text color. |
 | `columnHeaderBgColor` | `string` | `undefined` | Column header background color. |
-| `saveColor` | `string` | `"#ffffff"` | Export button color. |
-| `account` | `IStyleConfig` | `{ width: 128, color: '#646464' }` | Account column styles. |
-| `amount` | `IStyleConfig` | `{ width: 128, color: '#646464' }` | Amount column styles. |
+| `saveColor` | `string` | `undefined` | Export button background color. Uses primary theme color if not set. |
+| `saveIcon` | `React.ReactNode` | `undefined` | Custom icon for the export button. |
+| `account` | `IStyleConfig` | `undefined` | Account column styles (color, width, etc.). |
+| `amount` | `IStyleConfig` | `undefined` | Amount column styles (color, width, etc.). |
 | `footer` | `IStyleConfig` | `undefined` | Footer styles. |
 | `compactButtons` | `boolean` | `false` | Use compact button layout. |
 
@@ -358,6 +358,7 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 | `showSearch` | `boolean` | `true` | Show search & date filter. |
 | `showGrandTotal` | `boolean` | `true` | Show grand total & balance check. |
 | `showLedgerToggle` | `boolean` | `true` | Show diary/ledger view toggle button. |
+| `onExport` | `(format: string, data: IDataItem[]) => void` | `undefined` | Called when data is exported. |
 
 ### Pagination & i18n
 
@@ -365,7 +366,7 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 |---|---|---|---|
 | `pageSize` | `number` | `undefined` | Transactions per page. Enables pagination when set. |
 | `labels` | `ILabels` | `defaultLabels` | Custom labels for i18n. See [USAGE.md](USAGE.md). |
-| `theme` | `'light' \| 'dark'` | `'light'` | Theme mode. |
+| `theme` | `'light' \| 'dark'` | `'light'` | Theme mode (light/dark styling). |
 
 ## Data Format
 
@@ -386,7 +387,7 @@ interface IDataItem {
 
 ## Performance
 
-- **Bundle size:** ~18KB (ESM, gzipped)
+- **Bundle size:** ~21KB (ESM, gzipped)
 - **Zero external CSS:** Styles are scoped and included
 - **Tree-shakeable:** ESM exports with `sideEffects: false`
 

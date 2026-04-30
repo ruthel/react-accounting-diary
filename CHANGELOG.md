@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2025-07-30
+
+### ✨ Enhancements
+- Added live demo link in README ([react-accounting-diary-demo.vercel.app](https://react-accounting-diary-demo.vercel.app))
+- Removed unnecessary `react react-dom` from install commands (already peer deps)
+- Updated bundle size in README to reflect actual build (~21KB gzipped)
+
+### 🐛 Bug Fixes
+- Fixed `theme` prop not being passed to ThemeProvider (dark mode now works via prop)
+- Fixed `print.scss` never imported — print styles are now active
+- Fixed Rollup mixed exports warning (`output.exports: 'named'`)
+- Fixed default locale from `de-DE` to `en-US` in currency formatter
+- Fixed default currency from `XAF` to `USD`
+- Fixed date formatter from `fr-FR` to `en-US`
+- Fixed number formatter from `en-IN` to `en-US`
+- Renamed French variable `devise` to `currency` in source code
+- Fixed sample data: consistent `USD` currency and `en-US` locale, corrected rent amount from 80000 to 2000
+
+### 📦 Build & Tooling
+- Added `"type": "module"` to package.json
+- Added `@eslint/js` to devDependencies (lint was broken)
+- Added browser globals to ESLint config (false `no-undef` errors)
+- Added `prepublishOnly` script for safer publishes
+- Fixed CI workflow: use pnpm, removed non-existent `test` step
+- Cleaned `.npmignore` to exclude config files and stale `.tgz`
+- Moved `dev-to-article.md` out of npm package (into demo project)
+
+### 📝 Documentation
+- Fixed incorrect default values in README props table (`height`, `saveColor`, `account`, `amount`)
+- Added missing props to README: `saveIcon`, `onExport`
+
 ## [2.3.0] - 2025-07-15
 
 ### 🚀 New Features

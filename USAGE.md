@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install react-accounting-diary react react-dom
+npm install react-accounting-diary
 ```
 
 ## Basic Usage

@@ -1,6 +1,6 @@
 [
   {
-    "date": "2021-01-01",
+    "date": "2024-01-01",
     "text": "Received Capital worth",
     "isDebit": true,
     "amount": 90000,
@@ -9,26 +9,28 @@
     "local": "en-US"
   },
   {
-    "date": "2021-01-01",
+    "date": "2024-01-01",
     "text": "Received Capital worth",
     "amount": 90000,
     "account": "Common Stock",
-    "currency": "USD"
+    "currency": "USD",
+    "local": "en-US"
   },
   {
-    "date": "2021-01-01",
-    "text": "Paid $2,000 for the first month’s rent.",
+    "date": "2024-01-01",
+    "text": "Paid $2,000 for the first month's rent.",
     "isDebit": true,
-    "amount": 80000,
+    "amount": 2000,
     "account": "Rent",
-    "currency": "JPY"
+    "currency": "USD",
+    "local": "en-US"
   },
   {
-    "date": "2021-01-01",
-    "text": "Paid $2,000 for the first month’s rent.",
-    "amount": 80000,
+    "date": "2024-01-01",
+    "text": "Paid $2,000 for the first month's rent.",
+    "amount": 2000,
     "account": "Cash",
-    "currency": "JPY",
+    "currency": "USD",
     "local": "en-US"
   }
 ]

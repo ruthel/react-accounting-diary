@@ -12,9 +12,12 @@ importers:
         specifier: ^1.11.13
         version: 1.11.13
       pdfmake:
-        specifier: ^0.2.20
+        specifier: '>=0.2.0'
         version: 0.2.23
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.4
+        version: 9.39.4
       '@types/node':
         specifier: ^24.0.12
         version: 24.12.2

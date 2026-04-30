@@ -49,9 +49,13 @@ interface IThemeContext {
 
 const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 
-export const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [isDark, setIsDark] = useState(false);
+export const ThemeProvider: React.FC<React.PropsWithChildren<{ theme?: 'light' | 'dark' }>> = ({ children, theme: themeProp }) => {
+  const [isDark, setIsDark] = useState(themeProp === 'dark');
   
+  React.useEffect(() => {
+    if (themeProp) setIsDark(themeProp === 'dark');
+  }, [themeProp]);
+
   const theme = isDark ? darkTheme : lightTheme;
   
   const toggleTheme = () => setIsDark(!isDark);

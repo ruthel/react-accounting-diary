@@ -19,6 +19,7 @@ export default defineConfig({
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime', 'pdfmake'],
       output: {
+        exports: 'named',
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',

@@ -1,8 +1,8 @@
-(function(){"use strict";try{if(typeof document<"u"){var r=document.createElement("style");r.appendChild(document.createTextNode('@charset "UTF-8";.dialog-overlay{position:fixed;inset:0;z-index:1000;background:#0006;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;animation:overlayIn .15s ease}@keyframes overlayIn{0%{opacity:0}to{opacity:1}}.dialog-modal{background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:calc(var(--rad-radius) + 4px);box-shadow:0 16px 70px -12px #00000040;width:440px;max-width:calc(100vw - 32px);max-height:calc(100vh - 64px);overflow-y:auto;font-family:var(--rad-font);animation:modalIn .2s cubic-bezier(.16,1,.3,1)}@keyframes modalIn{0%{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}.dialog-header{display:flex;justify-content:space-between;align-items:flex-start;padding:24px 24px 0}.dialog-title{margin:0;font-weight:600;font-size:16px;color:var(--rad-text);letter-spacing:-.02em;line-height:1.4}.dialog-description{margin:4px 0 0;font-size:13px;color:var(--rad-text-muted);line-height:1.4}.dialog-close{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--rad-radius-sm);color:var(--rad-text-muted);transition:all var(--rad-transition);flex-shrink:0}.dialog-close:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.dialog-body{padding:20px 24px;display:flex;flex-direction:column;gap:16px}.dialog-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}.dialog-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--rad-border-color);background:var(--rad-bg-muted);border-radius:0 0 calc(var(--rad-radius) + 4px) calc(var(--rad-radius) + 4px)}.btn-cancel,.btn-confirm{padding:8px 16px;border-radius:var(--rad-radius-sm);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition)}.btn-cancel:active,.btn-confirm:active{transform:scale(.98)}.btn-cancel:focus-visible,.btn-confirm:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-cancel{background:var(--rad-bg);color:var(--rad-text-secondary);border:1px solid var(--rad-border-color);box-shadow:var(--rad-shadow-sm)}.btn-cancel:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.btn-confirm{background:var(--rad-text);color:#fff;border:none;box-shadow:var(--rad-shadow-sm)}.btn-confirm:hover{opacity:.9}.control{display:flex;flex-direction:column;margin:0}.control label{display:block;font-size:12px;margin-bottom:6px;font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.control input,.control select,.control textarea{width:100%;height:36px;padding:0 10px;border-radius:var(--rad-radius-sm);box-sizing:border-box;border:1px solid var(--rad-border-color);font-size:13px;font-family:inherit;transition:all var(--rad-transition);background:var(--rad-bg);color:var(--rad-text)}.control input::placeholder,.control select::placeholder,.control textarea::placeholder{color:var(--rad-text-muted)}.control input:hover,.control select:hover,.control textarea:hover{border-color:#c5cad3}.control input:focus,.control select:focus,.control textarea:focus{outline:none;border-color:var(--rad-primary);box-shadow:0 0 0 3px var(--rad-primary-ring)}.control textarea{height:auto;min-height:60px;padding:8px 10px;resize:vertical;line-height:1.5}.control select{cursor:pointer}.control-check{display:flex;align-items:center;margin:0;gap:8px;height:36px}.control-check label{font-size:13px;font-weight:500;color:var(--rad-text);margin:0;cursor:pointer;-webkit-user-select:none;user-select:none}.control-check input{width:16px;height:16px;cursor:pointer;accent-color:var(--rad-primary);border-radius:4px;flex-shrink:0}:root{--rad-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-border: 1px;--rad-border-color: hsl(220, 13%, 91%);--rad-primary: hsl(221, 83%, 53%);--rad-primary-hover: hsl(221, 83%, 46%);--rad-primary-ring: hsla(221, 83%, 53%, .15);--rad-danger: hsl(0, 84%, 60%);--rad-danger-hover: hsl(0, 84%, 53%);--rad-danger-ring: hsla(0, 84%, 60%, .15);--rad-success: hsl(142, 71%, 45%);--rad-success-hover: hsl(142, 71%, 38%);--rad-success-ring: hsla(142, 71%, 45%, .15);--rad-bg: hsl(0, 0%, 100%);--rad-bg-muted: hsl(220, 14%, 96%);--rad-bg-hover: hsl(220, 14%, 96%);--rad-text: hsl(224, 71%, 4%);--rad-text-muted: hsl(220, 9%, 46%);--rad-text-secondary: hsl(220, 9%, 36%);--rad-radius: 8px;--rad-radius-sm: 6px;--rad-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, .05);--rad-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);--rad-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--rad-transition: .15s cubic-bezier(.4, 0, .2, 1)}.insertion{display:flex;width:100%;font-size:13px;font-family:var(--rad-font);border-bottom:var(--rad-border) solid var(--rad-border-color);transition:background var(--rad-transition);align-items:stretch}.insertion:hover{background:var(--rad-bg-hover)}.flex-col{display:flex;flex-direction:column;justify-content:center}.description{border-left:var(--rad-border) solid var(--rad-border-color)!important;border-right:var(--rad-border) solid var(--rad-border-color)!important;padding:8px 16px;flex:1;min-width:150px;min-height:36px;box-sizing:border-box}.border-bottom{border-bottom:var(--rad-border) solid var(--rad-border-color)!important}.border-top{border-top:2px solid var(--rad-border-color)!important}.date,.transaction-title{text-align:center;padding:6px 0;font-size:13px}.date{font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.transaction-content{flex:1;color:var(--rad-text-muted);line-height:1.5}.debit,.credit{padding:8px 12px;border-left:var(--rad-border) solid var(--rad-border-color)!important;text-align:center;font-weight:500;color:var(--rad-text);min-width:140px;max-width:160px;min-height:36px;box-sizing:border-box;flex-shrink:0}.debit div,.credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.amount-debit,.amount-credit{padding:8px 12px;border-right:var(--rad-border) solid var(--rad-border-color)!important;text-align:right;font-weight:500;color:var(--rad-text);font-variant-numeric:tabular-nums;font-family:var(--rad-font-mono);min-width:120px;max-width:180px;min-height:36px;box-sizing:border-box;flex-shrink:0}.amount-debit div,.amount-credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}html,body,#root{height:100%}#root{overflow-y:auto;padding:32px;box-sizing:border-box;background:var(--rad-bg-muted)}.btn-export{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;height:36px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;font-weight:500;font-size:13px;cursor:pointer;box-shadow:var(--rad-shadow-sm);transition:all var(--rad-transition);letter-spacing:-.01em}.btn-export:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-export:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-export:active{transform:scale(.98)}.btn-save-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-save-accounting:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-save-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-add-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-add-accounting:hover{opacity:.9;box-shadow:var(--rad-shadow)}.btn-add-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-text)}.btn-add-accounting:active{transform:scale(.96)}.export{display:inline-flex;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);overflow:hidden;background:var(--rad-bg);box-shadow:var(--rad-shadow-sm)}.export button{background:var(--rad-bg);border:none;cursor:pointer;padding:8px 14px;transition:all var(--rad-transition);font-weight:500;font-size:12px;color:var(--rad-text-muted);border-right:1px solid var(--rad-border-color)}.export button:last-child{border-right:none}.export button:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.export button:active,.export button#active{background:var(--rad-text);color:#fff}.global-action{display:flex;gap:6px;align-items:center}.global-action button{padding:8px 12px;cursor:pointer;font-size:12px;font-weight:500;border-radius:var(--rad-radius-sm);transition:all var(--rad-transition);border:1px solid var(--rad-border-color);background:var(--rad-bg);color:var(--rad-text-secondary);box-shadow:var(--rad-shadow-sm)}.global-action button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text);box-shadow:var(--rad-shadow)}.global-action button:active:not(:disabled){transform:scale(.98)}.global-action button:disabled{opacity:.5;cursor:not-allowed}.global-action .reset{border-color:var(--rad-danger);color:var(--rad-danger);background:var(--rad-bg)}.global-action .reset:hover:not(:disabled){background:var(--rad-danger-ring);color:var(--rad-danger-hover)}.global-action .sample.doer{background:var(--rad-text);border-color:var(--rad-text);color:#fff;padding:8px 10px}.global-action .sample.doer:hover:not(:disabled){opacity:.9;background:var(--rad-text);color:#fff}.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 24px;gap:12px}.empty-state .empty-state-icon{color:var(--rad-border-color);margin-bottom:4px}.empty-state .empty-state-text{color:var(--rad-text-muted);font-size:14px;margin:0}.empty-state .empty-state-cta{margin-top:8px;padding:8px 20px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.empty-state .empty-state-cta:hover{opacity:.9;box-shadow:var(--rad-shadow)}.empty-state .empty-state-cta:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.insertion:focus{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary-ring);background:var(--rad-bg-hover)}.insertion:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary);background:var(--rad-bg-hover)}.grand-total{margin-top:16px;padding:12px 16px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg-muted);font-family:var(--rad-font)}.grand-total .grand-total-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}.grand-total .grand-total-row:not(:last-child){border-bottom:1px solid var(--rad-border-color);padding-bottom:8px;margin-bottom:8px}.grand-total .grand-total-label{font-weight:600;font-size:13px;color:var(--rad-text);text-transform:uppercase;letter-spacing:.02em}.grand-total .grand-total-amounts{display:flex;gap:24px;font-size:13px;font-weight:600;font-family:var(--rad-font-mono);font-variant-numeric:tabular-nums}.grand-total .grand-total-debit,.grand-total .grand-total-credit{color:var(--rad-text)}.balance-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600}.balance-badge.balanced{background:var(--rad-success-ring);color:var(--rad-success)}.balance-badge.unbalanced{background:var(--rad-danger-ring);color:var(--rad-danger)}.pagination{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px;font-family:var(--rad-font);font-size:13px;color:var(--rad-text-muted)}.pagination button{padding:6px 12px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.pagination button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text)}.pagination button:disabled{opacity:.4;cursor:not-allowed}.row-actions{position:relative;display:flex;align-items:center;width:32px;justify-content:center}.row-actions .row-actions-trigger{background:none;border:none;cursor:pointer;padding:4px;border-radius:var(--rad-radius-sm);opacity:.6;transition:all var(--rad-transition);display:flex;align-items:center;justify-content:center}.row-actions .row-actions-trigger:hover{background:var(--rad-success);color:#fff;opacity:1}.row-actions .row-actions-menu{position:absolute;right:0;top:100%;z-index:10;background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);box-shadow:var(--rad-shadow-md);min-width:120px;overflow:hidden}.row-actions .row-actions-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition)}.row-actions .row-actions-menu button:hover{background:var(--rad-success);color:#fff}.row-actions .row-actions-menu button.danger:hover{background:var(--rad-danger);color:#fff}')),document.head.appendChild(r)}}catch(a){console.error("vite-plugin-css-injected-by-js",a)}})();
-import { jsx as c, jsxs as d, Fragment as F } from "react/jsx-runtime";
-import Pt, { useState as _, useCallback as M, useContext as W, useEffect as nt, useRef as ut, useMemo as K, forwardRef as It, useImperativeHandle as Xt, createContext as Kt } from "react";
+(function(){"use strict";try{if(typeof document<"u"){var r=document.createElement("style");r.appendChild(document.createTextNode('@charset "UTF-8";.dialog-overlay{position:fixed;inset:0;z-index:1000;background:#0006;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;animation:overlayIn .15s ease}@keyframes overlayIn{0%{opacity:0}to{opacity:1}}.dialog-modal{background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:calc(var(--rad-radius) + 4px);box-shadow:0 16px 70px -12px #00000040;width:440px;max-width:calc(100vw - 32px);max-height:calc(100vh - 64px);overflow-y:auto;font-family:var(--rad-font);animation:modalIn .2s cubic-bezier(.16,1,.3,1)}@keyframes modalIn{0%{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}.dialog-header{display:flex;justify-content:space-between;align-items:flex-start;padding:24px 24px 0}.dialog-title{margin:0;font-weight:600;font-size:16px;color:var(--rad-text);letter-spacing:-.02em;line-height:1.4}.dialog-description{margin:4px 0 0;font-size:13px;color:var(--rad-text-muted);line-height:1.4}.dialog-close{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--rad-radius-sm);color:var(--rad-text-muted);transition:all var(--rad-transition);flex-shrink:0}.dialog-close:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.dialog-body{padding:20px 24px;display:flex;flex-direction:column;gap:16px}.dialog-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}.dialog-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--rad-border-color);background:var(--rad-bg-muted);border-radius:0 0 calc(var(--rad-radius) + 4px) calc(var(--rad-radius) + 4px)}.btn-cancel,.btn-confirm{padding:8px 16px;border-radius:var(--rad-radius-sm);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition)}.btn-cancel:active,.btn-confirm:active{transform:scale(.98)}.btn-cancel:focus-visible,.btn-confirm:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-cancel{background:var(--rad-bg);color:var(--rad-text-secondary);border:1px solid var(--rad-border-color);box-shadow:var(--rad-shadow-sm)}.btn-cancel:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.btn-confirm{background:var(--rad-text);color:#fff;border:none;box-shadow:var(--rad-shadow-sm)}.btn-confirm:hover{opacity:.9}.control{display:flex;flex-direction:column;margin:0}.control label{display:block;font-size:12px;margin-bottom:6px;font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.control input,.control select,.control textarea{width:100%;height:36px;padding:0 10px;border-radius:var(--rad-radius-sm);box-sizing:border-box;border:1px solid var(--rad-border-color);font-size:13px;font-family:inherit;transition:all var(--rad-transition);background:var(--rad-bg);color:var(--rad-text)}.control input::placeholder,.control select::placeholder,.control textarea::placeholder{color:var(--rad-text-muted)}.control input:hover,.control select:hover,.control textarea:hover{border-color:#c5cad3}.control input:focus,.control select:focus,.control textarea:focus{outline:none;border-color:var(--rad-primary);box-shadow:0 0 0 3px var(--rad-primary-ring)}.control textarea{height:auto;min-height:60px;padding:8px 10px;resize:vertical;line-height:1.5}.control select{cursor:pointer}.control-check{display:flex;align-items:center;margin:0;gap:8px;height:36px}.control-check label{font-size:13px;font-weight:500;color:var(--rad-text);margin:0;cursor:pointer;-webkit-user-select:none;user-select:none}.control-check input{width:16px;height:16px;cursor:pointer;accent-color:var(--rad-primary);border-radius:4px;flex-shrink:0}:root{--rad-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;--rad-border: 1px;--rad-border-color: hsl(220, 13%, 91%);--rad-primary: hsl(221, 83%, 53%);--rad-primary-hover: hsl(221, 83%, 46%);--rad-primary-ring: hsla(221, 83%, 53%, .15);--rad-danger: hsl(0, 84%, 60%);--rad-danger-hover: hsl(0, 84%, 53%);--rad-danger-ring: hsla(0, 84%, 60%, .15);--rad-success: hsl(142, 71%, 45%);--rad-success-hover: hsl(142, 71%, 38%);--rad-success-ring: hsla(142, 71%, 45%, .15);--rad-bg: hsl(0, 0%, 100%);--rad-bg-muted: hsl(220, 14%, 96%);--rad-bg-hover: hsl(220, 14%, 96%);--rad-text: hsl(224, 71%, 4%);--rad-text-muted: hsl(220, 9%, 46%);--rad-text-secondary: hsl(220, 9%, 36%);--rad-radius: 8px;--rad-radius-sm: 6px;--rad-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, .05);--rad-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);--rad-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);--rad-transition: .15s cubic-bezier(.4, 0, .2, 1)}.insertion{display:flex;width:100%;font-size:13px;font-family:var(--rad-font);border-bottom:var(--rad-border) solid var(--rad-border-color);transition:background var(--rad-transition);align-items:stretch}.insertion:hover{background:var(--rad-bg-hover)}.flex-col{display:flex;flex-direction:column;justify-content:center}.description{border-left:var(--rad-border) solid var(--rad-border-color)!important;border-right:var(--rad-border) solid var(--rad-border-color)!important;padding:8px 16px;flex:1;min-width:150px;min-height:36px;box-sizing:border-box}.border-bottom{border-bottom:var(--rad-border) solid var(--rad-border-color)!important}.border-top{border-top:2px solid var(--rad-border-color)!important}.date,.transaction-title{text-align:center;padding:6px 0;font-size:13px}.date{font-weight:500;color:var(--rad-text);letter-spacing:-.01em}.transaction-content{flex:1;color:var(--rad-text-muted);line-height:1.5}.debit,.credit{padding:8px 12px;border-left:var(--rad-border) solid var(--rad-border-color)!important;text-align:center;font-weight:500;color:var(--rad-text);min-width:140px;max-width:160px;min-height:36px;box-sizing:border-box;flex-shrink:0}.debit div,.credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.amount-debit,.amount-credit{padding:8px 12px;border-right:var(--rad-border) solid var(--rad-border-color)!important;text-align:right;font-weight:500;color:var(--rad-text);font-variant-numeric:tabular-nums;font-family:var(--rad-font-mono);min-width:120px;max-width:180px;min-height:36px;box-sizing:border-box;flex-shrink:0}.amount-debit div,.amount-credit div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}html,body,#root{height:100%}#root{overflow-y:auto;padding:32px;box-sizing:border-box;background:var(--rad-bg-muted)}.btn-export{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 16px;height:36px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;font-weight:500;font-size:13px;cursor:pointer;box-shadow:var(--rad-shadow-sm);transition:all var(--rad-transition);letter-spacing:-.01em}.btn-export:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-export:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-export:active{transform:scale(.98)}.btn-save-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-primary);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-save-accounting:hover{background:var(--rad-primary-hover);box-shadow:var(--rad-shadow)}.btn-save-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.btn-add-accounting{width:36px;height:36px;cursor:pointer;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm);display:flex;align-items:center;justify-content:center}.btn-add-accounting:hover{opacity:.9;box-shadow:var(--rad-shadow)}.btn-add-accounting:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-text)}.btn-add-accounting:active{transform:scale(.96)}.export{display:inline-flex;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);overflow:hidden;background:var(--rad-bg);box-shadow:var(--rad-shadow-sm)}.export button{background:var(--rad-bg);border:none;cursor:pointer;padding:8px 14px;transition:all var(--rad-transition);font-weight:500;font-size:12px;color:var(--rad-text-muted);border-right:1px solid var(--rad-border-color)}.export button:last-child{border-right:none}.export button:hover{background:var(--rad-bg-muted);color:var(--rad-text)}.export button:active,.export button#active{background:var(--rad-text);color:#fff}.global-action{display:flex;gap:6px;align-items:center}.global-action button{padding:8px 12px;cursor:pointer;font-size:12px;font-weight:500;border-radius:var(--rad-radius-sm);transition:all var(--rad-transition);border:1px solid var(--rad-border-color);background:var(--rad-bg);color:var(--rad-text-secondary);box-shadow:var(--rad-shadow-sm)}.global-action button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text);box-shadow:var(--rad-shadow)}.global-action button:active:not(:disabled){transform:scale(.98)}.global-action button:disabled{opacity:.5;cursor:not-allowed}.global-action .reset{border-color:var(--rad-danger);color:var(--rad-danger);background:var(--rad-bg)}.global-action .reset:hover:not(:disabled){background:var(--rad-danger-ring);color:var(--rad-danger-hover)}.global-action .sample.doer{background:var(--rad-text);border-color:var(--rad-text);color:#fff;padding:8px 10px}.global-action .sample.doer:hover:not(:disabled){opacity:.9;background:var(--rad-text);color:#fff}.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 24px;gap:12px}.empty-state .empty-state-icon{color:var(--rad-border-color);margin-bottom:4px}.empty-state .empty-state-text{color:var(--rad-text-muted);font-size:14px;margin:0}.empty-state .empty-state-cta{margin-top:8px;padding:8px 20px;border-radius:var(--rad-radius-sm);border:none;background:var(--rad-text);color:#fff;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.empty-state .empty-state-cta:hover{opacity:.9;box-shadow:var(--rad-shadow)}.empty-state .empty-state-cta:focus-visible{outline:none;box-shadow:0 0 0 2px var(--rad-bg),0 0 0 4px var(--rad-primary)}.insertion:focus{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary-ring);background:var(--rad-bg-hover)}.insertion:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--rad-primary);background:var(--rad-bg-hover)}.grand-total{margin-top:16px;padding:12px 16px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg-muted);font-family:var(--rad-font)}.grand-total .grand-total-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}.grand-total .grand-total-row:not(:last-child){border-bottom:1px solid var(--rad-border-color);padding-bottom:8px;margin-bottom:8px}.grand-total .grand-total-label{font-weight:600;font-size:13px;color:var(--rad-text);text-transform:uppercase;letter-spacing:.02em}.grand-total .grand-total-amounts{display:flex;gap:24px;font-size:13px;font-weight:600;font-family:var(--rad-font-mono);font-variant-numeric:tabular-nums}.grand-total .grand-total-debit,.grand-total .grand-total-credit{color:var(--rad-text)}.balance-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600}.balance-badge.balanced{background:var(--rad-success-ring);color:var(--rad-success)}.balance-badge.unbalanced{background:var(--rad-danger-ring);color:var(--rad-danger)}.pagination{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px;font-family:var(--rad-font);font-size:13px;color:var(--rad-text-muted)}.pagination button{padding:6px 12px;border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);background:var(--rad-bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition);box-shadow:var(--rad-shadow-sm)}.pagination button:hover:not(:disabled){background:var(--rad-bg-muted);color:var(--rad-text)}.pagination button:disabled{opacity:.4;cursor:not-allowed}.row-actions{position:relative;display:flex;align-items:center;width:32px;justify-content:center}.row-actions .row-actions-trigger{background:none;border:none;cursor:pointer;padding:4px;border-radius:var(--rad-radius-sm);opacity:.6;transition:all var(--rad-transition);display:flex;align-items:center;justify-content:center}.row-actions .row-actions-trigger:hover{background:var(--rad-success);color:#fff;opacity:1}.row-actions .row-actions-menu{position:absolute;right:0;top:100%;z-index:10;background:var(--rad-bg);border:1px solid var(--rad-border-color);border-radius:var(--rad-radius-sm);box-shadow:var(--rad-shadow-md);min-width:120px;overflow:hidden}.row-actions .row-actions-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--rad-text-secondary);transition:all var(--rad-transition)}.row-actions .row-actions-menu button:hover{background:var(--rad-success);color:#fff}.row-actions .row-actions-menu button.danger:hover{background:var(--rad-danger);color:#fff}@media print{.export,.global-action,.btn-export,.row-actions,.pagination{display:none!important}#diary{padding:0!important;margin:0!important;box-shadow:none!important;border:none!important}.insertion{page-break-inside:avoid;break-inside:avoid}.insertion{border-bottom:1px solid #000!important}*{color:#000!important;background:#fff!important}.insertion{display:flex!important;width:100%!important}body{font-size:12pt!important;line-height:1.4!important}@page{margin:1cm;size:A4}.debit,.credit{flex:1!important}.amount-debit,.amount-credit{width:100px!important;text-align:right!important}}')),document.head.appendChild(r)}}catch(a){console.error("vite-plugin-css-injected-by-js",a)}})();
+import { jsx as c, jsxs as d, Fragment as R } from "react/jsx-runtime";
+import mt, { useState as J, useCallback as z, useContext as W, useEffect as nt, useRef as ut, useMemo as K, forwardRef as Pt, useImperativeHandle as Xt, createContext as Kt } from "react";
 let Yt = 0;
-const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
+const _ = () => `txn_${Date.now()}_${++Yt}`, Qt = {
   debit: "Debit",
   credit: "Credit",
   description: "Description",
@@ -40,8 +40,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
   diaryView: "Diary View",
   runningBalance: "Running Balance",
   importJSON: "Import JSON"
-}, H = Pt.createContext(void 0), Zt = ({ children: t, labels: e, pageSize: n, onAdd: r, onDelete: o, onEdit: a, onChange: i, onBeforeAdd: l, onBeforeEdit: h, onBeforeDelete: p }) => {
-  const u = { ...Qt, ...e }, [b, s] = _({
+}, H = mt.createContext(void 0), Zt = ({ children: t, labels: e, pageSize: n, onAdd: r, onDelete: o, onEdit: a, onChange: i, onBeforeAdd: l, onBeforeEdit: h, onBeforeDelete: p }) => {
+  const u = { ...Qt, ...e }, [b, s] = J({
     data: [],
     doIndex: 0,
     openSb: !1,
@@ -56,7 +56,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
     sortOrder: "asc",
     currentPage: 1,
     viewMode: "diary"
-  }), g = M(() => {
+  }), g = z(() => {
     s((f) => {
       if (f.doIndex > 0) {
         const w = f.history[f.doIndex - 1];
@@ -68,7 +68,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
       }
       return f;
     });
-  }, [i]), R = M(() => {
+  }, [i]), F = z(() => {
     s((f) => {
       let w = f.doIndex + 1;
       if (w < f.history.length) {
@@ -81,7 +81,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
       }
       return f;
     });
-  }, [i]), E = M((f) => {
+  }, [i]), E = z((f) => {
     s((w) => {
       if ("data" in f && !("doIndex" in f)) {
         const k = f.data, x = [...[...w.history].slice(0, w.doIndex + 1), k];
@@ -100,7 +100,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
     labels: u,
     pageSize: n,
     undo: g,
-    redo: R,
+    redo: F,
     updateState: E,
     onAdd: r,
     onDelete: o,
@@ -111,7 +111,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
     onBeforeDelete: p
   };
   return /* @__PURE__ */ c(H.Provider, { value: D, children: t });
-}, U = "var(--rad-border) solid var(--rad-border-color)", it = ({ field: t }) => {
+}, M = "var(--rad-border) solid var(--rad-border-color)", it = ({ field: t }) => {
   const e = W(H);
   if (!e) return null;
   const { state: n } = e;
@@ -121,7 +121,7 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
   if (!e) return null;
   const { labels: n, state: r, updateState: o } = e;
   let { date: a, index: i, columnHeader: l, columnHeaderColor: h, columnHeaderBgColor: p } = t;
-  const u = i === 0 && l, b = `${a.split("-")[2]}/${a.split("-")[1]}/${a.split("-")[0]}`, { width: s, ...g } = t.account || {}, { width: R, ...E } = t.amount || {}, D = (w) => {
+  const u = i === 0 && l, b = `${a.split("-")[2]}/${a.split("-")[1]}/${a.split("-")[0]}`, { width: s, ...g } = t.account || {}, { width: F, ...E } = t.amount || {}, D = (w) => {
     const k = r.sortField === w && r.sortOrder === "asc" ? "desc" : "asc";
     o({ sortField: w, sortOrder: k });
   }, f = u ? { cursor: "pointer", userSelect: "none" } : {};
@@ -132,8 +132,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
         className: "debit flex-col",
         style: {
           ...g,
-          borderTop: u ? U : "",
-          borderBottom: u ? U : "",
+          borderTop: u ? M : "",
+          borderBottom: u ? M : "",
           background: u ? p : ""
         },
         role: "columnheader",
@@ -150,8 +150,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
         className: "credit flex-col",
         style: {
           ...g,
-          borderTop: u ? U : "",
-          borderBottom: u ? U : "",
+          borderTop: u ? M : "",
+          borderBottom: u ? M : "",
           background: u ? p : ""
         },
         role: "columnheader",
@@ -164,8 +164,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
         style: {
           flex: 1,
           minWidth: 150,
-          borderTop: u ? U : "",
-          borderBottom: u ? U : "",
+          borderTop: u ? M : "",
+          borderBottom: u ? M : "",
           background: u ? p : ""
         },
         role: "columnheader",
@@ -193,8 +193,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
         className: "amount-debit flex-col",
         style: {
           ...E,
-          borderTop: u ? U : "",
-          borderBottom: u ? U : "",
+          borderTop: u ? M : "",
+          borderBottom: u ? M : "",
           background: u ? p : ""
         },
         role: "columnheader",
@@ -211,8 +211,8 @@ const J = () => `txn_${Date.now()}_${++Yt}`, Qt = {
         className: "amount-credit flex-col",
         style: {
           ...E,
-          borderTop: u ? U : "",
-          borderBottom: u ? U : "",
+          borderTop: u ? M : "",
+          borderBottom: u ? M : "",
           background: u ? p : ""
         },
         role: "columnheader",
@@ -235,19 +235,19 @@ const ee = async () => (lt || (lt = (await import("pdfmake")).default), lt), ne 
   }).download();
 };
 class N {
-  static currency(e, n = "XAF", r = "de-DE") {
+  static currency(e, n = "USD", r = "en-US") {
     return new Intl.NumberFormat(r, {
       style: "currency",
       currency: n
-    }).format(e) || "0,00";
+    }).format(e) || "0.00";
   }
   static number(e) {
-    return new Intl.NumberFormat("en-IN", { minimumIntegerDigits: 2 }).format(
+    return new Intl.NumberFormat("en-US", { minimumIntegerDigits: 2 }).format(
       e || 0
     );
   }
   static date(e) {
-    return new Date(e).toLocaleDateString("fr-FR", {
+    return new Date(e).toLocaleDateString("en-US", {
       weekday: "short",
       year: "numeric",
       month: "short",
@@ -333,7 +333,7 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
     ),
     t.showEdit !== !1 && /* @__PURE__ */ c("div", { style: { width: 32, flexShrink: 0 } })
   ] });
-}, L = { size: 16, strokeWidth: 2 }, $ = (t, e) => /* @__PURE__ */ c(
+}, L = { size: 16, strokeWidth: 2 }, U = (t, e) => /* @__PURE__ */ c(
   "svg",
   {
     xmlns: "http://www.w3.org/2000/svg",
@@ -352,62 +352,62 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
   }
 ), re = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("polyline", { points: "1 4 1 10 7 10" }),
     /* @__PURE__ */ c("path", { d: "M3.51 15a9 9 0 1 0 2.13-9.36L1 10" })
   ] }));
 }, ce = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("polyline", { points: "23 4 23 10 17 10" }),
     /* @__PURE__ */ c("path", { d: "M20.49 15a9 9 0 1 1-2.12-9.36L23 10" })
   ] }));
 }, oe = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
     /* @__PURE__ */ c("polyline", { points: "7 10 12 15 17 10" }),
     /* @__PURE__ */ c("line", { x1: "12", y1: "15", x2: "12", y2: "3" })
   ] }));
-}, wt = (t = {}) => {
+}, vt = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
     /* @__PURE__ */ c("polyline", { points: "17 8 12 3 7 8" }),
     /* @__PURE__ */ c("line", { x1: "12", y1: "3", x2: "12", y2: "15" })
   ] }));
 }, ie = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("line", { x1: "12", y1: "5", x2: "12", y2: "19" }),
     /* @__PURE__ */ c("line", { x1: "5", y1: "12", x2: "19", y2: "12" })
   ] }));
 }, le = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("line", { x1: "18", y1: "6", x2: "6", y2: "18" }),
     /* @__PURE__ */ c("line", { x1: "6", y1: "6", x2: "18", y2: "18" })
   ] }));
 }, se = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ c(F, { children: /* @__PURE__ */ c("path", { d: "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" }) }));
+  return U(e, /* @__PURE__ */ c(R, { children: /* @__PURE__ */ c("path", { d: "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" }) }));
 }, de = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("circle", { cx: "11", cy: "11", r: "8" }),
     /* @__PURE__ */ c("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
   ] }));
 }, ue = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("rect", { x: "3", y: "4", width: "18", height: "18", rx: "2", ry: "2" }),
     /* @__PURE__ */ c("line", { x1: "16", y1: "2", x2: "16", y2: "6" }),
     /* @__PURE__ */ c("line", { x1: "8", y1: "2", x2: "8", y2: "6" }),
     /* @__PURE__ */ c("line", { x1: "3", y1: "10", x2: "21", y2: "10" })
   ] }));
-}, vt = (t = {}) => {
+}, St = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
     /* @__PURE__ */ c("polyline", { points: "14 2 14 8 20 8" }),
     /* @__PURE__ */ c("circle", { cx: "10", cy: "13", r: "2" }),
@@ -415,7 +415,7 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
   ] }));
 }, he = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("path", { d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" }),
     /* @__PURE__ */ c("polyline", { points: "14 2 14 8 20 8" }),
     /* @__PURE__ */ c("line", { x1: "16", y1: "13", x2: "8", y2: "13" }),
@@ -424,7 +424,7 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
   ] }));
 }, Nt = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("polyline", { points: "3 6 5 6 21 6" }),
     /* @__PURE__ */ c("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }),
     /* @__PURE__ */ c("line", { x1: "10", y1: "11", x2: "10", y2: "17" }),
@@ -432,14 +432,14 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
   ] }));
 }, me = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("ellipse", { cx: "12", cy: "5", rx: "9", ry: "3" }),
     /* @__PURE__ */ c("path", { d: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" }),
     /* @__PURE__ */ c("path", { d: "M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" })
   ] }));
 }, fe = (t = {}) => {
   const e = { ...L, ...t };
-  return $(e, /* @__PURE__ */ d(F, { children: [
+  return U(e, /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("circle", { cx: "12", cy: "12", r: "1" }),
     /* @__PURE__ */ c("circle", { cx: "12", cy: "5", r: "1" }),
     /* @__PURE__ */ c("circle", { cx: "12", cy: "19", r: "1" })
@@ -469,7 +469,7 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
     "Cameroonian franc (XAF)",
     "XAF"
   ]
-], St = {
+], Ct = {
   open: !1,
   isDebit: !1,
   amount: "",
@@ -480,7 +480,7 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
   category: "",
   tags: ""
 }, ye = () => {
-  const t = W(H), [e, n] = _(St);
+  const t = W(H), [e, n] = J(Ct);
   nt(() => {
     const s = t?.state.editingTransaction;
     s && n({
@@ -503,32 +503,32 @@ const et = "var(--rad-border) solid var(--rad-border-color)", ae = (t) => {
     };
     return document.addEventListener("keydown", s), () => document.removeEventListener("keydown", s);
   }, [e.open]);
-  const r = M(() => {
+  const r = z(() => {
     n((s) => ({ ...s, open: !0 }));
-  }, []), o = M(() => {
-    n(St), t?.state.editingTransaction && t.updateState({ editingTransaction: void 0 });
+  }, []), o = z(() => {
+    n(Ct), t?.state.editingTransaction && t.updateState({ editingTransaction: void 0 });
   }, [t]);
   if (!t) return null;
   const { labels: a, onAdd: i, onEdit: l, onBeforeAdd: h, onBeforeEdit: p } = t, u = async () => {
-    const s = Number(e.amount), g = e.account.trim(), R = e.text.trim(), E = e.date, D = e.category.trim() || void 0, f = e.tags.trim() ? e.tags.split(",").map((B) => B.trim()).filter(Boolean) : void 0;
-    if (!s || s <= 0 || !g || !R || !E || isNaN(new Date(E).getTime())) return;
+    const s = Number(e.amount), g = e.account.trim(), F = e.text.trim(), E = e.date, D = e.category.trim() || void 0, f = e.tags.trim() ? e.tags.split(",").map((B) => B.trim()).filter(Boolean) : void 0;
+    if (!s || s <= 0 || !g || !F || !E || isNaN(new Date(E).getTime())) return;
     const w = [...t.state.data || []], k = t.state.editingTransaction;
     if (k) {
       const B = w.findIndex((x) => x.id === k.id);
       if (B !== -1) {
-        const x = { ...w[B], amount: s, account: g, isDebit: e.isDebit, text: R, date: E, currency: e.currency, category: D, tags: f };
+        const x = { ...w[B], amount: s, account: g, isDebit: e.isDebit, text: F, date: E, currency: e.currency, category: D, tags: f };
         if (p && !await p(w[B], x)) return;
         l?.(w[B], x), w[B] = x;
       }
       t.updateState({ data: w, editingTransaction: void 0 });
     } else {
-      const B = { id: J(), amount: s, account: g, isDebit: e.isDebit, text: R, date: E, currency: e.currency, category: D, tags: f };
+      const B = { id: _(), amount: s, account: g, isDebit: e.isDebit, text: F, date: E, currency: e.currency, category: D, tags: f };
       if (h && !await h(B)) return;
       i?.(B), w.push(B), t.updateState({ data: w });
     }
     o();
   }, b = !!t.state.editingTransaction;
-  return /* @__PURE__ */ d(F, { children: [
+  return /* @__PURE__ */ d(R, { children: [
     /* @__PURE__ */ c("button", { onClick: r, className: "btn-add-accounting", title: a.addTransaction, children: /* @__PURE__ */ c(ie, { size: 20 }) }),
     e.open && /* @__PURE__ */ c("div", { className: "dialog-overlay", onClick: o, children: /* @__PURE__ */ d("div", { className: "dialog-modal", onClick: (s) => s.stopPropagation(), children: [
       /* @__PURE__ */ d("div", { className: "dialog-header", children: [
@@ -694,7 +694,7 @@ function we(t) {
   const e = at(t, "border-top-width"), n = at(t, "border-bottom-width");
   return t.clientHeight + e + n;
 }
-function mt(t, e = {}) {
+function ft(t, e = {}) {
   const n = e.width || be(t), r = e.height || we(t);
   return { width: n, height: r };
 }
@@ -707,9 +707,9 @@ function ve() {
   const n = e && e.env ? e.env.devicePixelRatio : null;
   return n && (t = parseInt(n, 10), Number.isNaN(t) && (t = 1)), t || window.devicePixelRatio || 1;
 }
-const z = 16384;
+const $ = 16384;
 function Se(t) {
-  (t.width > z || t.height > z) && (t.width > z && t.height > z ? t.width > t.height ? (t.height *= z / t.width, t.width = z) : (t.width *= z / t.height, t.height = z) : t.width > z ? (t.height *= z / t.width, t.width = z) : (t.width *= z / t.height, t.height = z));
+  (t.width > $ || t.height > $) && (t.width > $ && t.height > $ ? t.width > t.height ? (t.height *= $ / t.width, t.width = $) : (t.width *= $ / t.height, t.height = $) : t.width > $ ? (t.height *= $ / t.width, t.width = $) : (t.width *= $ / t.height, t.height = $));
 }
 function Ce(t, e = {}) {
   return t.toBlob ? new Promise((n) => {
@@ -760,7 +760,7 @@ function Be(t, e, n, r) {
   const o = `.${t}:${e}`, a = n.cssText ? Te(n) : ke(n, r);
   return document.createTextNode(`${o}{${a}}`);
 }
-function Ct(t, e, n, r) {
+function Dt(t, e, n, r) {
   const o = window.getComputedStyle(t, n), a = o.getPropertyValue("content");
   if (a === "" || a === "none")
     return;
@@ -773,31 +773,31 @@ function Ct(t, e, n, r) {
   const l = document.createElement("style");
   l.appendChild(Be(i, n, o, r)), e.appendChild(l);
 }
-function Fe(t, e, n) {
-  Ct(t, e, ":before", n), Ct(t, e, ":after", n);
+function Re(t, e, n) {
+  Dt(t, e, ":before", n), Dt(t, e, ":after", n);
 }
-const Dt = "application/font-woff", Et = "image/jpeg", Re = {
-  woff: Dt,
-  woff2: Dt,
+const Et = "application/font-woff", Tt = "image/jpeg", Fe = {
+  woff: Et,
+  woff2: Et,
   ttf: "application/font-truetype",
   eot: "application/vnd.ms-fontobject",
   png: "image/png",
-  jpg: Et,
-  jpeg: Et,
+  jpg: Tt,
+  jpeg: Tt,
   gif: "image/gif",
   tiff: "image/tiff",
   svg: "image/svg+xml",
   webp: "image/webp"
 };
-function Pe(t) {
+function Ie(t) {
   const e = /\.([^./]*?)$/g.exec(t);
   return e ? e[1] : "";
 }
-function ft(t) {
-  const e = Pe(t).toLowerCase();
-  return Re[e] || "";
+function gt(t) {
+  const e = Ie(t).toLowerCase();
+  return Fe[e] || "";
 }
-function Ie(t) {
+function Pe(t) {
   return t.split(/,/)[1];
 }
 function ht(t) {
@@ -827,14 +827,14 @@ function Ae(t, e, n) {
   let r = t.replace(/\?.*/, "");
   return n && (r = t), /ttf|otf|eot|woff2?/i.test(r) && (r = r.replace(/.*\//, "")), e ? `[${e}]${r}` : r;
 }
-async function gt(t, e, n) {
+async function yt(t, e, n) {
   const r = Ae(t, e, n.includeQueryParams);
   if (st[r] != null)
     return st[r];
   n.cacheBust && (t += (/\?/.test(t) ? "&" : "?") + (/* @__PURE__ */ new Date()).getTime());
   let o;
   try {
-    const a = await Lt(t, n.fetchRequestInit, ({ res: i, result: l }) => (e || (e = i.headers.get("Content-Type") || ""), Ie(l)));
+    const a = await Lt(t, n.fetchRequestInit, ({ res: i, result: l }) => (e || (e = i.headers.get("Content-Type") || ""), Pe(l)));
     o = Ne(a, e);
   } catch (a) {
     o = n.imagePlaceholder || "";
@@ -847,17 +847,17 @@ async function Le(t) {
   const e = t.toDataURL();
   return e === "data:," ? t.cloneNode(!1) : rt(e);
 }
-async function $e(t, e) {
+async function Ue(t, e) {
   if (t.currentSrc) {
     const a = document.createElement("canvas"), i = a.getContext("2d");
     a.width = t.clientWidth, a.height = t.clientHeight, i?.drawImage(t, 0, 0, a.width, a.height);
     const l = a.toDataURL();
     return rt(l);
   }
-  const n = t.poster, r = ft(n), o = await gt(n, r, e);
+  const n = t.poster, r = gt(n), o = await yt(n, r, e);
   return rt(o);
 }
-async function ze(t, e) {
+async function $e(t, e) {
   var n;
   try {
     if (!((n = t?.contentDocument) === null || n === void 0) && n.body)
@@ -866,16 +866,16 @@ async function ze(t, e) {
   }
   return t.cloneNode(!1);
 }
-async function Me(t, e) {
-  return A(t, HTMLCanvasElement) ? Le(t) : A(t, HTMLVideoElement) ? $e(t, e) : A(t, HTMLIFrameElement) ? ze(t, e) : t.cloneNode($t(t));
+async function ze(t, e) {
+  return A(t, HTMLCanvasElement) ? Le(t) : A(t, HTMLVideoElement) ? Ue(t, e) : A(t, HTMLIFrameElement) ? $e(t, e) : t.cloneNode(Ut(t));
 }
-const Ue = (t) => t.tagName != null && t.tagName.toUpperCase() === "SLOT", $t = (t) => t.tagName != null && t.tagName.toUpperCase() === "SVG";
+const Me = (t) => t.tagName != null && t.tagName.toUpperCase() === "SLOT", Ut = (t) => t.tagName != null && t.tagName.toUpperCase() === "SVG";
 async function Oe(t, e, n) {
   var r, o;
-  if ($t(e))
+  if (Ut(e))
     return e;
   let a = [];
-  return Ue(t) && t.assignedNodes ? a = V(t.assignedNodes()) : A(t, HTMLIFrameElement) && (!((r = t.contentDocument) === null || r === void 0) && r.body) ? a = V(t.contentDocument.body.childNodes) : a = V(((o = t.shadowRoot) !== null && o !== void 0 ? o : t).childNodes), a.length === 0 || A(t, HTMLVideoElement) || await a.reduce((i, l) => i.then(() => ct(l, n)).then((h) => {
+  return Me(t) && t.assignedNodes ? a = V(t.assignedNodes()) : A(t, HTMLIFrameElement) && (!((r = t.contentDocument) === null || r === void 0) && r.body) ? a = V(t.contentDocument.body.childNodes) : a = V(((o = t.shadowRoot) !== null && o !== void 0 ? o : t).childNodes), a.length === 0 || A(t, HTMLVideoElement) || await a.reduce((i, l) => i.then(() => ct(l, n)).then((h) => {
     h && e.appendChild(h);
   }), Promise.resolve()), e;
 }
@@ -899,9 +899,9 @@ function We(t, e) {
   }
 }
 function je(t, e, n) {
-  return A(e, Element) && (He(t, e, n), Fe(t, e, n), Ve(t, e), We(t, e)), e;
+  return A(e, Element) && (He(t, e, n), Re(t, e, n), Ve(t, e), We(t, e)), e;
 }
-async function Je(t, e) {
+async function _e(t, e) {
   const n = t.querySelectorAll ? t.querySelectorAll("use") : [];
   if (n.length === 0)
     return t;
@@ -926,22 +926,22 @@ async function Je(t, e) {
   return t;
 }
 async function ct(t, e, n) {
-  return !n && e.filter && !e.filter(t) ? null : Promise.resolve(t).then((r) => Me(r, e)).then((r) => Oe(t, r, e)).then((r) => je(t, r, e)).then((r) => Je(r, e));
+  return !n && e.filter && !e.filter(t) ? null : Promise.resolve(t).then((r) => ze(r, e)).then((r) => Oe(t, r, e)).then((r) => je(t, r, e)).then((r) => _e(r, e));
 }
-const zt = /url\((['"]?)([^'"]+?)\1\)/g, _e = /url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g, Ge = /src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;
+const $t = /url\((['"]?)([^'"]+?)\1\)/g, Je = /url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g, Ge = /src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;
 function qe(t) {
   const e = t.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
   return new RegExp(`(url\\(['"]?)(${e})(['"]?\\))`, "g");
 }
 function Xe(t) {
   const e = [];
-  return t.replace(zt, (n, r, o) => (e.push(o), n)), e.filter((n) => !ht(n));
+  return t.replace($t, (n, r, o) => (e.push(o), n)), e.filter((n) => !ht(n));
 }
 async function Ke(t, e, n, r, o) {
   try {
-    const a = n ? pe(e, n) : e, i = ft(e);
+    const a = n ? pe(e, n) : e, i = gt(e);
     let l;
-    return o || (l = await gt(a, i, r)), t.replace(qe(e), `$1${l}$3`);
+    return o || (l = await yt(a, i, r)), t.replace(qe(e), `$1${l}$3`);
   } catch {
   }
   return t;
@@ -949,7 +949,7 @@ async function Ke(t, e, n, r, o) {
 function Ye(t, { preferredFontFormat: e }) {
   return e ? t.replace(Ge, (n) => {
     for (; ; ) {
-      const [r, , o] = _e.exec(n) || [];
+      const [r, , o] = Je.exec(n) || [];
       if (!o)
         return "";
       if (o === e)
@@ -957,11 +957,11 @@ function Ye(t, { preferredFontFormat: e }) {
     }
   }) : t;
 }
-function Mt(t) {
-  return t.search(zt) !== -1;
+function zt(t) {
+  return t.search($t) !== -1;
 }
-async function Ut(t, e, n) {
-  if (!Mt(t))
+async function Mt(t, e, n) {
+  if (!zt(t))
     return t;
   const r = Ye(t, n);
   return Xe(r).reduce((a, i) => a.then((l) => Ke(l, i, e, n)), Promise.resolve(r));
@@ -970,7 +970,7 @@ async function q(t, e, n) {
   var r;
   const o = (r = e.style) === null || r === void 0 ? void 0 : r.getPropertyValue(t);
   if (o) {
-    const a = await Ut(o, null, n);
+    const a = await Mt(o, null, n);
     return e.style.setProperty(t, a, e.style.getPropertyPriority(t)), !0;
   }
   return !1;
@@ -982,7 +982,7 @@ async function Ze(t, e) {
   const n = A(t, HTMLImageElement);
   if (!(n && !ht(t.src)) && !(A(t, SVGImageElement) && !ht(t.href.baseVal)))
     return;
-  const r = n ? t.src : t.href.baseVal, o = await gt(r, ft(r), e);
+  const r = n ? t.src : t.href.baseVal, o = await yt(r, gt(r), e);
   await new Promise((a, i) => {
     t.onload = a, t.onerror = e.onImageErrorHandler ? (...h) => {
       try {
@@ -1010,15 +1010,15 @@ function en(t, e) {
     n[o] = r[o];
   }), t;
 }
-const Tt = {};
-async function kt(t) {
-  let e = Tt[t];
+const kt = {};
+async function Bt(t) {
+  let e = kt[t];
   if (e != null)
     return e;
   const r = await (await fetch(t)).text();
-  return e = { url: t, cssText: r }, Tt[t] = e, e;
+  return e = { url: t, cssText: r }, kt[t] = e, e;
 }
-async function Bt(t, e) {
+async function Rt(t, e) {
   let n = t.cssText;
   const r = /url\(["']?([^"')]+)["']?\)/g, a = (n.match(/url\([^)]+\)/g) || []).map(async (i) => {
     let l = i.replace(r, "$1");
@@ -1060,7 +1060,7 @@ async function nn(t, e) {
         V(o.cssRules || []).forEach((a, i) => {
           if (a.type === CSSRule.IMPORT_RULE) {
             let l = i + 1;
-            const h = a.href, p = kt(h).then((u) => Bt(u, e)).then((u) => Ft(u).forEach((b) => {
+            const h = a.href, p = Bt(h).then((u) => Rt(u, e)).then((u) => Ft(u).forEach((b) => {
               try {
                 o.insertRule(b, b.startsWith("@import") ? l += 1 : o.cssRules.length);
               } catch (s) {
@@ -1077,7 +1077,7 @@ async function nn(t, e) {
         });
       } catch (a) {
         const i = t.find((l) => l.href == null) || document.styleSheets[0];
-        o.href != null && r.push(kt(o.href).then((l) => Bt(l, e)).then((l) => Ft(l).forEach((h) => {
+        o.href != null && r.push(Bt(o.href).then((l) => Rt(l, e)).then((l) => Ft(l).forEach((h) => {
           i.insertRule(h, i.cssRules.length);
         })).catch((l) => {
           console.error("Error loading remote stylesheet", l);
@@ -1095,7 +1095,7 @@ async function nn(t, e) {
   }), n));
 }
 function an(t) {
-  return t.filter((e) => e.type === CSSRule.FONT_FACE_RULE).filter((e) => Mt(e.style.getPropertyValue("src")));
+  return t.filter((e) => e.type === CSSRule.FONT_FACE_RULE).filter((e) => zt(e.style.getPropertyValue("src")));
 }
 async function rn(t, e) {
   if (t.ownerDocument == null)
@@ -1121,7 +1121,7 @@ async function Vt(t, e) {
   const n = await rn(t, e), r = cn(t);
   return (await Promise.all(n.filter((a) => r.has(Ht(a.style.fontFamily))).map((a) => {
     const i = a.parentStyleSheet ? a.parentStyleSheet.href : null;
-    return Ut(a.cssText, i, e);
+    return Mt(a.cssText, i, e);
   }))).join(`
 `);
 }
@@ -1133,15 +1133,15 @@ async function on(t, e) {
   }
 }
 async function Wt(t, e = {}) {
-  const { width: n, height: r } = mt(t, e), o = await ct(t, e, !0);
+  const { width: n, height: r } = ft(t, e), o = await ct(t, e, !0);
   return await on(o, e), await Ot(o, e), en(o, e), await Ee(o, n, r);
 }
 async function Y(t, e = {}) {
-  const { width: n, height: r } = mt(t, e), o = await Wt(t, e), a = await rt(o), i = document.createElement("canvas"), l = i.getContext("2d"), h = e.pixelRatio || ve(), p = e.canvasWidth || n, u = e.canvasHeight || r;
+  const { width: n, height: r } = ft(t, e), o = await Wt(t, e), a = await rt(o), i = document.createElement("canvas"), l = i.getContext("2d"), h = e.pixelRatio || ve(), p = e.canvasWidth || n, u = e.canvasHeight || r;
   return i.width = p * h, i.height = u * h, e.skipAutoScale || Se(i), i.style.width = `${p}`, i.style.height = `${u}`, e.backgroundColor && (l.fillStyle = e.backgroundColor, l.fillRect(0, 0, i.width, i.height)), l.drawImage(a, 0, 0, i.width, i.height), i;
 }
 async function ln(t, e = {}) {
-  const { width: n, height: r } = mt(t, e);
+  const { width: n, height: r } = ft(t, e);
   return (await Y(t, e)).getContext("2d").getImageData(0, 0, n, r).data;
 }
 async function sn(t, e = {}) {
@@ -1173,9 +1173,9 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   const a = r[e], i = o[e], l = a > i ? 1 : a < i ? -1 : 0;
   return n === "asc" ? l : -l;
 }), yn = (t) => {
-  const { value: e } = t, n = W(H), [r, o] = _(!1), a = ut(null);
+  const { value: e } = t, n = W(H), [r, o] = J(!1), a = ut(null);
   if (!n) return null;
-  const { state: i, labels: l, updateState: h, onDelete: p, onBeforeDelete: u } = n, { width: b, ...s } = t.account || {}, { width: g, ...R } = t.amount || {};
+  const { state: i, labels: l, updateState: h, onDelete: p, onBeforeDelete: u } = n, { width: b, ...s } = t.account || {}, { width: g, ...F } = t.amount || {};
   nt(() => {
     const f = (w) => {
       a.current && !a.current.contains(w.target) && o(!1);
@@ -1209,8 +1209,8 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
             children: e.text
           }
         ) }),
-        /* @__PURE__ */ c("div", { className: "amount-debit flex-col", style: R, role: "cell", children: /* @__PURE__ */ c("div", { children: e.isDebit ? N.currency(e.amount, e.currency, e.local) : "" }) }),
-        /* @__PURE__ */ c("div", { className: "amount-credit flex-col", style: R, role: "cell", children: /* @__PURE__ */ c("div", { children: e.isDebit ? "" : N.currency(e.amount, e.currency, e.local) }) }),
+        /* @__PURE__ */ c("div", { className: "amount-debit flex-col", style: F, role: "cell", children: /* @__PURE__ */ c("div", { children: e.isDebit ? N.currency(e.amount, e.currency, e.local) : "" }) }),
+        /* @__PURE__ */ c("div", { className: "amount-credit flex-col", style: F, role: "cell", children: /* @__PURE__ */ c("div", { children: e.isDebit ? "" : N.currency(e.amount, e.currency, e.local) }) }),
         t.showEdit !== !1 && /* @__PURE__ */ d("div", { className: "row-actions", ref: a, children: [
           /* @__PURE__ */ c(
             "button",
@@ -1363,9 +1363,9 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
       ] }) })
     ] })
   ] }, i.account)) });
-}, X = { padding: "8px 12px", textAlign: "left", fontWeight: 600, fontSize: 12, textTransform: "uppercase", color: "#6c757d" }, O = { padding: "8px 12px" }, Rt = [
+}, X = { padding: "8px 12px", textAlign: "left", fontWeight: 600, fontSize: 12, textTransform: "uppercase", color: "#6c757d" }, O = { padding: "8px 12px" }, It = [
   {
-    date: "2021-01-01",
+    date: "2024-01-01",
     text: "Received Capital worth",
     isDebit: !0,
     amount: 9e4,
@@ -1374,26 +1374,28 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     local: "en-US"
   },
   {
-    date: "2021-01-01",
+    date: "2024-01-01",
     text: "Received Capital worth",
     amount: 9e4,
     account: "Common Stock",
-    currency: "USD"
+    currency: "USD",
+    local: "en-US"
   },
   {
-    date: "2021-01-01",
-    text: "Paid $2,000 for the first month’s rent.",
+    date: "2024-01-01",
+    text: "Paid $2,000 for the first month's rent.",
     isDebit: !0,
-    amount: 8e4,
+    amount: 2e3,
     account: "Rent",
-    currency: "JPY"
+    currency: "USD",
+    local: "en-US"
   },
   {
-    date: "2021-01-01",
-    text: "Paid $2,000 for the first month’s rent.",
-    amount: 8e4,
+    date: "2024-01-01",
+    text: "Paid $2,000 for the first month's rent.",
+    amount: 2e3,
     account: "Cash",
-    currency: "JPY",
+    currency: "USD",
     local: "en-US"
   }
 ], bn = (t, e = "accounting-diary.csv") => {
@@ -1409,7 +1411,7 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     ].join(","))
   ].join(`
 `);
-  yt(r, e, "text/csv;charset=utf-8;");
+  pt(r, e, "text/csv;charset=utf-8;");
 }, wn = (t, e = "accounting-diary.xls") => {
   const n = (a) => String(a).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"), o = `
     <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
@@ -1430,7 +1432,7 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
       </table>
     </body>
     </html>`;
-  yt(o, e, "application/vnd.ms-excel;charset=utf-8;");
+  pt(o, e, "application/vnd.ms-excel;charset=utf-8;");
 }, vn = (t) => new Promise((e, n) => {
   const r = new FileReader();
   r.onload = (o) => {
@@ -1453,7 +1455,7 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     }
   }, r.readAsText(t);
 }), Sn = (t, e = "accounting-diary.json") => {
-  yt(JSON.stringify(t, null, 2), e, "application/json;charset=utf-8;");
+  pt(JSON.stringify(t, null, 2), e, "application/json;charset=utf-8;");
 }, Cn = (t) => new Promise((e, n) => {
   const r = new FileReader();
   r.onload = (o) => {
@@ -1465,7 +1467,7 @@ const mn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     }
   }, r.readAsText(t);
 });
-function yt(t, e, n) {
+function pt(t, e, n) {
   const r = new Blob([t], { type: n }), o = document.createElement("a");
   o.href = URL.createObjectURL(r), o.download = e, o.click(), URL.revokeObjectURL(o.href);
 }
@@ -1473,10 +1475,10 @@ const Dn = (t) => {
   if (!t || t.length === 0) return [];
   const e = fn(t, "date");
   return Object.entries(e).map(([n, r]) => ({ date: n, content: r }));
-}, jt = It((t, e) => {
-  const [n, r] = _("toPng"), o = W(H);
+}, jt = Pt((t, e) => {
+  const [n, r] = J("toPng"), o = W(H);
   if (!o) return null;
-  const { state: a, labels: i, pageSize: l, undo: h, redo: p, updateState: u } = o, s = a.history.length > 1 ? a.data || [] : t.data && t.data.length > 0 ? t.data : a.data && a.data.length > 0 ? a.data : Rt, g = K(() => {
+  const { state: a, labels: i, pageSize: l, undo: h, redo: p, updateState: u } = o, s = a.history.length > 1 ? a.data || [] : t.data && t.data.length > 0 ? t.data : a.data && a.data.length > 0 ? a.data : It, g = K(() => {
     let m = s;
     if (a.searchTerm) {
       const y = a.searchTerm.toLowerCase();
@@ -1485,12 +1487,12 @@ const Dn = (t) => {
       );
     }
     return a.dateFilter?.start && (m = m.filter((y) => y.date >= a.dateFilter.start)), a.dateFilter?.end && (m = m.filter((y) => y.date <= a.dateFilter.end)), m;
-  }, [s, a.searchTerm, a.dateFilter]), R = K(() => a.sortField ? [...g].sort((m, y) => {
+  }, [s, a.searchTerm, a.dateFilter]), F = K(() => a.sortField ? [...g].sort((m, y) => {
     let C, T;
     a.sortField === "date" ? (C = m.date, T = y.date) : a.sortField === "account" ? (C = m.account, T = y.account) : (C = m.amount, T = y.amount);
-    const I = C > T ? 1 : C < T ? -1 : 0;
-    return a.sortOrder === "desc" ? -I : I;
-  }) : g, [g, a.sortField, a.sortOrder]), E = l ? Math.max(1, Math.ceil(R.length / l)) : 1, D = Math.min(a.currentPage, E), f = l ? R.slice((D - 1) * l, D * l) : R, w = g.filter((m) => m.isDebit).reduce((m, y) => m + y.amount, 0), k = g.filter((m) => !m.isDebit).reduce((m, y) => m + y.amount, 0), B = Math.abs(w - k) < 0.01, x = g[0]?.currency || "USD", v = g[0]?.local, S = ut(null), P = ut(null), Q = () => {
+    const P = C > T ? 1 : C < T ? -1 : 0;
+    return a.sortOrder === "desc" ? -P : P;
+  }) : g, [g, a.sortField, a.sortOrder]), E = l ? Math.max(1, Math.ceil(F.length / l)) : 1, D = Math.min(a.currentPage, E), f = l ? F.slice((D - 1) * l, D * l) : F, w = g.filter((m) => m.isDebit).reduce((m, y) => m + y.amount, 0), k = g.filter((m) => !m.isDebit).reduce((m, y) => m + y.amount, 0), B = Math.abs(w - k) < 0.01, x = g[0]?.currency || "USD", v = g[0]?.local, S = ut(null), I = ut(null), Q = () => {
     const m = {};
     for (const y of s)
       m[y.account] || (m[y.account] = { debit: 0, credit: 0, balance: 0 }), y.isDebit ? m[y.account].debit += y.amount : m[y.account].credit += y.amount, m[y.account].balance = m[y.account].debit - m[y.account].credit;
@@ -1498,13 +1500,13 @@ const Dn = (t) => {
   }, j = (m) => {
     const y = document.getElementById("diary");
     return y ? mn[m === "toPdf" ? "toPng" : m](y, { backgroundColor: "#fff", quality: 1, pixelRatio: 10 }).then((C) => {
-      let T = C.split(","), I = T[0].match(/:(.*?);/)?.[1], xt = atob(T[1]), Z = xt.length, bt = new Uint8Array(Z);
-      for (; Z--; ) bt[Z] = xt.charCodeAt(Z);
-      const qt = new File([bt], "filename", { type: I });
+      let T = C.split(","), P = T[0].match(/:(.*?);/)?.[1], bt = atob(T[1]), Z = bt.length, wt = new Uint8Array(Z);
+      for (; Z--; ) wt[Z] = bt.charCodeAt(Z);
+      const qt = new File([wt], "filename", { type: P });
       if (m === "toPdf") N.extractDoc(C);
-      else if (I) {
+      else if (P) {
         const tt = document.createElement("a");
-        tt.href = URL.createObjectURL(qt), tt.download = "export." + I.split("/")[1], tt.click(), URL.revokeObjectURL(tt.href);
+        tt.href = URL.createObjectURL(qt), tt.download = "export." + P.split("/")[1], tt.click(), URL.revokeObjectURL(tt.href);
       }
     }).catch((C) => console.error("Export failed:", C)) : Promise.resolve();
   };
@@ -1520,13 +1522,13 @@ const Dn = (t) => {
     exportToJSON: () => Sn(s),
     importJSON: (m) => {
       try {
-        const C = JSON.parse(m).map((T) => ({ ...T, id: T.id || J() }));
+        const C = JSON.parse(m).map((T) => ({ ...T, id: T.id || _() }));
         u({ data: [...a.data || [], ...C] });
       } catch {
       }
     },
     addTransaction: (m) => {
-      const y = { ...m, id: J() };
+      const y = { ...m, id: _() };
       u({ data: [...a.data || [], y] });
     },
     undo: h,
@@ -1544,23 +1546,23 @@ const Dn = (t) => {
     const y = m.target.files?.[0];
     if (y) {
       try {
-        const T = (await vn(y)).map((I) => ({ ...I, id: I.id || J() }));
+        const T = (await vn(y)).map((P) => ({ ...P, id: P.id || _() }));
         u({ data: [...a.data || [], ...T] });
       } catch {
       }
       S.current && (S.current.value = "");
     }
-  }, Jt = async (m) => {
+  }, _t = async (m) => {
     const y = m.target.files?.[0];
     if (y) {
       try {
-        const T = (await Cn(y)).map((I) => ({ ...I, id: I.id || J() }));
+        const T = (await Cn(y)).map((P) => ({ ...P, id: P.id || _() }));
         u({ data: [...a.data || [], ...T] });
       } catch {
       }
-      P.current && (P.current.value = "");
+      I.current && (I.current.value = "");
     }
-  }, _t = () => j(n), pt = (m) => {
+  }, Jt = () => j(n), xt = (m) => {
     u({ currentPage: Math.max(1, Math.min(m, E)) });
   }, Gt = () => {
     u({ viewMode: a.viewMode === "diary" ? "ledger" : "diary" });
@@ -1592,7 +1594,7 @@ const Dn = (t) => {
                   onClick: () => r("toJpeg"),
                   style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ c(vt, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(St, { size: t.compactButtons ? 10 : 12 }),
                     t.compactButtons ? "JPG" : "JPEG"
                   ]
                 }
@@ -1604,7 +1606,7 @@ const Dn = (t) => {
                   onClick: () => r("toPng"),
                   style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
-                    /* @__PURE__ */ c(vt, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(St, { size: t.compactButtons ? 10 : 12 }),
                     "PNG"
                   ]
                 }
@@ -1623,7 +1625,7 @@ const Dn = (t) => {
               )
             ] }),
             /* @__PURE__ */ d("div", { className: "global-action", style: { display: "flex", gap: t.compactButtons ? 2 : 8 }, children: [
-              t.showUndo !== !1 && /* @__PURE__ */ d(F, { children: [
+              t.showUndo !== !1 && /* @__PURE__ */ d(R, { children: [
                 /* @__PURE__ */ c(
                   "button",
                   {
@@ -1651,7 +1653,7 @@ const Dn = (t) => {
                 "button",
                 {
                   className: "sample",
-                  onClick: () => u({ data: Rt }),
+                  onClick: () => u({ data: It }),
                   title: i.sample,
                   style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px", display: "inline-flex", alignItems: "center", gap: 4 },
                   children: [
@@ -1681,7 +1683,7 @@ const Dn = (t) => {
                   title: "Import CSV",
                   style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px" },
                   children: [
-                    /* @__PURE__ */ c(wt, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(vt, { size: t.compactButtons ? 10 : 12 }),
                     !t.compactButtons && /* @__PURE__ */ c("span", { style: { marginLeft: 4 }, children: "CSV" })
                   ]
                 }
@@ -1690,11 +1692,11 @@ const Dn = (t) => {
                 "button",
                 {
                   className: "sample",
-                  onClick: () => P.current?.click(),
+                  onClick: () => I.current?.click(),
                   title: i.importJSON,
                   style: { padding: t.compactButtons ? "4px 8px" : "8px 12px", fontSize: t.compactButtons ? "12px" : "14px" },
                   children: [
-                    /* @__PURE__ */ c(wt, { size: t.compactButtons ? 10 : 12 }),
+                    /* @__PURE__ */ c(vt, { size: t.compactButtons ? 10 : 12 }),
                     !t.compactButtons && /* @__PURE__ */ c("span", { style: { marginLeft: 4 }, children: "JSON" })
                   ]
                 }
@@ -1712,11 +1714,11 @@ const Dn = (t) => {
               /* @__PURE__ */ c(
                 "input",
                 {
-                  ref: P,
+                  ref: I,
                   type: "file",
                   accept: ".json",
                   style: { display: "none" },
-                  onChange: Jt
+                  onChange: _t
                 }
               ),
               t.showLedgerToggle !== !1 && /* @__PURE__ */ c(
@@ -1742,7 +1744,7 @@ const Dn = (t) => {
                   fontSize: t.compactButtons ? "12px" : "14px"
                 },
                 title: i.export,
-                onClick: _t,
+                onClick: Jt,
                 "aria-label": "Export accounting diary",
                 role: "button",
                 tabIndex: 0,
@@ -1805,7 +1807,7 @@ const Dn = (t) => {
                     children: i.addTransaction
                   }
                 )
-              ] }) : a.viewMode === "ledger" ? /* @__PURE__ */ c(xn, { data: f }) : Dn(f).map((m, y, C) => /* @__PURE__ */ d(Pt.Fragment, { children: [
+              ] }) : a.viewMode === "ledger" ? /* @__PURE__ */ c(xn, { data: f }) : Dn(f).map((m, y, C) => /* @__PURE__ */ d(mt.Fragment, { children: [
                 /* @__PURE__ */ c(
                   te,
                   {
@@ -1819,7 +1821,7 @@ const Dn = (t) => {
                     showEdit: t.showEdit
                   }
                 ),
-                gn(m.content, "isDebit", "asc").map((T, I) => /* @__PURE__ */ c(
+                gn(m.content, "isDebit", "asc").map((T, P) => /* @__PURE__ */ c(
                   yn,
                   {
                     value: T,
@@ -1828,7 +1830,7 @@ const Dn = (t) => {
                     amount: t.amount,
                     showEdit: t.showEdit
                   },
-                  T.id || I
+                  T.id || P
                 )),
                 /* @__PURE__ */ c(
                   ae,
@@ -1868,7 +1870,7 @@ const Dn = (t) => {
           }
         ),
         l && E > 1 && /* @__PURE__ */ d("div", { className: "pagination", children: [
-          /* @__PURE__ */ c("button", { disabled: D <= 1, onClick: () => pt(D - 1), children: "←" }),
+          /* @__PURE__ */ c("button", { disabled: D <= 1, onClick: () => xt(D - 1), children: "←" }),
           /* @__PURE__ */ d("span", { children: [
             i.page,
             " ",
@@ -1878,7 +1880,7 @@ const Dn = (t) => {
             " ",
             E
           ] }),
-          /* @__PURE__ */ c("button", { disabled: D >= E, onClick: () => pt(D + 1), children: "→" })
+          /* @__PURE__ */ c("button", { disabled: D >= E, onClick: () => xt(D + 1), children: "→" })
         ] })
       ]
     }
@@ -1909,10 +1911,14 @@ const En = {
     success: "#198754",
     error: "#dc3545"
   }
-}, kn = Kt(void 0), Bn = ({ children: t }) => {
-  const [e, n] = _(!1), r = e ? Tn : En, o = () => n(!e);
-  return /* @__PURE__ */ c(kn.Provider, { value: { theme: r, toggleTheme: o }, children: t });
-}, Fn = It((t, e) => /* @__PURE__ */ c(Bn, { children: /* @__PURE__ */ c(
+}, kn = Kt(void 0), Bn = ({ children: t, theme: e }) => {
+  const [n, r] = J(e === "dark");
+  mt.useEffect(() => {
+    e && r(e === "dark");
+  }, [e]);
+  const o = n ? Tn : En, a = () => r(!n);
+  return /* @__PURE__ */ c(kn.Provider, { value: { theme: o, toggleTheme: a }, children: t });
+}, Rn = Pt((t, e) => /* @__PURE__ */ c(Bn, { theme: t.theme, children: /* @__PURE__ */ c(
   Zt,
   {
     labels: t.labels,
@@ -1927,47 +1933,47 @@ const En = {
     children: /* @__PURE__ */ c(jt, { ref: e, ...t })
   }
 ) }));
-Fn.displayName = "AccountingDiaryWrapper";
-const In = (t = {}) => {
-  const { initialData: e = [], onChange: n, onBeforeAdd: r, onBeforeEdit: o, onBeforeDelete: a } = t, [i, l] = _([e]), [h, p] = _(0), u = i[h], b = M((x) => {
+Rn.displayName = "AccountingDiaryWrapper";
+const Pn = (t = {}) => {
+  const { initialData: e = [], onChange: n, onBeforeAdd: r, onBeforeEdit: o, onBeforeDelete: a } = t, [i, l] = J([e]), [h, p] = J(0), u = i[h], b = z((x) => {
     l((v) => [...v.slice(0, h + 1), x]), p((v) => v + 1), n?.(x);
-  }, [h, n]), s = M(async (x) => {
-    const v = { ...x, id: J() };
+  }, [h, n]), s = z(async (x) => {
+    const v = { ...x, id: _() };
     return r && !await r(v) ? !1 : (b([...u, v]), !0);
-  }, [u, b, r]), g = M(async (x, v) => {
+  }, [u, b, r]), g = z(async (x, v) => {
     const S = u.findIndex((ot) => ot.id === x);
     if (S === -1) return !1;
-    const P = u[S], Q = { ...P, ...v };
-    if (o && !await o(P, Q)) return !1;
+    const I = u[S], Q = { ...I, ...v };
+    if (o && !await o(I, Q)) return !1;
     const j = [...u];
     return j[S] = Q, b(j), !0;
-  }, [u, b, o]), R = M(async (x) => {
+  }, [u, b, o]), F = z(async (x) => {
     const v = u.find((S) => S.id === x);
     return !v || a && !await a(v) ? !1 : (b(u.filter((S) => S.id !== x)), !0);
-  }, [u, b, a]), E = M(() => {
+  }, [u, b, a]), E = z(() => {
     h > 0 && (p((x) => x - 1), n?.(i[h - 1]));
-  }, [h, i, n]), D = M(() => {
+  }, [h, i, n]), D = z(() => {
     h + 1 < i.length && (p((x) => x + 1), n?.(i[h + 1]));
   }, [h, i, n]), f = K(() => {
-    const x = u.filter((S) => S.isDebit).reduce((S, P) => S + P.amount, 0), v = u.filter((S) => !S.isDebit).reduce((S, P) => S + P.amount, 0);
+    const x = u.filter((S) => S.isDebit).reduce((S, I) => S + I.amount, 0), v = u.filter((S) => !S.isDebit).reduce((S, I) => S + I.amount, 0);
     return { debit: x, credit: v, balance: x - v, isBalanced: Math.abs(x - v) < 0.01 };
   }, [u]), w = K(() => {
     const x = {};
     for (const v of u)
       x[v.account] || (x[v.account] = { debit: 0, credit: 0, balance: 0 }), v.isDebit ? x[v.account].debit += v.amount : x[v.account].credit += v.amount, x[v.account].balance = x[v.account].debit - x[v.account].credit;
     return x;
-  }, [u]), k = M((x) => {
+  }, [u]), k = z((x) => {
     try {
-      const S = JSON.parse(x).map((P) => ({ ...P, id: P.id || J() }));
+      const S = JSON.parse(x).map((I) => ({ ...I, id: I.id || _() }));
       b([...u, ...S]);
     } catch {
     }
-  }, [u, b]), B = M(() => JSON.stringify(u, null, 2), [u]);
+  }, [u, b]), B = z(() => JSON.stringify(u, null, 2), [u]);
   return {
     data: u,
     addTransaction: s,
     editTransaction: g,
-    deleteTransaction: R,
+    deleteTransaction: F,
     undo: E,
     redo: D,
     canUndo: h > 0,
@@ -1980,18 +1986,18 @@ const In = (t = {}) => {
 };
 export {
   jt as AccountingDiary,
-  Fn as AccountingDiaryWrapper,
+  Rn as AccountingDiaryWrapper,
   ye as DialogOperation,
   ae as Footer,
   Zt as GlobalProvider,
   te as Header,
   xn as LedgerView,
-  Fn as default,
+  Rn as default,
   Qt as defaultLabels,
   bn as exportToCSV,
   wn as exportToExcel,
   Sn as exportToJSON,
   vn as importFromCSV,
   Cn as importFromJSON,
-  In as useAccountingDiary
+  Pn as useAccountingDiary
 };
