@@ -15,10 +15,6 @@ Lightweight React component to generate accounting diaries with export to PNG, J
 
 ```bash
 npm install react-accounting-diary
-# or
-yarn add react-accounting-diary
-# or
-pnpm add react-accounting-diary
 ```
 
 **Requirements:**
@@ -283,6 +279,9 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 
 ## Features
 
+- ✅ **Transaction templates** — reusable presets (rent, salary, etc.)
+- ✅ **Drag & drop import** — drop CSV/JSON files onto the component
+- ✅ **Filter dropdown** — filter by account/category
 - ✅ **Headless hook** (`useAccountingDiary`) — build your own UI
 - ✅ **Imperative ref API** — programmatic control (export, add, undo, etc.)
 - ✅ **Validation callbacks** (`onBeforeAdd`, `onBeforeEdit`, `onBeforeDelete`)
@@ -390,6 +389,22 @@ interface IDataItem {
 - **Bundle size:** ~21KB (ESM, gzipped)
 - **Zero external CSS:** Styles are scoped and included
 - **Tree-shakeable:** ESM exports with `sideEffects: false`
+
+## Roadmap
+
+**Coming in v2.5.0:**
+- Mini chart — debit/credit visualization by month (`showChart` prop)
+- Multi-journal support (purchases, sales, bank, cash)
+- Reconciliation — mark transactions as reconciled
+
+**Future ideas:**
+- Virtualization for large datasets
+- Recurring transactions
+- Multi-currency conversion with exchange rates
+- Chart of accounts presets (OHADA, SYSCOHADA, IFRS)
+- Plugin system for custom columns/actions
+
+See the full [ROADMAP](https://github.com/ruthel/react-accounting-diary/blob/main/ROADMAP.md) for details.
 
 ## Contributing
 

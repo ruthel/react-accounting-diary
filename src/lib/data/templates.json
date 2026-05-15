@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Rent Payment",
+    "date": "",
+    "text": "Monthly rent payment",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Rent",
+    "currency": "USD",
+    "category": "Operating",
+    "tags": ["monthly", "fixed"]
+  },
+  {
+    "name": "Salary Payment",
+    "date": "",
+    "text": "Employee salary payment",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Payroll",
+    "currency": "USD",
+    "category": "Operating",
+    "tags": ["monthly", "salary"]
+  },
+  {
+    "name": "Sales Revenue",
+    "date": "",
+    "text": "Sales revenue received",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Cash",
+    "currency": "USD",
+    "category": "Revenue",
+    "tags": ["sales"]
+  },
+  {
+    "name": "Utility Bill",
+    "date": "",
+    "text": "Utility bill payment",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Utilities",
+    "currency": "USD",
+    "category": "Operating",
+    "tags": ["monthly", "utilities"]
+  },
+  {
+    "name": "Office Supplies",
+    "date": "",
+    "text": "Office supplies purchase",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Supplies",
+    "currency": "USD",
+    "category": "Operating",
+    "tags": ["supplies"]
+  },
+  {
+    "name": "Loan Repayment",
+    "date": "",
+    "text": "Loan repayment",
+    "isDebit": true,
+    "amount": 0,
+    "account": "Loan",
+    "currency": "USD",
+    "category": "Financing",
+    "tags": ["loan", "monthly"]
+  }
+]

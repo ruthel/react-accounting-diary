@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { useState, useCallback, useContext, useEffect } from 'react';
+import { useState, useCallback, useContext, useEffect, useRef } from 'react';
 import './styles/DialogOperation.scss';
 import { GlobalContext } from './context.tsx';
-import { Plus, X } from './icons';
+import { Plus, X, Template } from './icons';
 import currencies from './data/currencies.json';
+import templates from './data/templates.json';
 import { IDataItem, generateId } from '../types/common';
 
 interface IDialogOperationState {
@@ -33,6 +34,9 @@ const initialState: IDialogOperationState = {
 const DialogOperation: React.FC = () => {
   const context = useContext(GlobalContext);
   const [state, setState] = useState<IDialogOperationState>(initialState);
+  const [templateOpen, setTemplateOpen] = useState(false);
+  const templateRef = useRef<HTMLDivElement>(null);
+  const lastDialogCount = useRef(0);
 
   useEffect(() => {
     const editing = context?.state.editingTransaction;
@@ -52,11 +56,28 @@ const DialogOperation: React.FC = () => {
   }, [context?.state.editingTransaction]);
 
   useEffect(() => {
-    if (context?.state.openAddDialog) {
-      setState((prev) => ({ ...prev, open: true }));
-      context.updateState({ openAddDialog: false } as any);
+    const count = context?.state.openAddDialogCount || 0;
+    if (count > lastDialogCount.current) {
+      const tpl = context?.state.templateItem;
+      if (tpl) {
+        setState({
+          open: true,
+          isDebit: tpl.isDebit ?? false,
+          amount: tpl.amount || '',
+          account: tpl.account || '',
+          text: tpl.text || '',
+          date: tpl.date || new Date().toISOString().split('T')[0],
+          currency: tpl.currency || 'USD',
+          category: tpl.category || '',
+          tags: tpl.tags?.join(', ') || '',
+        });
+        context?.updateState({ templateItem: undefined } as any);
+      } else {
+        setState((prev) => ({ ...prev, open: true }));
+      }
     }
-  }, [context?.state.openAddDialog]);
+    lastDialogCount.current = count;
+  }, [context?.state.openAddDialogCount]);
 
   useEffect(() => {
     if (!state.open) return;
@@ -67,16 +88,41 @@ const DialogOperation: React.FC = () => {
     return () => document.removeEventListener('keydown', onKey);
   }, [state.open]);
 
+  // Close template dropdown on outside click
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (templateRef.current && !templateRef.current.contains(e.target as Node)) {
+        setTemplateOpen(false);
+      }
+    };
+    if (templateOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [templateOpen]);
+
   const handleClickOpen = useCallback(() => {
     setState((prev) => ({ ...prev, open: true }));
   }, []);
 
   const handleClose = useCallback(() => {
     setState(initialState);
+    setTemplateOpen(false);
     if (context?.state.editingTransaction) {
       context.updateState({ editingTransaction: undefined });
     }
   }, [context]);
+
+  const applyTemplate = (tpl: any) => {
+    setState((prev) => ({
+      ...prev,
+      isDebit: tpl.isDebit ?? prev.isDebit,
+      account: tpl.account || prev.account,
+      text: tpl.text || prev.text,
+      currency: tpl.currency || prev.currency,
+      category: tpl.category || prev.category,
+      tags: tpl.tags?.join(', ') || prev.tags,
+    }));
+    setTemplateOpen(false);
+  };
 
   if (!context) return null;
 
@@ -130,9 +176,75 @@ const DialogOperation: React.FC = () => {
                 <h3 className="dialog-title">{isEditing ? labels.editTransaction : labels.addTransaction}</h3>
                 <p className="dialog-description">{isEditing ? labels.modifyDescription : labels.addDescription}</p>
               </div>
-              <button onClick={handleClose} className="dialog-close">
-                <X size={16} />
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                {/* Template selector inside dialog */}
+                {!isEditing && (
+                  <div ref={templateRef} style={{ position: 'relative' }}>
+                    <button
+                      onClick={() => setTemplateOpen(!templateOpen)}
+                      title={labels.templates}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        padding: '6px 10px',
+                        fontSize: 12,
+                        fontWeight: 500,
+                        border: '1px solid hsl(220, 13%, 91%)',
+                        borderRadius: 6,
+                        background: 'white',
+                        cursor: 'pointer',
+                        color: 'hsl(220, 9%, 46%)',
+                        transition: 'all 150ms',
+                      }}
+                    >
+                      <Template size={12} /> {labels.templates}
+                    </button>
+                    {templateOpen && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: 0,
+                        zIndex: 30,
+                        marginTop: 4,
+                        background: 'white',
+                        border: '1px solid hsl(220, 13%, 91%)',
+                        borderRadius: 6,
+                        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                        minWidth: 180,
+                        padding: '4px 0',
+                      }}>
+                        {(templates as any[]).map((tpl, i) => (
+                          <button
+                            key={i}
+                            onClick={() => applyTemplate(tpl)}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              padding: '8px 14px',
+                              border: 'none',
+                              background: 'none',
+                              cursor: 'pointer',
+                              fontSize: 12,
+                              fontWeight: 500,
+                              textAlign: 'left',
+                              color: 'hsl(224, 71%, 4%)',
+                              transition: 'background 150ms',
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'hsl(220, 14%, 96%)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
+                          >
+                            {tpl.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                <button onClick={handleClose} className="dialog-close">
+                  <X size={16} />
+                </button>
+              </div>
             </div>
 
             <div className="dialog-body">

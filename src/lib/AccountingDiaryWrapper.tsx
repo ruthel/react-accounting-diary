@@ -51,6 +51,7 @@ const AccountingDiaryWrapper = forwardRef<AccountingDiaryHandle, IAccountingDiar
   return (
     <ThemeProvider theme={props.theme}>
       <GlobalProvider
+        initialData={props.data}
         labels={props.labels}
         pageSize={props.pageSize}
         onAdd={props.onAdd}

@@ -8,7 +8,7 @@ interface IGlobalState {
     history: IDataItem[][];
     severitySb: 'success' | 'error' | 'warning' | 'info';
     editingTransaction?: IDataItem;
-    openAddDialog?: boolean;
+    openAddDialogCount?: number;
     searchTerm?: string;
     dateFilter?: {
         start?: string;
@@ -18,6 +18,9 @@ interface IGlobalState {
     sortOrder?: SortOrder;
     currentPage: number;
     viewMode: ViewMode;
+    filterAccount?: string;
+    filterCategory?: string;
+    templateItem?: Partial<IDataItem>;
 }
 interface IGlobalContext {
     state: IGlobalState;
@@ -38,6 +41,7 @@ interface IGlobalContext {
 }
 declare const Context: React.Context<IGlobalContext | undefined>;
 interface IGlobalProviderProps extends React.PropsWithChildren {
+    initialData?: IDataItem[];
     labels?: ILabels;
     pageSize?: number;
     onAdd?: (item: IDataItem) => void;

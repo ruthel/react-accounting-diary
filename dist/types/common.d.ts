@@ -56,6 +56,12 @@ export interface ILabels {
     diaryView?: string;
     runningBalance?: string;
     importJSON?: string;
+    templates?: string;
+    filterByAccount?: string;
+    filterByCategory?: string;
+    allAccounts?: string;
+    allCategories?: string;
+    dropFileHere?: string;
 }
 export declare const defaultLabels: Required<ILabels>;
 export type SortField = 'date' | 'account' | 'amount';

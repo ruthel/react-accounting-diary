@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { IDataItem, ILabels, defaultLabels, SortField, SortOrder, ViewMode } from '../types/common';
 
 interface IGlobalState {
@@ -9,13 +9,16 @@ interface IGlobalState {
   history: IDataItem[][];
   severitySb: 'success' | 'error' | 'warning' | 'info';
   editingTransaction?: IDataItem;
-  openAddDialog?: boolean;
+  openAddDialogCount?: number;
   searchTerm?: string;
   dateFilter?: { start?: string; end?: string };
   sortField?: SortField;
   sortOrder?: SortOrder;
   currentPage: number;
   viewMode: ViewMode;
+  filterAccount?: string;
+  filterCategory?: string;
+  templateItem?: Partial<IDataItem>;
 }
 
 interface IGlobalContext {
@@ -37,6 +40,7 @@ interface IGlobalContext {
 const Context = React.createContext<IGlobalContext | undefined>(undefined);
 
 interface IGlobalProviderProps extends React.PropsWithChildren {
+  initialData?: IDataItem[];
   labels?: ILabels;
   pageSize?: number;
   onAdd?: (item: IDataItem) => void;
@@ -48,25 +52,48 @@ interface IGlobalProviderProps extends React.PropsWithChildren {
   onBeforeDelete?: (item: IDataItem) => boolean | Promise<boolean>;
 }
 
-const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, pageSize, onAdd, onDelete, onEdit, onChange, onBeforeAdd, onBeforeEdit, onBeforeDelete }) => {
+const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData, labels, pageSize, onAdd, onDelete, onEdit, onChange, onBeforeAdd, onBeforeEdit, onBeforeDelete }) => {
   const mergedLabels = { ...defaultLabels, ...labels } as Required<ILabels>;
+  const isExternalUpdate = useRef(false);
 
-  const [state, setState] = useState<IGlobalState>({
-    data: [],
-    doIndex: 0,
-    openSb: false,
-    messageSb: '',
-    history: [[]],
-    severitySb: 'success',
-    editingTransaction: undefined,
-    openAddDialog: false,
-    searchTerm: '',
-    dateFilter: {},
-    sortField: undefined,
-    sortOrder: 'asc',
-    currentPage: 1,
-    viewMode: 'diary',
+  const [state, setState] = useState<IGlobalState>(() => {
+    const data = initialData || [];
+    return {
+      data,
+      doIndex: 0,
+      openSb: false,
+      messageSb: '',
+      history: [data],
+      severitySb: 'success',
+      editingTransaction: undefined,
+      openAddDialogCount: 0,
+      searchTerm: '',
+      dateFilter: {},
+      sortField: undefined,
+      sortOrder: 'asc',
+      currentPage: 1,
+      viewMode: 'diary',
+      filterAccount: undefined,
+      filterCategory: undefined,
+      templateItem: undefined,
+    };
   });
+
+  // Sync internal state when parent changes props.data (controlled mode)
+  useEffect(() => {
+    if (isExternalUpdate.current) {
+      isExternalUpdate.current = false;
+      return;
+    }
+    if (initialData !== undefined) {
+      setState(prev => {
+        // Only sync if data actually differs (avoid infinite loops)
+        if (prev.data === initialData) return prev;
+        if (JSON.stringify(prev.data) === JSON.stringify(initialData)) return prev;
+        return { ...prev, data: initialData };
+      });
+    }
+  }, [initialData]);
 
   const undo = useCallback(() => {
     setState((prevState) => {
@@ -105,6 +132,7 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, labels, page
         const newData = e.data as IDataItem[];
         const history = [...prevState.history].slice(0, prevState.doIndex + 1);
         const newHistory = [...history, newData];
+        isExternalUpdate.current = true;
         onChange?.(newData);
         return {
           ...prevState,

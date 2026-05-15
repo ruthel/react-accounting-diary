@@ -2,16 +2,19 @@ import React, { useState, useContext, useRef, useMemo, forwardRef, useImperative
 import './styles/styles.scss';
 import './styles/print.scss';
 import DialogOperation from "./DialogOperation.tsx";
-import * as htmlToImage from 'html-to-image';
+import { exportNodeAsImage, nodeToDataUrl } from './helpers/nativeExport';
 import { groupBy, orderBy } from './helpers/utils';
-import { Undo, Redo, Download, Upload, FileImage, FileText, Database, Trash2 } from './icons';
+import { Undo, Redo, Download, Upload, FileImage, FileText, Database, Trash2, Template } from './icons';
 import Footer from "./Footer.tsx";
 import Header from "./Header.tsx";
 import { GlobalContext } from "./context.tsx";
 import Content from "./Content.tsx";
 import SearchFilter from "./SearchFilter.tsx";
+import FilterDropdown from "./FilterDropdown.tsx";
+import DropZoneOverlay, { useDropZone } from "./DropZone.tsx";
 import LedgerView from "./LedgerView.tsx";
 import sampleData from './data/sample.json';
+import templates from './data/templates.json';
 import Func from "./helpers/func.ts";
 import { importFromCSV, exportToCSV, exportToExcel, exportToJSON, importFromJSON } from './helpers/exportUtils';
 import { IDataItem, IStyleConfig, generateId, AccountingDiaryHandle } from '../types/common';
@@ -54,16 +57,19 @@ const getArray = (data: IDataItem[]) => {
 
 const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>((props, ref) => {
   const [toFunc, setToFunc] = useState<'toPng' | 'toJpeg' | 'toPdf'>('toPng');
+  const [templateMenuOpen, setTemplateMenuOpen] = useState(false);
+  const templateRef = useRef<HTMLDivElement>(null);
   const context = useContext(GlobalContext);
+  const { isDragging, setIsDragging, onDragOver, onDragLeave } = useDropZone();
 
   if (!context) return null;
 
   const { state, labels, pageSize, undo, redo, updateState } = context;
 
-  const hasInteracted = state.history.length > 1;
-  const rawData = hasInteracted
-    ? (state.data || [])
-    : (props.data && props.data.length > 0 ? props.data : (state.data && state.data.length > 0 ? state.data : sampleData as IDataItem[]));
+  // If user has interacted (or data was provided), use state.data as-is (even if empty)
+  // Otherwise fallback to sample data for demo purposes
+  const hasData = state.history.length > 1 || (state.data && state.data.length > 0);
+  const rawData = hasData ? (state.data || []) : sampleData as IDataItem[];
 
   // Filter
   const filteredData = useMemo(() => {
@@ -83,8 +89,14 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
     if (state.dateFilter?.end) {
       filtered = filtered.filter(item => item.date <= state.dateFilter!.end!);
     }
+    if (state.filterAccount) {
+      filtered = filtered.filter(item => item.account === state.filterAccount);
+    }
+    if (state.filterCategory) {
+      filtered = filtered.filter(item => item.category === state.filterCategory);
+    }
     return filtered;
-  }, [rawData, state.searchTerm, state.dateFilter]);
+  }, [rawData, state.searchTerm, state.dateFilter, state.filterAccount, state.filterCategory]);
 
   // Sort
   const sortedData = useMemo(() => {
@@ -116,6 +128,17 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
   const csvInputRef = useRef<HTMLInputElement>(null);
   const jsonInputRef = useRef<HTMLInputElement>(null);
 
+  // Close template menu on outside click
+  React.useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (templateRef.current && !templateRef.current.contains(e.target as Node)) {
+        setTemplateMenuOpen(false);
+      }
+    };
+    if (templateMenuOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [templateMenuOpen]);
+
   const getAccountSummary = () => {
     const summary: Record<string, { debit: number; credit: number; balance: number }> = {};
     for (const item of rawData) {
@@ -130,26 +153,13 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
   const doExport = (format: 'toPng' | 'toJpeg' | 'toPdf') => {
     const node = document.getElementById('diary');
     if (!node) return Promise.resolve();
-    return htmlToImage[
-      format === 'toPdf' ? 'toPng' : format
-    ](node, { backgroundColor: '#fff', quality: 1, pixelRatio: 10 })
-      .then((dataUrl) => {
-        let arr = dataUrl.split(','),
-          mime = arr[0].match(/:(.*?);/)?.[1],
-          bstr = atob(arr[1]),
-          n = bstr.length,
-          u8arr = new Uint8Array(n);
-        while (n--) u8arr[n] = bstr.charCodeAt(n);
-        const file = new File([u8arr], 'filename', { type: mime });
-        if (format === 'toPdf') Func.extractDoc(dataUrl);
-        else if (mime) {
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(file);
-          link.download = 'export.' + mime.split('/')[1];
-          link.click();
-          URL.revokeObjectURL(link.href);
-        }
-      })
+    if (format === 'toPdf') {
+      // Generate PNG first, then embed in PDF via pdfmake
+      return nodeToDataUrl(node, 'png', 2)
+        .then((dataUrl) => Func.extractDoc(dataUrl))
+        .catch((error) => console.error('Export failed:', error));
+    }
+    return exportNodeAsImage(node, format === 'toJpeg' ? 'jpeg' : 'png')
       .catch((error) => console.error('Export failed:', error));
   };
 
@@ -218,6 +228,8 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
 
   return (
     <div
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
       style={{
         border: '1px solid hsl(220, 13%, 91%)',
         minHeight: '650px',
@@ -232,151 +244,138 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
         fontFamily: 'var(--rad-font)',
       }}
     >
-      {/* Toolbar */}
-      <div style={{ display: 'flex', marginBottom: 16, gap: props.compactButtons ? 4 : 12, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', gap: props.compactButtons ? 4 : 12, alignItems: 'center', flexWrap: 'wrap' }}>
+      {isDragging && <DropZoneOverlay onDone={() => setIsDragging(false)} />}
+
+      {/* Toolbar Row 1: Export format + Actions + Export button + Add */}
+      <div style={{ display: 'flex', marginBottom: 12, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+        {/* Left: format selector + undo/redo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {props.showExport !== false && (
             <div className="export">
-              <button
-                id={toFunc === 'toJpeg' ? 'active' : ''}
-                onClick={() => setToFunc('toJpeg')}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <FileImage size={props.compactButtons ? 10 : 12} />
-                {props.compactButtons ? 'JPG' : 'JPEG'}
+              <button id={toFunc === 'toJpeg' ? 'active' : ''} onClick={() => setToFunc('toJpeg')} style={{ padding: '8px 12px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <FileImage size={12} /> JPEG
               </button>
-              <button
-                id={toFunc === 'toPng' ? 'active' : ''}
-                onClick={() => setToFunc('toPng')}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <FileImage size={props.compactButtons ? 10 : 12} />
-                PNG
+              <button id={toFunc === 'toPng' ? 'active' : ''} onClick={() => setToFunc('toPng')} style={{ padding: '8px 12px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <FileImage size={12} /> PNG
               </button>
-              <button
-                id={toFunc === 'toPdf' ? 'active' : ''}
-                onClick={() => setToFunc('toPdf')}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <FileText size={props.compactButtons ? 10 : 12} />
-                PDF
+              <button id={toFunc === 'toPdf' ? 'active' : ''} onClick={() => setToFunc('toPdf')} style={{ padding: '8px 12px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <FileText size={12} /> PDF
               </button>
             </div>
           )}
-          <div className="global-action" style={{ display: 'flex', gap: props.compactButtons ? 2 : 8 }}>
-            {props.showUndo !== false && (
-              <>
-                <button
-                  className="sample doer"
-                  disabled={!(state.history.length > 1 && state.doIndex > 0)}
-                  onClick={() => undo()}
-                  title="Undo"
-                  style={{ padding: props.compactButtons ? '4px' : '8px' }}
-                >
-                  <Undo strokeWidth={2.5} size={props.compactButtons ? 12 : 14} />
-                </button>
-                <button
-                  className="sample doer"
-                  onClick={() => redo()}
-                  disabled={!(state.doIndex + 1 < state.history.length)}
-                  title="Redo"
-                  style={{ padding: props.compactButtons ? '4px' : '8px' }}
-                >
-                  <Redo strokeWidth={2.5} size={props.compactButtons ? 12 : 14} />
-                </button>
-              </>
-            )}
-            {props.showSample !== false && (
-              <button
-                className="sample"
-                onClick={() => updateState({ data: sampleData as IDataItem[] })}
-                title={labels.sample}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <Database size={props.compactButtons ? 10 : 12} />
-                {props.compactButtons ? 'Sample' : labels.sample}
+          {props.showUndo !== false && (
+            <div className="global-action" style={{ display: 'flex', gap: 4 }}>
+              <button className="sample doer" disabled={!(state.history.length > 1 && state.doIndex > 0)} onClick={() => undo()} title="Undo" style={{ padding: '8px' }}>
+                <Undo strokeWidth={2.5} size={14} />
               </button>
-            )}
-            {props.showClear !== false && (
-              <button
-                className="reset"
-                onClick={() => updateState({ data: [] })}
-                title={labels.clear}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px', display: 'inline-flex', alignItems: 'center', gap: 4 }}
-              >
-                <Trash2 size={props.compactButtons ? 10 : 12} />
-                {labels.clear}
+              <button className="sample doer" onClick={() => redo()} disabled={!(state.doIndex + 1 < state.history.length)} title="Redo" style={{ padding: '8px' }}>
+                <Redo strokeWidth={2.5} size={14} />
               </button>
-            )}
-            <button
-              className="sample"
-              onClick={() => csvInputRef.current?.click()}
-              title="Import CSV"
-              style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
-            >
-              <Upload size={props.compactButtons ? 10 : 12} />
-              {!props.compactButtons && <span style={{ marginLeft: 4 }}>CSV</span>}
-            </button>
-            <button
-              className="sample"
-              onClick={() => jsonInputRef.current?.click()}
-              title={labels.importJSON}
-              style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
-            >
-              <Upload size={props.compactButtons ? 10 : 12} />
-              {!props.compactButtons && <span style={{ marginLeft: 4 }}>JSON</span>}
-            </button>
-            <input
-              ref={csvInputRef}
-              type="file"
-              accept=".csv"
-              style={{ display: 'none' }}
-              onChange={handleCSVImport}
-            />
-            <input
-              ref={jsonInputRef}
-              type="file"
-              accept=".json"
-              style={{ display: 'none' }}
-              onChange={handleJSONImport}
-            />
-            {props.showLedgerToggle !== false && (
-              <button
-                className="sample"
-                onClick={toggleView}
-                title={state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView}
-                style={{ padding: props.compactButtons ? '4px 8px' : '8px 12px', fontSize: props.compactButtons ? '12px' : '14px' }}
-              >
-                {state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView}
-              </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        <div style={{ display: 'flex', gap: props.compactButtons ? 4 : 12, alignItems: 'center' }}>
+        {/* Right: export + add */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {props.showExport !== false && (
-            <button
-              className="btn-export"
-              style={{
-                backgroundColor: props.saveColor,
-                padding: props.compactButtons ? '6px 12px' : '8px 16px',
-                fontSize: props.compactButtons ? '12px' : '14px'
-              }}
-              title={labels.export}
-              onClick={handleExport}
-              aria-label="Export accounting diary"
-              role="button"
-              tabIndex={0}
-            >
-              <Download size={props.compactButtons ? 16 : 20} aria-hidden="true" />
-              <span>{props.compactButtons ? '' : labels.export}</span>
+            <button className="btn-export" style={{ backgroundColor: props.saveColor, padding: '8px 16px', fontSize: '13px' }} title={labels.export} onClick={handleExport} aria-label="Export accounting diary">
+              <Download size={16} aria-hidden="true" />
+              <span>{labels.export}</span>
             </button>
           )}
           {props.showAdd !== false && <DialogOperation />}
         </div>
       </div>
 
-      {props.showSearch !== false && <SearchFilter />}
+      {/* Toolbar Row 2: Data actions (sample, clear, import, view, templates) */}
+      <div className="global-action" style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+        {props.showSample !== false && (
+          <button className="sample" onClick={() => updateState({ data: sampleData as IDataItem[] })} title={labels.sample} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Database size={11} /> {labels.sample}
+          </button>
+        )}
+        {props.showClear !== false && (
+          <button className="reset" onClick={() => updateState({ data: [] })} title={labels.clear} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Trash2 size={11} /> {labels.clear}
+          </button>
+        )}
+
+        <div style={{ width: 1, height: 20, background: 'hsl(220, 13%, 91%)' }} />
+
+        <button className="sample" onClick={() => csvInputRef.current?.click()} title="Import CSV" style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <Upload size={11} /> CSV
+        </button>
+        <button className="sample" onClick={() => jsonInputRef.current?.click()} title={labels.importJSON} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <Upload size={11} /> JSON
+        </button>
+        <input ref={csvInputRef} type="file" accept=".csv" style={{ display: 'none' }} onChange={handleCSVImport} />
+        <input ref={jsonInputRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleJSONImport} />
+
+        <div style={{ width: 1, height: 20, background: 'hsl(220, 13%, 91%)' }} />
+
+        {props.showLedgerToggle !== false && (
+          <button className="sample" onClick={toggleView} title={state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView} style={{ padding: '6px 10px', fontSize: '12px' }}>
+            {state.viewMode === 'diary' ? labels.ledgerView : labels.diaryView}
+          </button>
+        )}
+
+        {/* Templates dropdown */}
+        <div ref={templateRef} style={{ position: 'relative', display: 'inline-block' }}>
+          <button className="sample" onClick={() => setTemplateMenuOpen(!templateMenuOpen)} title={labels.templates} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Template size={11} /> {labels.templates}
+          </button>
+          {templateMenuOpen && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              zIndex: 20,
+              marginTop: 4,
+              background: 'white',
+              border: '1px solid hsl(220, 13%, 91%)',
+              borderRadius: 6,
+              boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)',
+              minWidth: 200,
+              padding: '4px 0',
+            }}>
+              {(templates as any[]).map((tpl, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    updateState({ templateItem: tpl, openAddDialogCount: (state.openAddDialogCount || 0) + 1 } as any);
+                    setTemplateMenuOpen(false);
+                  }}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '8px 14px',
+                    border: 'none',
+                    background: 'none',
+                    cursor: 'pointer',
+                    fontSize: 12,
+                    fontWeight: 500,
+                    textAlign: 'left',
+                    color: 'hsl(224, 71%, 4%)',
+                    transition: 'background 150ms',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'hsl(220, 14%, 96%)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
+                >
+                  {tpl.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Toolbar Row 3: Search + Filter dropdowns */}
+      {props.showSearch !== false && (
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
+          <SearchFilter />
+          <FilterDropdown />
+        </div>
+      )}
 
       {/* Diary content */}
       <div
@@ -419,7 +418,7 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
             {props.showAdd !== false && (
               <button
                 className="empty-state-cta"
-                onClick={() => updateState({ openAddDialog: true } as any)}
+                onClick={() => updateState({ openAddDialogCount: (state.openAddDialogCount || 0) + 1 } as any)}
                 aria-label={labels.addTransaction}
               >
                 {labels.addTransaction}

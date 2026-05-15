@@ -19,7 +19,7 @@ const SearchFilter: React.FC = () => {
   const { state, labels, updateState } = context;
 
   return (
-    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
       <div style={{ position: 'relative' }}>
         <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'hsl(220, 9%, 46%)' }} />
         <input

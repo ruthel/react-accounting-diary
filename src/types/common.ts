@@ -61,6 +61,12 @@ export interface ILabels {
   diaryView?: string;
   runningBalance?: string;
   importJSON?: string;
+  templates?: string;
+  filterByAccount?: string;
+  filterByCategory?: string;
+  allAccounts?: string;
+  allCategories?: string;
+  dropFileHere?: string;
 }
 
 export const defaultLabels: Required<ILabels> = {
@@ -101,6 +107,12 @@ export const defaultLabels: Required<ILabels> = {
   diaryView: 'Diary View',
   runningBalance: 'Running Balance',
   importJSON: 'Import JSON',
+  templates: 'Templates',
+  filterByAccount: 'Filter by account',
+  filterByCategory: 'Filter by category',
+  allAccounts: 'All accounts',
+  allCategories: 'All categories',
+  dropFileHere: 'Drop CSV or JSON file here',
 };
 
 export type SortField = 'date' | 'account' | 'amount';

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2025-07-31
+
+### 🚀 New Features
+- **Transaction Templates**: Reusable presets (Rent, Salary, Sales, Utilities, etc.) accessible via toolbar button. Clicking a template pre-fills the add dialog with the template data
+- **Drag & Drop Import**: Drop CSV or JSON files directly onto the component to import transactions. Visual drop zone with overlay feedback
+- **Filter Dropdown**: Filter transactions by account or category via dropdown menus (in addition to existing text search). Active filters are visually highlighted
+
+### ✨ Enhancements
+- New icons: `Filter`, `Template`, `ChevronDown`
+- New label keys: `templates`, `filterByAccount`, `filterByCategory`, `allAccounts`, `allCategories`, `dropFileHere`
+- New state fields: `filterAccount`, `filterCategory`, `templateItem`
+- New exported components: `FilterDropdown`, `DropZone`
+- Filter dropdown shows only accounts/categories present in current data
+- Template menu closes on outside click
+
 ## [2.3.1] - 2025-07-30
 
 ### ✨ Enhancements
