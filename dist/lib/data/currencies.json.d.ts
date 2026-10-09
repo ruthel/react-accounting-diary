@@ -1,0 +1,28 @@
+declare const _default: [
+  [
+    "US dollar (USD)",
+    "USD"
+  ],
+  [
+    "Euro (EUR)",
+    "EUR"
+  ],
+  [
+    "Japanese yen (JPY)",
+    "JPY"
+  ],
+  [
+    "Pound sterling (GBP)",
+    "GBP"
+  ],
+  [
+    "Swiss franc (CHF)",
+    "CHF"
+  ],
+  [
+    "Cameroonian franc (XAF)",
+    "XAF"
+  ]
+];
+
+export default _default;

@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem, ILabels, SortField, SortOrder, ViewMode } from '../types/common';
+import { IDataItem, ILabels, SortField, SortOrder, ViewMode, ReconciliationFilter } from '../types/common';
 interface IGlobalState {
     data?: IDataItem[];
     doIndex: number;
@@ -20,6 +20,7 @@ interface IGlobalState {
     viewMode: ViewMode;
     filterAccount?: string;
     filterCategory?: string;
+    reconciliationFilter?: ReconciliationFilter;
     templateItem?: Partial<IDataItem>;
 }
 interface IGlobalContext {
@@ -28,6 +29,7 @@ interface IGlobalContext {
     pageSize?: number;
     undo: () => void;
     redo: () => void;
+    setReconciled: (item: IDataItem, reconciled: boolean) => Promise<boolean>;
     updateState: (e: Partial<IGlobalState> | {
         data: IDataItem[];
     }) => void;

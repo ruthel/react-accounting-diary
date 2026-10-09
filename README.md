@@ -51,6 +51,47 @@ function App() {
 }
 ```
 
+## Reconciliation and period summaries (v2.5.0)
+
+Transactions accept an optional `reconciled?: boolean`. Only `true` means reconciled; omitted or `false` means unreconciled, so existing data needs no migration. The transaction dialog and row action menu can update this status. Diary and ledger views display it. Reconciliation changes use `onBeforeEdit`, `onEdit` / `onChange` and undo/redo.
+
+The reconciliation selector offers **All / Reconciled / Unreconciled** alongside search, dates, account and category. It filters before pagination and resets the page. Like the other filters, it is hidden when `showSearch={false}`.
+
+Enable a lightweight chart and numeric period balance with:
+
+```tsx
+<AccountingDiary data={entries} showPeriodChart periodGranularity="month" />
+```
+
+`showPeriodChart` defaults to `false` to preserve existing layouts. `periodGranularity` accepts `day`, `month` (default), or `year`. Bars and the summary table use all filtered transactions, before pagination. Each currency has its own scale and totals; no currency conversion occurs. The table provides readable values independently of bar colors.
+
+For a custom UI:
+
+```tsx
+const diary = useAccountingDiary({
+  initialData: entries,
+  initialFilters: { reconciliation: 'unreconciled' },
+  periodGranularity: 'month',
+});
+await diary.setReconciled(transactionId, true); // Promise<boolean>; false if missing or rejected
+diary.setReconciliationFilter('all'); // preserves other filters
+diary.setFilters({ account: 'Bank', start: '2026-01-01', end: '2026-12-31' }); // replaces filters
+const monthly = diary.periodSummary;
+const annual = diary.getPeriodSummary('year');
+// Optional standalone component:
+<PeriodChart data={diary.filteredData} periodGranularity="month" />
+```
+
+Import `PeriodChart`, `filterTransactions`, and `summarizeByPeriod` from the package. Public types include `ReconciliationFilter`, `TransactionFilters`, `PeriodGranularity`, `PeriodSummary`, and `PeriodChartProps`.
+
+Each summary row contains `period`, `currency`, `debit`, `credit`, `balance`, `count`, and `isBalanced`. Balance is **debit minus credit within that period**, not an opening or cumulative balance. Dates use calendar `YYYY-MM-DD` strings without timezone conversion; invalid dates are excluded from summaries. Empty periods are omitted. `isBalanced` uses the existing tolerance of less than 0.01.
+
+The hook's existing `data`, `totals`, and `accountSummary` still represent all data. Its new `filteredData` and period summaries follow `filters`. The ref's existing `getTotals()` continues to follow UI filters; `getData()` and data exports return all data. The existing grand total and ledger calculations are unchanged; use the new summaries for currency-separated period balances.
+
+JSON preserves the status. CSV and Excel append a `Reconciled` column; old six-column CSV files still import with an omitted status. Initial transactions without IDs now receive IDs so they can be reconciled through the hook/ref. Explicit `data={[]}` displays an empty diary; omitting data on the default wrapper retains demo entries.
+
+New customizable label keys: `reconciliation`, `allTransactions`, `reconciled`, `unreconciled`, `periodSummary`, `period`. See [complete examples](examples/reconciliation.tsx).
+
 ## Headless Hook — `useAccountingDiary`
 
 Build your own UI with full control over the data layer:
@@ -137,6 +178,10 @@ function App() {
 | `getData()` | `IDataItem[]` | Get current data |
 | `getTotals()` | `object` | Get debit, credit, balance, isBalanced |
 | `getAccountSummary()` | `object` | Get per-account debit/credit/balance |
+| `setReconciled(id, boolean)` | `Promise<boolean>` | Update status through edit validation and history |
+| `setReconciliationFilter(filter)` | `void` | Set all/reconciled/unreconciled and reset page |
+| `getFilteredData()` | `IDataItem[]` | Get entries matching the current UI filters |
+| `getPeriodSummary(period?)` | `PeriodSummary[]` | Get filtered period totals per currency |
 
 ## Controlled Mode
 
@@ -355,6 +400,8 @@ See [USAGE.md](USAGE.md) for the full list of label keys.
 | `showAdd` | `boolean` | `true` | Show add transaction button. |
 | `showEdit` | `boolean` | `true` | Show edit/delete actions on rows. |
 | `showSearch` | `boolean` | `true` | Show search & date filter. |
+| `showPeriodChart` | `boolean` | `false` | Show filtered debit/credit bars and period balance by currency. |
+| `periodGranularity` | `'day' \| 'month' \| 'year'` | `'month'` | Calendar grouping for chart and period summaries. |
 | `showGrandTotal` | `boolean` | `true` | Show grand total & balance check. |
 | `showLedgerToggle` | `boolean` | `true` | Show diary/ledger view toggle button. |
 | `onExport` | `(format: string, data: IDataItem[]) => void` | `undefined` | Called when data is exported. |
@@ -381,23 +428,24 @@ interface IDataItem {
   local?: string;     // Locale for formatting (en-US, fr-FR, de-DE)
   category?: string;  // Transaction category (Operating, Investing, etc.)
   tags?: string[];    // Tags for classification (searchable)
+  reconciled?: boolean; // true = reconciled, omitted/false = unreconciled
 }
 ```
 
 ## Performance
 
-- **Bundle size:** ~21KB (ESM, gzipped)
+- **Bundle size:** ~21.44KB (ESM, gzipped)
 - **Zero external CSS:** Styles are scoped and included
 - **Tree-shakeable:** ESM exports with `sideEffects: false`
 
 ## Roadmap
 
-**Coming in v2.5.0:**
-- Mini chart — debit/credit visualization by month (`showChart` prop)
-- Multi-journal support (purchases, sales, bank, cash)
-- Reconciliation — mark transactions as reconciled
+**Delivered in v2.5.0:**
+- Reconciliation with UI/headless filters and validation
+- Debit/credit chart and currency-separated period summaries (`showPeriodChart`)
 
 **Future ideas:**
+- Multi-journal support (purchases, sales, bank, cash)
 - Virtualization for large datasets
 - Recurring transactions
 - Multi-currency conversion with exchange rates

@@ -31,3 +31,6 @@ yarn-error.log*
 tsconfig.node.json
 vite.config.js
 vitest.config.js
+
+# Local implementation scratch
+work/

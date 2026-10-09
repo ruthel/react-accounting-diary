@@ -1,7 +1,7 @@
 import { IDataItem } from '../../types/common';
 
 export const exportToCSV = (data: IDataItem[], filename = 'accounting-diary.csv') => {
-  const headers = ['Date', 'Account', 'Description', 'Debit', 'Credit', 'Currency'];
+  const headers = ['Date', 'Account', 'Description', 'Debit', 'Credit', 'Currency', 'Reconciled'];
   const csvContent = [
     headers.join(','),
     ...data.map(item => [
@@ -10,7 +10,8 @@ export const exportToCSV = (data: IDataItem[], filename = 'accounting-diary.csv'
       `"${(item.text || '').replace(/"/g, '""')}"`,
       item.isDebit ? item.amount : '',
       !item.isDebit ? item.amount : '',
-      item.currency || 'USD'
+      item.currency || 'USD',
+      item.reconciled === true
     ].join(','))
   ].join('\n');
 
@@ -29,6 +30,7 @@ export const exportToExcel = (data: IDataItem[], filename = 'accounting-diary.xl
       <td>${item.isDebit ? item.amount : ''}</td>
       <td>${!item.isDebit ? item.amount : ''}</td>
       <td>${escape(item.currency || 'USD')}</td>
+      <td>${item.reconciled === true}</td>
     </tr>`
   ).join('');
 
@@ -37,7 +39,7 @@ export const exportToExcel = (data: IDataItem[], filename = 'accounting-diary.xl
     <head><meta charset="UTF-8"></head>
     <body>
       <table>
-        <thead><tr><th>Date</th><th>Account</th><th>Description</th><th>Debit</th><th>Credit</th><th>Currency</th></tr></thead>
+        <thead><tr><th>Date</th><th>Account</th><th>Description</th><th>Debit</th><th>Credit</th><th>Currency</th><th>Reconciled</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </body>
@@ -52,22 +54,23 @@ export const importFromCSV = (file: File): Promise<IDataItem[]> => {
     reader.onload = (e) => {
       try {
         const csv = e.target?.result as string;
-        const lines = csv.split('\n');
+        const lines = parseCSV(csv);
+        const reconciledColumn = lines[0]?.findIndex(value => value.trim().toLowerCase() === 'reconciled') ?? -1;
 
         const data: IDataItem[] = lines.slice(1)
-          .filter(line => line.trim())
-          .map(line => {
-            const values = line.split(',');
+          .filter(values => values.some(value => value.trim()))
+          .map(values => {
             const debit = parseFloat(values[3]) || 0;
             const credit = parseFloat(values[4]) || 0;
 
             return {
               date: values[0],
-              account: values[1].replace(/"/g, ''),
-              text: values[2].replace(/"/g, ''),
+              account: values[1],
+              text: values[2],
               amount: debit || credit,
               isDebit: debit > 0,
-              currency: (values[5] || 'USD').trim()
+              currency: (values[5] || 'USD').trim(),
+              ...(reconciledColumn >= 0 ? { reconciled: values[reconciledColumn]?.trim().toLowerCase() === 'true' } : {})
             };
           });
 
@@ -107,4 +110,22 @@ function downloadBlob(content: string, filename: string, type: string) {
   link.download = filename;
   link.click();
   URL.revokeObjectURL(link.href);
+}
+
+// Read quoted commas, escaped quotes and multiline descriptions written by exportToCSV.
+function parseCSV(csv: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [], value = '', quoted = false;
+  for (let index = 0; index < csv.length; index++) {
+    const char = csv[index];
+    if (char === '"') {
+      if (quoted && csv[index + 1] === '"') { value += '"'; index++; }
+      else quoted = !quoted;
+    } else if (char === ',' && !quoted) { row.push(value); value = ''; }
+    else if (char === '\n' && !quoted) { row.push(value.replace(/\r$/, '')); rows.push(row); row = []; value = ''; }
+    else value += char;
+  }
+  row.push(value.replace(/\r$/, ''));
+  rows.push(row);
+  return rows;
 }

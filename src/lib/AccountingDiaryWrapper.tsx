@@ -1,8 +1,9 @@
 import React, { forwardRef } from 'react';
+import sampleData from './data/sample.json';
 import AccountingDiary from './AccountingDiary.tsx';
 import { GlobalProvider } from './context.tsx';
 import { ThemeProvider } from './ThemeProvider.tsx';
-import { IDataItem, IStyleConfig, ILabels, AccountingDiaryHandle } from '../types/common';
+import { IDataItem, IStyleConfig, ILabels, AccountingDiaryHandle, PeriodGranularity } from '../types/common';
 
 interface IAccountingDiaryWrapperProps {
   height?: number;
@@ -32,6 +33,8 @@ interface IAccountingDiaryWrapperProps {
   showGrandTotal?: boolean;
   showLedgerToggle?: boolean;
   compactButtons?: boolean;
+  showPeriodChart?: boolean;
+  periodGranularity?: PeriodGranularity;
   enableCSVExport?: boolean;
   enableExcelExport?: boolean;
   theme?: 'light' | 'dark';
@@ -51,7 +54,7 @@ const AccountingDiaryWrapper = forwardRef<AccountingDiaryHandle, IAccountingDiar
   return (
     <ThemeProvider theme={props.theme}>
       <GlobalProvider
-        initialData={props.data}
+        initialData={props.data ?? sampleData as IDataItem[]}
         labels={props.labels}
         pageSize={props.pageSize}
         onAdd={props.onAdd}

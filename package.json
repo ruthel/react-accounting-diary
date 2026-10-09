@@ -1,6 +1,6 @@
 {
   "name": "react-accounting-diary",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "type": "module",
   "private": false,
   "engines": {
@@ -36,17 +36,19 @@
     "hook",
     "validation",
     "i18n",
-    "ledger-view"
+    "ledger-view",
+    "reconciliation",
+    "period-summary"
   ],
-  "description": "Lightweight React component for accounting diaries with export to PNG, JPEG, PDF, CSV, Excel, JSON. Features headless hook, ref API, ledger view, validation callbacks, i18n, dark mode, search, edit transactions.",
-  "main": "dist/react-accounting-diary.umd.js",
+  "description": "Lightweight React accounting diary with headless hook, ledger, reconciliation, period charts, validation, i18n and CSV, Excel, JSON, PDF and image exports.",
+  "main": "dist/react-accounting-diary.umd.cjs",
   "module": "dist/react-accounting-diary.es.js",
   "types": "dist/react-accounting-diary.d.ts",
   "exports": {
     ".": {
       "types": "./dist/react-accounting-diary.d.ts",
       "import": "./dist/react-accounting-diary.es.js",
-      "require": "./dist/react-accounting-diary.umd.js"
+      "require": "./dist/react-accounting-diary.umd.cjs"
     }
   },
   "sideEffects": false,
@@ -55,6 +57,7 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
+    "examples",
     "src/types"
   ],
   "repository": {
@@ -68,7 +71,9 @@
   "scripts": {
     "build": "vite build",
     "lint": "eslint src/lib/",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run build",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.tests.json --noEmit"
   },
   "peerDependencies": {
     "pdfmake": ">=0.2.0",
@@ -80,9 +85,10 @@
       "optional": true
     }
   },
-  "dependencies": {},
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
@@ -90,13 +96,15 @@
     "@vitejs/plugin-react": "^4.6.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.37.0",
+    "jsdom": "^26.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass": "^1.89.2",
     "typescript": "^5.8.3",
     "vite": "^7.0.3",
     "vite-plugin-css-injected-by-js": "^4.0.1",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.7"
   },
   "license": "MIT",
   "contributors": [

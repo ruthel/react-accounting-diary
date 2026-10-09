@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2026-10-09
+
+### Added
+- Optional, backwards-compatible transaction reconciliation status and All / Reconciled / Unreconciled filters in the UI and headless hook.
+- Reconciliation controls in the add/edit dialog and diary row menu; status shown in diary and ledger views.
+- Hook and ref `setReconciled` with edit validation, notifications and undo/redo. Ref filtering and period summary methods; hook filters and filtered data.
+- Opt-in `showPeriodChart`, standalone `PeriodChart`, day/month/year summaries separated by currency, and public calculation helpers/types. No runtime dependencies added.
+- CSV/Excel reconciliation column, legacy CSV compatibility and quoted CSV round trips.
+- Automated regression tests, examples, typecheck/test release gates and CI checks.
+
+### Fixed
+- Explicitly empty data no longer falls back to demo entries. Missing initial IDs are generated for reconciliation APIs.
+- Controlled external replacements are respected after edits and reset obsolete history.
+- Controlled change callbacks run after commit, avoiding parent updates during render and duplicate StrictMode notifications.
+- Browser globals in lint configuration.
+- CommonJS package entry uses `.umd.cjs` under `type: module`, so `require()` works.
+
+### Compatibility
+- Missing `reconciled` means unreconciled. Existing totals retain their semantics. New period balance is net movement, not a cumulative balance; currencies are never combined.
+- Chart defaults to hidden; existing layouts remain unchanged apart from reconciliation controls/status.
+- The CommonJS filename changed; consumers should use the package root rather than internal dist paths.
+
 ## [2.4.0] - 2025-07-31
 
 ### 🚀 New Features

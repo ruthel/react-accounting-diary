@@ -1,17 +1,29 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { IDataItem, generateId, UseAccountingDiaryOptions, UseAccountingDiaryReturn } from '../types/common';
+import type { PeriodGranularity, ReconciliationFilter, TransactionFilters } from '../types/common';
+import { filterTransactions, summarizeByPeriod } from './helpers/transactions';
 
 export const useAccountingDiary = (options: UseAccountingDiaryOptions = {}): UseAccountingDiaryReturn => {
   const { initialData = [], onChange, onBeforeAdd, onBeforeEdit, onBeforeDelete } = options;
 
-  const [history, setHistory] = useState<IDataItem[][]>([initialData]);
+  const [history, setHistory] = useState<IDataItem[][]>(() => [initialData.map(item => ({ ...item, id: item.id || generateId() }))]);
   const [doIndex, setDoIndex] = useState(0);
 
   const data = history[doIndex];
+  const latest = useRef({ data, doIndex });
+  latest.current = { data, doIndex };
+  const [filters, setFilters] = useState<TransactionFilters>(options.initialFilters || {});
+  const filteredData = useMemo(() => filterTransactions(data, filters), [data, filters]);
+  const setReconciliationFilter = useCallback((reconciliation: ReconciliationFilter) => {
+    setFilters(prev => ({ ...prev, reconciliation }));
+  }, []);
+  const getPeriodSummary = useCallback((period: PeriodGranularity = options.periodGranularity || 'month') =>
+    summarizeByPeriod(filteredData, period), [filteredData, options.periodGranularity]);
+  const periodSummary = useMemo(() => getPeriodSummary(), [getPeriodSummary]);
 
   const pushState = useCallback((newData: IDataItem[]) => {
     setHistory(prev => {
-      const trimmed = prev.slice(0, doIndex + 1);
+      const trimmed = prev.slice(0, latest.current.doIndex + 1);
       return [...trimmed, newData];
     });
     setDoIndex(prev => prev + 1);
@@ -31,8 +43,11 @@ export const useAccountingDiary = (options: UseAccountingDiaryOptions = {}): Use
     const oldItem = data[idx];
     const newItem = { ...oldItem, ...updates };
     if (onBeforeEdit && !(await onBeforeEdit(oldItem, newItem))) return false;
-    const newData = [...data];
-    newData[idx] = newItem;
+    const currentData = latest.current.data;
+    const currentIndex = currentData.indexOf(oldItem);
+    if (currentIndex < 0) return false;
+    const newData = [...currentData];
+    newData[currentIndex] = newItem;
     pushState(newData);
     return true;
   }, [data, pushState, onBeforeEdit]);
@@ -44,6 +59,9 @@ export const useAccountingDiary = (options: UseAccountingDiaryOptions = {}): Use
     pushState(data.filter(d => d.id !== id));
     return true;
   }, [data, pushState, onBeforeDelete]);
+
+  const setReconciled = useCallback((id: string, reconciled: boolean) =>
+    editTransaction(id, { reconciled }), [editTransaction]);
 
   const undo = useCallback(() => {
     if (doIndex > 0) {
@@ -88,6 +106,13 @@ export const useAccountingDiary = (options: UseAccountingDiaryOptions = {}): Use
 
   return {
     data,
+    filters,
+    setFilters,
+    filteredData,
+    setReconciled,
+    setReconciliationFilter,
+    periodSummary,
+    getPeriodSummary,
     addTransaction,
     editTransaction,
     deleteTransaction,

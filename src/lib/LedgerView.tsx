@@ -68,7 +68,7 @@ const LedgerView: React.FC<{ data: IDataItem[] }> = ({ data }) => {
               {acct.entries.map((e, i) => (
                 <tr key={e.id || i} style={{ borderBottom: '1px solid var(--rad-border-color, hsl(220,13%,91%))' }}>
                   <td style={tdStyle}>{e.date}</td>
-                  <td style={tdStyle}>{e.text}</td>
+                  <td style={tdStyle}>{e.text}<small className="reconciliation-status">{e.reconciled === true ? labels.reconciled : labels.unreconciled}</small></td>
                   <td style={{ ...tdStyle, textAlign: 'right' }}>{e.isDebit ? Func.currency(e.amount, currency, local) : ''}</td>
                   <td style={{ ...tdStyle, textAlign: 'right' }}>{!e.isDebit ? Func.currency(e.amount, currency, local) : ''}</td>
                   <td style={{ ...tdStyle, textAlign: 'right', fontWeight: 500, color: e.runningBalance >= 0 ? '#198754' : '#dc3545' }}>

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "react-accounting-diary": ["./src/lib/index.ts"]
+    }
+  },
+  "include": ["src", "tests", "examples"]
+}

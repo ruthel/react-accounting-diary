@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { IDataItem, IStyleConfig, ILabels, AccountingDiaryHandle } from '../types/common';
+import { IDataItem, IStyleConfig, ILabels, AccountingDiaryHandle, PeriodGranularity } from '../types/common';
 interface IAccountingDiaryWrapperProps {
     height?: number;
     width?: number;
@@ -28,6 +28,8 @@ interface IAccountingDiaryWrapperProps {
     showGrandTotal?: boolean;
     showLedgerToggle?: boolean;
     compactButtons?: boolean;
+    showPeriodChart?: boolean;
+    periodGranularity?: PeriodGranularity;
     enableCSVExport?: boolean;
     enableExcelExport?: boolean;
     theme?: 'light' | 'dark';

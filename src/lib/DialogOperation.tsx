@@ -10,6 +10,7 @@ import { IDataItem, generateId } from '../types/common';
 interface IDialogOperationState {
   open: boolean;
   isDebit: boolean;
+  reconciled: boolean;
   amount: number | string;
   account: string;
   text: string;
@@ -22,6 +23,7 @@ interface IDialogOperationState {
 const initialState: IDialogOperationState = {
   open: false,
   isDebit: false,
+  reconciled: false,
   amount: '',
   account: '',
   text: '',
@@ -44,6 +46,7 @@ const DialogOperation: React.FC = () => {
       setState({
         open: true,
         isDebit: editing.isDebit ?? false,
+        reconciled: editing.reconciled === true,
         amount: editing.amount,
         account: editing.account,
         text: editing.text,
@@ -63,6 +66,7 @@ const DialogOperation: React.FC = () => {
         setState({
           open: true,
           isDebit: tpl.isDebit ?? false,
+          reconciled: tpl.reconciled === true,
           amount: tpl.amount || '',
           account: tpl.account || '',
           text: tpl.text || '',
@@ -144,14 +148,14 @@ const DialogOperation: React.FC = () => {
     if (editing) {
       const index = value.findIndex(item => item.id === editing.id);
       if (index !== -1) {
-        const newItem = { ...value[index], amount, account, isDebit: state.isDebit, text, date, currency: state.currency, category, tags };
+        const newItem = { ...value[index], amount, account, isDebit: state.isDebit, reconciled: state.reconciled, text, date, currency: state.currency, category, tags };
         if (onBeforeEdit && !(await onBeforeEdit(value[index], newItem))) return;
         onEdit?.(value[index], newItem);
         value[index] = newItem;
       }
       context.updateState({ data: value, editingTransaction: undefined });
     } else {
-      const newItem: IDataItem = { id: generateId(), amount, account, isDebit: state.isDebit, text, date, currency: state.currency, category, tags };
+      const newItem: IDataItem = { id: generateId(), amount, account, isDebit: state.isDebit, reconciled: state.reconciled, text, date, currency: state.currency, category, tags };
       if (onBeforeAdd && !(await onBeforeAdd(newItem))) return;
       onAdd?.(newItem);
       value.push(newItem);
@@ -297,6 +301,11 @@ const DialogOperation: React.FC = () => {
                 </div>
               </div>
 
+              <div className="control-check">
+                <input id="rad-reconciled" type="checkbox" checked={state.reconciled}
+                  onChange={e => setState(prev => ({ ...prev, reconciled: e.target.checked }))} />
+                <label htmlFor="rad-reconciled">{labels.reconciled}</label>
+              </div>
               <div className="control-check">
                 <input
                   id="rad-isDebit"

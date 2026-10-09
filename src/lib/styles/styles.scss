@@ -547,3 +547,18 @@ html, body, #root {
     }
   }
 }
+
+.reconciliation-status { display: block; font-size: 11px; opacity: .75; margin-top: 4px; }
+.period-chart {
+  margin: 16px 0; padding: 16px; border: 1px solid var(--rad-border-color, #dee2e6); border-radius: 8px;
+  color: var(--rad-text, #212529); background: var(--rad-surface, #f8f9fa);
+  h2 { font-size: 15px; margin: 0 0 12px; }
+  .period-chart-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px; text-align: left; }
+  td { position: relative; min-width: 70px; }
+  td span { position: relative; }
+  .period-bar { position: absolute; left: 0; top: 4px; bottom: 4px; opacity: .2; }
+  .period-bar.debit { background: #198754; }
+  .period-bar.credit { background: #0d6efd; }
+}

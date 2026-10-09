@@ -387,3 +387,9 @@ import type {
   UseAccountingDiaryReturn,
 } from 'react-accounting-diary';
 ```
+
+## Version 2.5: reconciliation and period summaries
+
+See the [README](README.md#reconciliation-and-period-summaries-v250) and [runnable React examples](examples/reconciliation.tsx) for UI, headless and ref usage. Use `showPeriodChart` to enable the chart and `setReconciled(id, true)` to mark an entry through validation and undo/redo.
+
+Development requires Node 20.19+ or 22.12+ for Vite 7. Run `pnpm install --frozen-lockfile`, `pnpm run typecheck`, `pnpm run lint`, `pnpm test`, `pnpm run build`, and `npm pack --dry-run` before publishing. `npm publish` runs the validation gates automatically.

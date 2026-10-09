@@ -1,5 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Filter, ChevronDown } from './icons';
+import type { ReconciliationFilter } from '../types/common';
 import { GlobalContext } from './context';
 
 const dropdownStyle: React.CSSProperties = {
@@ -79,6 +80,13 @@ const FilterDropdown: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+      <select aria-label={labels.reconciliation} style={btnStyle}
+        value={state.reconciliationFilter || 'all'}
+        onChange={e => updateState({ reconciliationFilter: e.target.value as ReconciliationFilter, currentPage: 1 })}>
+        <option value="all">{labels.allTransactions}</option>
+        <option value="reconciled">{labels.reconciled}</option>
+        <option value="unreconciled">{labels.unreconciled}</option>
+      </select>
       {accounts.length > 0 && (
         <div ref={accountRef} style={{ position: 'relative' }}>
           <button

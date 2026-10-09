@@ -73,6 +73,7 @@ const Content: React.FC<IContentProps> = (props) => {
           style={{ marginLeft: value.isDebit ? 0 : 72 }}
         >
           {value.text}
+          <small className="reconciliation-status">{value.reconciled === true ? labels.reconciled : labels.unreconciled}</small>
         </div>
       </div>
       <div className="amount-debit flex-col" style={amountStyle} role="cell">
@@ -102,6 +103,9 @@ const Content: React.FC<IContentProps> = (props) => {
           </button>
           {menuOpen && (
             <div className="row-actions-menu" role="menu">
+              <button role="menuitem" onClick={async () => {
+                if (await context.setReconciled(value, value.reconciled !== true)) setMenuOpen(false);
+              }}>{value.reconciled === true ? labels.unreconciled : labels.reconciled}</button>
               <button role="menuitem" onClick={handleEdit} onKeyDown={(e) => e.key === 'Enter' && handleEdit()}>
                 <Edit2 size={13} /> {labels.edit}
               </button>

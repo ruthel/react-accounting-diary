@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { IDataItem, ILabels, defaultLabels, SortField, SortOrder, ViewMode } from '../types/common';
+import { IDataItem, ILabels, defaultLabels, SortField, SortOrder, ViewMode, ReconciliationFilter, generateId } from '../types/common';
 
 interface IGlobalState {
   data?: IDataItem[];
@@ -18,6 +18,7 @@ interface IGlobalState {
   viewMode: ViewMode;
   filterAccount?: string;
   filterCategory?: string;
+  reconciliationFilter?: ReconciliationFilter;
   templateItem?: Partial<IDataItem>;
 }
 
@@ -27,6 +28,7 @@ interface IGlobalContext {
   pageSize?: number;
   undo: () => void;
   redo: () => void;
+  setReconciled: (item: IDataItem, reconciled: boolean) => Promise<boolean>;
   updateState: (e: Partial<IGlobalState> | { data: IDataItem[] }) => void;
   onAdd?: (item: IDataItem) => void;
   onDelete?: (item: IDataItem) => void;
@@ -54,10 +56,10 @@ interface IGlobalProviderProps extends React.PropsWithChildren {
 
 const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData, labels, pageSize, onAdd, onDelete, onEdit, onChange, onBeforeAdd, onBeforeEdit, onBeforeDelete }) => {
   const mergedLabels = { ...defaultLabels, ...labels } as Required<ILabels>;
-  const isExternalUpdate = useRef(false);
+  const pendingChange = useRef<IDataItem[] | undefined>(undefined);
 
   const [state, setState] = useState<IGlobalState>(() => {
-    const data = initialData || [];
+    const data = (initialData || []).map(item => ({ ...item, id: item.id || generateId() }));
     return {
       data,
       doIndex: 0,
@@ -75,22 +77,30 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData,
       viewMode: 'diary',
       filterAccount: undefined,
       filterCategory: undefined,
+      reconciliationFilter: 'all',
       templateItem: undefined,
     };
   });
+  const latestState = useRef(state);
+  latestState.current = state;
+
+  // Notify after commit: controlled parents must not be updated during our render.
+  useEffect(() => {
+    if (pendingChange.current === state.data) {
+      pendingChange.current = undefined;
+      onChange?.(state.data || []);
+    }
+  }, [state.data, onChange]);
 
   // Sync internal state when parent changes props.data (controlled mode)
   useEffect(() => {
-    if (isExternalUpdate.current) {
-      isExternalUpdate.current = false;
-      return;
-    }
     if (initialData !== undefined) {
       setState(prev => {
         // Only sync if data actually differs (avoid infinite loops)
         if (prev.data === initialData) return prev;
         if (JSON.stringify(prev.data) === JSON.stringify(initialData)) return prev;
-        return { ...prev, data: initialData };
+        const data = initialData.map(item => ({ ...item, id: item.id || generateId() }));
+        return { ...prev, data, history: [data], doIndex: 0, currentPage: 1 };
       });
     }
   }, [initialData]);
@@ -99,7 +109,7 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData,
     setState((prevState) => {
       if (prevState.doIndex > 0) {
         const newData = prevState.history[prevState.doIndex - 1];
-        onChange?.(newData);
+        pendingChange.current = newData;
         return {
           ...prevState,
           data: newData,
@@ -115,7 +125,7 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData,
       let newIndex = prevState.doIndex + 1;
       if (newIndex < prevState.history.length) {
         const newData = prevState.history[newIndex];
-        onChange?.(newData);
+        pendingChange.current = newData;
         return {
           ...prevState,
           data: newData,
@@ -132,8 +142,7 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData,
         const newData = e.data as IDataItem[];
         const history = [...prevState.history].slice(0, prevState.doIndex + 1);
         const newHistory = [...history, newData];
-        isExternalUpdate.current = true;
-        onChange?.(newData);
+        pendingChange.current = newData;
         return {
           ...prevState,
           ...e,
@@ -152,6 +161,21 @@ const GlobalProvider: React.FC<IGlobalProviderProps> = ({ children, initialData,
     pageSize,
     undo,
     redo,
+    setReconciled: async (item, reconciled) => {
+      const index = (latestState.current.data || []).indexOf(item);
+      if (index < 0) return false;
+      const newItem = { ...item, reconciled };
+      if (onBeforeEdit && !(await onBeforeEdit(item, newItem))) return false;
+      // An asynchronous validator must not overwrite intervening edits or deletion.
+      const currentData = latestState.current.data || [];
+      const currentIndex = currentData.indexOf(item);
+      if (currentIndex < 0) return false;
+      const newData = [...currentData];
+      newData[currentIndex] = newItem;
+      onEdit?.(item, newItem);
+      updateState({ data: newData });
+      return true;
+    },
     updateState,
     onAdd,
     onDelete,

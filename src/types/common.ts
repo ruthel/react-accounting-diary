@@ -9,6 +9,8 @@ export interface IDataItem {
   local?: string;
   category?: string;
   tags?: string[];
+  /** Missing or false means unreconciled (compatible with pre-2.5 data). */
+  reconciled?: boolean;
 }
 
 let _counter = 0;
@@ -67,6 +69,12 @@ export interface ILabels {
   allAccounts?: string;
   allCategories?: string;
   dropFileHere?: string;
+  reconciliation?: string;
+  allTransactions?: string;
+  reconciled?: string;
+  unreconciled?: string;
+  periodSummary?: string;
+  period?: string;
 }
 
 export const defaultLabels: Required<ILabels> = {
@@ -113,11 +121,37 @@ export const defaultLabels: Required<ILabels> = {
   allAccounts: 'All accounts',
   allCategories: 'All categories',
   dropFileHere: 'Drop CSV or JSON file here',
+  reconciliation: 'Reconciliation',
+  allTransactions: 'All',
+  reconciled: 'Reconciled',
+  unreconciled: 'Unreconciled',
+  periodSummary: 'Debit / credit by period',
+  period: 'Period',
 };
 
 export type SortField = 'date' | 'account' | 'amount';
 export type SortOrder = 'asc' | 'desc';
 export type ViewMode = 'diary' | 'ledger';
+export type ReconciliationFilter = 'all' | 'reconciled' | 'unreconciled';
+export type PeriodGranularity = 'day' | 'month' | 'year';
+export interface TransactionFilters {
+  reconciliation?: ReconciliationFilter;
+  searchTerm?: string;
+  start?: string;
+  end?: string;
+  account?: string;
+  category?: string;
+}
+export interface PeriodSummary {
+  period: string;
+  currency: string;
+  debit: number;
+  credit: number;
+  /** Net movement in the period, not an opening or cumulative balance. */
+  balance: number;
+  count: number;
+  isBalanced: boolean;
+}
 
 export interface AccountingDiaryHandle {
   exportToPNG: () => Promise<void>;
@@ -133,10 +167,16 @@ export interface AccountingDiaryHandle {
   getData: () => IDataItem[];
   getTotals: () => { debit: number; credit: number; balance: number; isBalanced: boolean };
   getAccountSummary: () => Record<string, { debit: number; credit: number; balance: number }>;
+  setReconciled: (id: string, reconciled: boolean) => Promise<boolean>;
+  setReconciliationFilter: (filter: ReconciliationFilter) => void;
+  getFilteredData: () => IDataItem[];
+  getPeriodSummary: (period?: PeriodGranularity) => PeriodSummary[];
 }
 
 export interface UseAccountingDiaryOptions {
   initialData?: IDataItem[];
+  initialFilters?: TransactionFilters;
+  periodGranularity?: PeriodGranularity;
   onChange?: (data: IDataItem[]) => void;
   onBeforeAdd?: (item: IDataItem) => boolean | Promise<boolean>;
   onBeforeEdit?: (oldItem: IDataItem, newItem: IDataItem) => boolean | Promise<boolean>;
@@ -145,6 +185,13 @@ export interface UseAccountingDiaryOptions {
 
 export interface UseAccountingDiaryReturn {
   data: IDataItem[];
+  filters: TransactionFilters;
+  setFilters: (filters: TransactionFilters) => void;
+  filteredData: IDataItem[];
+  setReconciled: (id: string, reconciled: boolean) => Promise<boolean>;
+  setReconciliationFilter: (filter: ReconciliationFilter) => void;
+  periodSummary: PeriodSummary[];
+  getPeriodSummary: (period?: PeriodGranularity) => PeriodSummary[];
   addTransaction: (item: Omit<IDataItem, 'id'>) => Promise<boolean>;
   editTransaction: (id: string, updates: Partial<IDataItem>) => Promise<boolean>;
   deleteTransaction: (id: string) => Promise<boolean>;

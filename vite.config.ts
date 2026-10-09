@@ -14,7 +14,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),
       name: 'ReactAccountingDiary',
-      fileName: (format) => `react-accounting-diary.${format}.js`,
+      fileName: (format) => `react-accounting-diary.${format}.${format === 'umd' ? 'cjs' : 'js'}`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime', 'pdfmake'],

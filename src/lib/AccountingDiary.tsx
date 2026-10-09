@@ -14,10 +14,12 @@ import FilterDropdown from "./FilterDropdown.tsx";
 import DropZoneOverlay, { useDropZone } from "./DropZone.tsx";
 import LedgerView from "./LedgerView.tsx";
 import sampleData from './data/sample.json';
+import PeriodChart from './PeriodChart';
+import { filterTransactions, summarizeByPeriod } from './helpers/transactions';
 import templates from './data/templates.json';
 import Func from "./helpers/func.ts";
 import { importFromCSV, exportToCSV, exportToExcel, exportToJSON, importFromJSON } from './helpers/exportUtils';
-import { IDataItem, IStyleConfig, generateId, AccountingDiaryHandle } from '../types/common';
+import { IDataItem, IStyleConfig, generateId, AccountingDiaryHandle, PeriodGranularity } from '../types/common';
 
 interface IAccountingDiaryProps {
   height?: number;
@@ -47,6 +49,8 @@ interface IAccountingDiaryProps {
   showGrandTotal?: boolean;
   showLedgerToggle?: boolean;
   compactButtons?: boolean;
+  showPeriodChart?: boolean;
+  periodGranularity?: PeriodGranularity;
 }
 
 const getArray = (data: IDataItem[]) => {
@@ -66,37 +70,15 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
 
   const { state, labels, pageSize, undo, redo, updateState } = context;
 
-  // If user has interacted (or data was provided), use state.data as-is (even if empty)
-  // Otherwise fallback to sample data for demo purposes
-  const hasData = state.history.length > 1 || (state.data && state.data.length > 0);
-  const rawData = hasData ? (state.data || []) : sampleData as IDataItem[];
-
-  // Filter
-  const filteredData = useMemo(() => {
-    let filtered = rawData;
-    if (state.searchTerm) {
-      const term = state.searchTerm.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.text.toLowerCase().includes(term) ||
-        item.account.toLowerCase().includes(term) ||
-        (item.category && item.category.toLowerCase().includes(term)) ||
-        (item.tags && item.tags.some(t => t.toLowerCase().includes(term)))
-      );
-    }
-    if (state.dateFilter?.start) {
-      filtered = filtered.filter(item => item.date >= state.dateFilter!.start!);
-    }
-    if (state.dateFilter?.end) {
-      filtered = filtered.filter(item => item.date <= state.dateFilter!.end!);
-    }
-    if (state.filterAccount) {
-      filtered = filtered.filter(item => item.account === state.filterAccount);
-    }
-    if (state.filterCategory) {
-      filtered = filtered.filter(item => item.category === state.filterCategory);
-    }
-    return filtered;
-  }, [rawData, state.searchTerm, state.dateFilter, state.filterAccount, state.filterCategory]);
+  const rawData = state.data || [];
+  const filteredData = useMemo(() => filterTransactions(rawData, {
+    searchTerm: state.searchTerm,
+    start: state.dateFilter?.start,
+    end: state.dateFilter?.end,
+    account: state.filterAccount,
+    category: state.filterCategory,
+    reconciliation: state.reconciliationFilter,
+  }), [rawData, state.searchTerm, state.dateFilter, state.filterAccount, state.filterCategory, state.reconciliationFilter]);
 
   // Sort
   const sortedData = useMemo(() => {
@@ -192,6 +174,13 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
       isBalanced,
     }),
     getAccountSummary,
+    setReconciled: async (id, reconciled) => {
+      const item = rawData.find(entry => entry.id === id);
+      return item ? context.setReconciled(item, reconciled) : false;
+    },
+    setReconciliationFilter: reconciliationFilter => updateState({ reconciliationFilter, currentPage: 1 }),
+    getFilteredData: () => filteredData,
+    getPeriodSummary: (period = props.periodGranularity || 'month') => summarizeByPeriod(filteredData, period),
   }));
 
   const handleCSVImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -290,7 +279,7 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
       {/* Toolbar Row 2: Data actions (sample, clear, import, view, templates) */}
       <div className="global-action" style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
         {props.showSample !== false && (
-          <button className="sample" onClick={() => updateState({ data: sampleData as IDataItem[] })} title={labels.sample} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <button className="sample" onClick={() => updateState({ data: (sampleData as IDataItem[]).map(item => ({ ...item, id: generateId() })) })} title={labels.sample} style={{ padding: '6px 10px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
             <Database size={11} /> {labels.sample}
           </button>
         )}
@@ -376,6 +365,8 @@ const AccountingDiary = forwardRef<AccountingDiaryHandle, IAccountingDiaryProps>
           <FilterDropdown />
         </div>
       )}
+
+      {props.showPeriodChart && <PeriodChart data={filteredData} periodGranularity={props.periodGranularity} labels={labels} />}
 
       {/* Diary content */}
       <div

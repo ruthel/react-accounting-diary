@@ -13,3 +13,7 @@ export type { IDataItem, IStyleConfig, ILabels, SortField, SortOrder, ViewMode, 
 export { defaultLabels } from '../types/common';
 export { exportToCSV, exportToExcel, exportToJSON, importFromCSV, importFromJSON } from './helpers/exportUtils';
 export default AccountingDiaryWrapper;
+export { default as PeriodChart } from './PeriodChart';
+export type { PeriodChartProps } from './PeriodChart';
+export type { ReconciliationFilter, PeriodGranularity, PeriodSummary, TransactionFilters } from '../types/common';
+export { filterTransactions, summarizeByPeriod } from './helpers/transactions';
